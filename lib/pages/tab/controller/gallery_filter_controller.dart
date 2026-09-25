@@ -1,6 +1,6 @@
 import 'package:eros_fe/common/controller/advance_search_controller.dart';
 import 'package:eros_fe/extension.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 
 const double kHeight = 220.0;

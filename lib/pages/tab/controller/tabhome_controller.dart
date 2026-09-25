@@ -7,7 +7,7 @@ import 'package:eros_fe/pages/tab/view/history_page.dart';
 import 'package:eros_fe/pages/tab/view/tabbar/custom_tabbar_page.dart';
 import 'package:eros_fe/pages/tab/view/tabbar/favorite_tabbar_page.dart';
 import 'package:eros_fe/pages/tab/view/toplist_page.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -33,17 +33,17 @@ class TabPages {
       };
 
   final Map<String, IconData> iconDatas = <String, IconData>{
-    EHRoutes.popular: FontAwesomeIcons.fire,
-    EHRoutes.watched: FontAwesomeIcons.solidEye,
-    // EHRoutes.gallery: FontAwesomeIcons.jira,
-    EHRoutes.gallery: FontAwesomeIcons.layerGroup,
-    EHRoutes.favorite: FontAwesomeIcons.solidHeart,
-    EHRoutes.toplist: FontAwesomeIcons.listOl,
-    EHRoutes.history: FontAwesomeIcons.history,
-    EHRoutes.download: FontAwesomeIcons.download,
-    EHRoutes.setting: FontAwesomeIcons.cog,
-    EHRoutes.customList: FontAwesomeIcons.layerGroup,
-    EHRoutes.favoriteTabbar: FontAwesomeIcons.heartBroken,
+    EHRoutes.popular: FontAwesomeIcons.fire.data,
+    EHRoutes.watched: FontAwesomeIcons.solidEye.data,
+    // EHRoutes.gallery: FontAwesomeIcons.jira.data,
+    EHRoutes.gallery: FontAwesomeIcons.layerGroup.data,
+    EHRoutes.favorite: FontAwesomeIcons.solidHeart.data,
+    EHRoutes.toplist: FontAwesomeIcons.listOl.data,
+    EHRoutes.history: FontAwesomeIcons.history.data,
+    EHRoutes.download: FontAwesomeIcons.download.data,
+    EHRoutes.setting: FontAwesomeIcons.cog.data,
+    EHRoutes.customList: FontAwesomeIcons.layerGroup.data,
+    EHRoutes.favoriteTabbar: FontAwesomeIcons.heartBroken.data,
   };
 
   Map<String, Widget> get tabIcons => iconDatas

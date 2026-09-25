@@ -31,15 +31,15 @@ jobs:
         flutter_channel: ["stable"]
         include:
           - target: ios
-            os: macos-15
-            flutter_version: "3.32.x"
+            os: macos-26
+            flutter_version: "3.47.5"
             artifact_name: release-ios
             artifact_path: build/**/Eros-FE*.ipa
 
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: 'recursive'
 
@@ -85,7 +85,7 @@ jobs:
       # 安装 JDK
       - name: Setup Java JDK (Android)
         if: matrix.target == 'android'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -99,7 +99,10 @@ jobs:
           channel: ${{ matrix.flutter_channel }}
 
       - name: Flutter version
-        run: flutter --version
+        run: |
+          flutter --version
+          xcodebuild -version
+          pod --version
 
       - name: Build resolve Swift dependencies
         if: matrix.target == 'macos'
@@ -131,8 +134,8 @@ jobs:
         run: |
           git config --global core.longpaths true
           flutter pub get
-          flutter pub run build_runner build --delete-conflicting-outputs
-          flutter pub run intl_utils:generate
+          dart run build_runner build
+          dart run intl_utils:generate
 
       # 打包 apk
       - name: Collect Apks
@@ -148,8 +151,6 @@ jobs:
         if: matrix.target == 'ios'
         run: |
           sed -i '' 's/dev2.cn.honjow.fehv/cn.honjow.fehv/g' 'ios/Runner.xcodeproj/project.pbxproj'
-          rm ios/Podfile.lock
-          cd ios && pod update && pod install --repo-update && cd ..
           flutter build ios --release --no-codesign
 
       # - name: upload-symbols
@@ -190,7 +191,7 @@ jobs:
           Compress-Archive $DestDir build\windows\${{ env.PACKAGE_NAME }}_${{ env.app_version }}_windows.zip
 
       - name: Publish Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.artifact_name }}
           path: ${{ matrix.artifact_path }}
@@ -202,10 +203,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - run: mkdir /tmp/artifacts
       - name: Download all Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: /tmp/artifacts
 

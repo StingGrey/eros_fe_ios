@@ -1,7 +1,7 @@
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/setting/controller/tab_setting_controller.dart';
 import 'package:eros_fe/pages/tab/controller/tabhome_controller.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:sliver_tools/sliver_tools.dart';

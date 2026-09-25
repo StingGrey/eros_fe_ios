@@ -13,7 +13,7 @@ import 'package:eros_fe/pages/image_view/view/view_page.dart';
 import 'package:eros_fe/pages/tab/controller/tabhome_controller.dart';
 import 'package:eros_fe/pages/tab/controller/toplist_controller.dart';
 import 'package:eros_fe/utils/storage.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_boring_avatars/flutter_boring_avatars.dart';
@@ -954,7 +954,7 @@ class EhSettingService extends ProfileService {
                 if (element == favoriteOrder.value)
                   const SizedBox(
                     width: 40,
-                    child: Icon(FontAwesomeIcons.circleCheck),
+                    child: FaIcon(FontAwesomeIcons.circleCheck),
                   ),
                 Text(_orderMap[element] ?? ''),
                 if (element == favoriteOrder.value)
@@ -1014,7 +1014,7 @@ class EhSettingService extends ProfileService {
                 if (element == toplist)
                   const SizedBox(
                     width: 40,
-                    child: Icon(FontAwesomeIcons.circleCheck),
+                    child: FaIcon(FontAwesomeIcons.circleCheck),
                   ),
                 Text(toplistTextMap[element] ?? ''),
                 if (element == toplist)

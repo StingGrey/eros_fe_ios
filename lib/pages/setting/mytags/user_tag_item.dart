@@ -1,7 +1,7 @@
 import 'package:eros_fe/common/service/theme_service.dart';
 import 'package:eros_fe/component/setting_base.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -52,7 +52,7 @@ class _UserTagItemState extends State<UserTagItem> {
   }
 
   Widget icon() {
-    late final IconData iconData;
+    late final FaIconData iconData;
     late final Color iconColor;
     if (widget.watch) {
       iconColor =
@@ -70,7 +70,7 @@ class _UserTagItemState extends State<UserTagItem> {
 
     return Container(
       margin: const EdgeInsets.only(right: 10),
-      child: Icon(
+      child: FaIcon(
         iconData,
         size: 24,
         color: iconColor,
@@ -126,7 +126,7 @@ class _UserTagItemState extends State<UserTagItem> {
                 if (widget.addItem)
                   Container(
                     child:
-                        const Icon(FontAwesomeIcons.tag).paddingOnly(right: 12),
+                        const FaIcon(FontAwesomeIcons.tag).paddingOnly(right: 12),
                   ),
                 Expanded(
                   child: Column(

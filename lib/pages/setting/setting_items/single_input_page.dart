@@ -1,6 +1,6 @@
 import 'package:eros_fe/common/service/theme_service.dart';
 import 'package:eros_fe/utils/logger.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 class SingleInputPage extends StatelessWidget {
   const SingleInputPage({

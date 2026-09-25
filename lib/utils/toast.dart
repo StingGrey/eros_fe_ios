@@ -1,6 +1,6 @@
 import 'package:eros_fe/common/service/theme_service.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -71,7 +71,7 @@ void show509Toast() {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
+              const FaIcon(
                 // LineIcons.toriiGate,
                 FontAwesomeIcons.fill,
                 size: 80,
@@ -112,7 +112,7 @@ void show429Toast() {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
+              const FaIcon(
                 // LineIcons.toriiGate,
                 FontAwesomeIcons.roadBarrier,
                 size: 80,

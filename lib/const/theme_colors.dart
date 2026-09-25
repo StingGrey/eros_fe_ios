@@ -1,6 +1,6 @@
 import 'package:chinese_font_library/chinese_font_library.dart';
 import 'package:eros_fe/common/colors.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_boring_avatars/flutter_boring_avatars.dart';
 
 final ehTextTheme = const CupertinoTextThemeData().copyWith(

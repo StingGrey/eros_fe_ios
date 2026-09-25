@@ -2,7 +2,7 @@ import 'package:eros_fe/common/service/controller_tag_service.dart';
 import 'package:eros_fe/const/theme_colors.dart';
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/gallery/controller/gallery_fav_controller.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -34,13 +34,13 @@ class GalleryFavButton extends StatelessWidget {
               ),
             ),
             if (_favController.isFav)
-              Icon(
+              FaIcon(
                 FontAwesomeIcons.solidHeart,
                 color: ThemeColors.favColor[_favController.favcat],
                 size: iconSize,
               )
             else
-              const Icon(
+              const FaIcon(
                 FontAwesomeIcons.heart,
                 color: CupertinoColors.systemGrey,
                 size: iconSize,
@@ -117,7 +117,7 @@ class _FavCatAddListItemState extends State<FavCatAddListItem> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            FaIcon(
               FontAwesomeIcons.solidHeart,
               color: CupertinoDynamicColor.resolve(
                   ThemeColors.favColor[widget.favcat]!, context),

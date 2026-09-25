@@ -3,8 +3,8 @@ import 'package:eros_fe/common/service/theme_service.dart';
 import 'package:eros_fe/component/setting_base.dart';
 import 'package:eros_fe/generated/l10n.dart';
 import 'package:eros_fe/models/base/eh_models.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -53,7 +53,7 @@ class CustomHostsPage extends StatelessWidget {
     return CupertinoButton(
         minSize: 40,
         padding: const EdgeInsets.only(right: 20),
-        child: const Icon(
+        child: const FaIcon(
           FontAwesomeIcons.plusCircle,
           size: 20,
         ),

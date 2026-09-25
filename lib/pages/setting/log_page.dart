@@ -2,7 +2,7 @@ import 'package:eros_fe/common/controller/log_controller.dart';
 import 'package:eros_fe/common/service/layout_service.dart';
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/setting/log_view_page.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as path;
 

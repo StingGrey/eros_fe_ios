@@ -10,8 +10,8 @@ import 'package:eros_fe/pages/gallery/controller/gallery_page_state.dart';
 import 'package:eros_fe/pages/gallery/view/comment_item.dart';
 import 'package:eros_fe/pages/gallery/view/taginfo_dialog.dart';
 import 'package:eros_fe/widget/rating_bar.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -409,7 +409,7 @@ class TopCommentEx extends StatelessWidget {
         if ((comments?.length ?? 0) > max)
           const Padding(
             padding: EdgeInsets.only(top: 8.0),
-            child: Icon(FontAwesomeIcons.ellipsis),
+            child: FaIcon(FontAwesomeIcons.ellipsis),
           ),
       ],
     );
@@ -691,7 +691,7 @@ class TextBtn extends StatelessWidget {
       this.color,
       this.iconPadding})
       : super(key: key);
-  final IconData iconData;
+  final FaIconData iconData;
   final double? iconSize;
   final String? title;
   final Color? color;
@@ -718,7 +718,7 @@ class TextBtn extends StatelessWidget {
                 child: CupertinoButton(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   onPressed: onTap,
-                  child: Icon(
+                  child: FaIcon(
                     iconData,
                     size: iconSize ?? 28,
                     // color: CupertinoColors.systemGrey3,

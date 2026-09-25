@@ -5,7 +5,7 @@ import 'package:eros_fe/pages/item/controller/galleryitem_controller.dart';
 import 'package:eros_fe/pages/item/gallery_item_flow.dart';
 import 'package:eros_fe/pages/item/gallery_item_flow_large.dart';
 import 'package:eros_fe/pages/item/item_base.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 import 'package:keframe/keframe.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';

@@ -3,7 +3,7 @@ import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/setting/controller/eh_mytags_controller.dart';
 import 'package:eros_fe/pages/setting/webview/eh_tagset_edit_dialog.dart';
 import 'package:eros_fe/pages/setting/webview/mytags_in.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -24,7 +24,7 @@ class EhMyTagsPage extends GetView<EhMyTagsController> {
             CupertinoButton(
               padding: const EdgeInsets.all(0),
               minSize: 40,
-              child: const Icon(
+              child: const FaIcon(
                 FontAwesomeIcons.earthAmericas,
                 size: 22,
               ),

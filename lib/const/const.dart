@@ -2,9 +2,9 @@ import 'package:eros_fe/common/global.dart';
 import 'package:eros_fe/common/service/ehsetting_service.dart';
 import 'package:eros_fe/models/base/eh_models.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -500,7 +500,7 @@ class EHConst {
 
   static const emojiFontFamily = 'AppleEmoji';
 
-  static const List<IconData> fontAwesomeIconSicons = [
+  static const List<FaIconData> fontAwesomeIconSicons = [
     FontAwesomeIcons.solidHeart,
     FontAwesomeIcons.heart,
     FontAwesomeIcons.fireFlameCurved,

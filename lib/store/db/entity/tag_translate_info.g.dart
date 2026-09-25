@@ -16,9 +16,7 @@ abstract class _$TagTranslateInfoCWProxy {
   /// ```dart
   /// TagTranslateInfo(...).copyWith(id: 12, name: "My name")
   /// ```
-  TagTranslateInfo call({
-    String? localVersion,
-  });
+  TagTranslateInfo call({String? localVersion});
 }
 
 /// Callable proxy for `copyWith` functionality.
@@ -32,8 +30,6 @@ class _$TagTranslateInfoCWProxyImpl implements _$TagTranslateInfoCWProxy {
   TagTranslateInfo localVersion(String? localVersion) =>
       call(localVersion: localVersion);
 
-  @override
-
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `TagTranslateInfo(...).copyWith.fieldName(value)`.
   ///
@@ -41,9 +37,8 @@ class _$TagTranslateInfoCWProxyImpl implements _$TagTranslateInfoCWProxy {
   /// ```dart
   /// TagTranslateInfo(...).copyWith(id: 12, name: "My name")
   /// ```
-  TagTranslateInfo call({
-    Object? localVersion = const $CopyWithPlaceholder(),
-  }) {
+  @override
+  TagTranslateInfo call({Object? localVersion = const $CopyWithPlaceholder()}) {
     return TagTranslateInfo(
       localVersion: localVersion == const $CopyWithPlaceholder()
           ? _value.localVersion
@@ -79,8 +74,9 @@ const TagTranslateInfoSchema = CollectionSchema(
       id: 0,
       name: r'localVersion',
       type: IsarType.string,
-    )
+    ),
   },
+
   estimateSize: _tagTranslateInfoEstimateSize,
   serialize: _tagTranslateInfoSerialize,
   deserialize: _tagTranslateInfoDeserialize,
@@ -89,10 +85,11 @@ const TagTranslateInfoSchema = CollectionSchema(
   indexes: {},
   links: {},
   embeddedSchemas: {},
+
   getId: _tagTranslateInfoGetId,
   getLinks: _tagTranslateInfoGetLinks,
   attach: _tagTranslateInfoAttach,
-  version: '3.3.0-dev.1',
+  version: '3.3.2',
 );
 
 int _tagTranslateInfoEstimateSize(
@@ -155,7 +152,10 @@ List<IsarLinkBase<dynamic>> _tagTranslateInfoGetLinks(TagTranslateInfo object) {
 }
 
 void _tagTranslateInfoAttach(
-    IsarCollection<dynamic> col, Id id, TagTranslateInfo object) {
+  IsarCollection<dynamic> col,
+  Id id,
+  TagTranslateInfo object,
+) {
   object.id = id;
 }
 
@@ -171,17 +171,15 @@ extension TagTranslateInfoQueryWhereSort
 extension TagTranslateInfoQueryWhere
     on QueryBuilder<TagTranslateInfo, TagTranslateInfo, QWhereClause> {
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterWhereClause> idEqualTo(
-      Id id) {
+    Id id,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
-      ));
+      return query.addWhereClause(IdWhereClause.between(lower: id, upper: id));
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterWhereClause>
-      idNotEqualTo(Id id) {
+  idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -204,7 +202,7 @@ extension TagTranslateInfoQueryWhere
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterWhereClause>
-      idGreaterThan(Id id, {bool include = false}) {
+  idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -213,7 +211,7 @@ extension TagTranslateInfoQueryWhere
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterWhereClause>
-      idLessThan(Id id, {bool include = false}) {
+  idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -228,12 +226,14 @@ extension TagTranslateInfoQueryWhere
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
-        includeLower: includeLower,
-        upper: upperId,
-        includeUpper: includeUpper,
-      ));
+      return query.addWhereClause(
+        IdWhereClause.between(
+          lower: lowerId,
+          includeLower: includeLower,
+          upper: upperId,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 }
@@ -241,127 +241,129 @@ extension TagTranslateInfoQueryWhere
 extension TagTranslateInfoQueryFilter
     on QueryBuilder<TagTranslateInfo, TagTranslateInfo, QFilterCondition> {
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      idEqualTo(Id value) {
+  idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'id', value: value),
+      );
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
+  idGreaterThan(Id value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'id',
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
+  idLessThan(Id value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'id',
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      idBetween(
+  idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'id',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      localVersionIsNull() {
+  localVersionIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'localVersion',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'localVersion'),
+      );
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      localVersionIsNotNull() {
+  localVersionIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'localVersion',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'localVersion'),
+      );
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      localVersionEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  localVersionEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'localVersion',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'localVersion',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      localVersionGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'localVersion',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      localVersionLessThan(
+  localVersionGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'localVersion',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'localVersion',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      localVersionBetween(
+  localVersionLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'localVersion',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
+  localVersionBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -369,84 +371,86 @@ extension TagTranslateInfoQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'localVersion',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'localVersion',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      localVersionStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  localVersionStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'localVersion',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'localVersion',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      localVersionEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  localVersionEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'localVersion',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'localVersion',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      localVersionContains(String value, {bool caseSensitive = true}) {
+  localVersionContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'localVersion',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'localVersion',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      localVersionMatches(String pattern, {bool caseSensitive = true}) {
+  localVersionMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'localVersion',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'localVersion',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      localVersionIsEmpty() {
+  localVersionIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'localVersion',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'localVersion', value: ''),
+      );
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterFilterCondition>
-      localVersionIsNotEmpty() {
+  localVersionIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'localVersion',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'localVersion', value: ''),
+      );
     });
   }
 }
@@ -460,14 +464,14 @@ extension TagTranslateInfoQueryLinks
 extension TagTranslateInfoQuerySortBy
     on QueryBuilder<TagTranslateInfo, TagTranslateInfo, QSortBy> {
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterSortBy>
-      sortByLocalVersion() {
+  sortByLocalVersion() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'localVersion', Sort.asc);
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterSortBy>
-      sortByLocalVersionDesc() {
+  sortByLocalVersionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'localVersion', Sort.desc);
     });
@@ -483,21 +487,21 @@ extension TagTranslateInfoQuerySortThenBy
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterSortBy>
-      thenByIdDesc() {
+  thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterSortBy>
-      thenByLocalVersion() {
+  thenByLocalVersion() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'localVersion', Sort.asc);
     });
   }
 
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QAfterSortBy>
-      thenByLocalVersionDesc() {
+  thenByLocalVersionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'localVersion', Sort.desc);
     });
@@ -507,7 +511,7 @@ extension TagTranslateInfoQuerySortThenBy
 extension TagTranslateInfoQueryWhereDistinct
     on QueryBuilder<TagTranslateInfo, TagTranslateInfo, QDistinct> {
   QueryBuilder<TagTranslateInfo, TagTranslateInfo, QDistinct>
-      distinctByLocalVersion({bool caseSensitive = true}) {
+  distinctByLocalVersion({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'localVersion', caseSensitive: caseSensitive);
     });
@@ -523,7 +527,7 @@ extension TagTranslateInfoQueryProperty
   }
 
   QueryBuilder<TagTranslateInfo, String?, QQueryOperations>
-      localVersionProperty() {
+  localVersionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'localVersion');
     });

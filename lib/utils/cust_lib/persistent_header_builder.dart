@@ -1,6 +1,6 @@
 import 'package:eros_fe/utils/cust_lib/sliver/sliver_persistent_header.dart';
 import 'package:extended_sliver/extended_sliver.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 class PersistentHeaderBuilder extends SliverPersistentHeaderDelegate {
   PersistentHeaderBuilder({

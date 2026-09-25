@@ -7,7 +7,7 @@ import 'package:eros_fe/pages/tab/controller/favorite/favorite_tabbar_controller
 import 'package:eros_fe/pages/tab/controller/search_page_controller.dart';
 import 'package:eros_fe/pages/tab/controller/tabhome_controller.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:keframe/keframe.dart';
@@ -357,7 +357,7 @@ class FavoriteTabBar extends StatelessWidget {
                                 child: isRefresh
                                     ? const CupertinoActivityIndicator(
                                         radius: 10)
-                                    : const Icon(
+                                    : const FaIcon(
                                         FontAwesomeIcons.rotateRight,
                                         size: 20,
                                       ),
@@ -380,7 +380,7 @@ class FavoriteTabBar extends StatelessWidget {
                           CupertinoButton(
                             minSize: 40,
                             padding: const EdgeInsets.all(0),
-                            child: const Icon(
+                            child: const FaIcon(
                               FontAwesomeIcons.bars,
                               size: 20,
                             ),

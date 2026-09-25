@@ -8,7 +8,7 @@ import 'package:eros_fe/network/app_dio/pdio.dart';
 import 'package:eros_fe/pages/tab/controller/tabhome_controller.dart';
 import 'package:eros_fe/pages/tab/fetch_list.dart';
 import 'package:eros_fe/utils/app_cupertino_localizations_delegate.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -536,7 +536,7 @@ abstract class TabViewController extends GetxController {
                             editingDate = false;
                           });
                         },
-                        child: Icon(
+                        child: FaIcon(
                           FontAwesomeIcons.circleXmark,
                           size: 20.0,
                           color: CupertinoDynamicColor.resolve(
@@ -549,7 +549,7 @@ abstract class TabViewController extends GetxController {
                           showDatePicker = !showDatePicker;
                         });
                       },
-                      child: Icon(
+                      child: FaIcon(
                         FontAwesomeIcons.calendar,
                         size: 20.0,
                         color: showDatePicker
@@ -631,7 +631,7 @@ abstract class TabViewController extends GetxController {
                             editingGid = false;
                           });
                         },
-                        child: Icon(
+                        child: FaIcon(
                           FontAwesomeIcons.circleXmark,
                           size: 20.0,
                           color: CupertinoDynamicColor.resolve(
@@ -663,7 +663,7 @@ abstract class TabViewController extends GetxController {
                     Expanded(
                       child: Row(
                         children: [
-                          Icon(
+                          FaIcon(
                             FontAwesomeIcons.circleArrowLeft,
                             size: 16,
                             color: CupertinoDynamicColor.resolve(
@@ -686,7 +686,7 @@ abstract class TabViewController extends GetxController {
                             nextGid.replaceFirst('-', '-\n'),
                             textAlign: TextAlign.right,
                           )),
-                          Icon(
+                          FaIcon(
                             FontAwesomeIcons.circleArrowRight,
                             size: 16,
                             color: CupertinoDynamicColor.resolve(
@@ -703,7 +703,7 @@ abstract class TabViewController extends GetxController {
       ),
       actions: <Widget>[
         CupertinoDialogAction(
-          child: const Icon(
+          child: const FaIcon(
             FontAwesomeIcons.circleArrowLeft,
           ),
           onPressed: () async {
@@ -716,7 +716,7 @@ abstract class TabViewController extends GetxController {
           },
         ),
         CupertinoDialogAction(
-          child: const Icon(
+          child: const FaIcon(
             FontAwesomeIcons.circleArrowRight,
           ),
           onPressed: () async {

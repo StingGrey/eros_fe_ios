@@ -7,7 +7,7 @@ import 'package:eros_fe/pages/filter/gallery_filter_view.dart';
 import 'package:eros_fe/utils/logger.dart';
 import 'package:eros_fe/utils/utility.dart';
 import 'package:eros_fe/utils/vibrate.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 
 /// 筛选画廊类型的按钮

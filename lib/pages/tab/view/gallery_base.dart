@@ -1,5 +1,5 @@
 import 'package:eros_fe/utils/utility.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// 列表加载异常时的默认页面
@@ -15,8 +15,8 @@ class GalleryErrorPage extends StatelessWidget {
       children: [
         CupertinoButton(
           onPressed: onTap,
-          child: Icon(
-            randomList<IconData>([
+          child: FaIcon(
+            randomList<FaIconData>([
               FontAwesomeIcons.grinBeamSweat,
               FontAwesomeIcons.sadTear,
               FontAwesomeIcons.tired,

@@ -1,7 +1,7 @@
 import 'package:eros_fe/common/service/controller_tag_service.dart';
 import 'package:eros_fe/generated/l10n.dart';
 import 'package:eros_fe/pages/gallery/controller/rate_controller.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -34,7 +34,7 @@ class RateView extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 1.0),
                 child: Row(
                   children: const <Widget>[
-                    Icon(
+                    FaIcon(
                       FontAwesomeIcons.solidStar,
                       color: Color(0xffFF962E),
                     ),

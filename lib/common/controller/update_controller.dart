@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/network/request.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';

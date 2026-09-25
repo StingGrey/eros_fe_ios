@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:eros_fe/common/controller/update_controller.dart';
 import 'package:eros_fe/index.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:sliver_tools/sliver_tools.dart';

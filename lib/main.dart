@@ -9,11 +9,13 @@ import 'package:eros_fe/common/service/locale_service.dart';
 import 'package:eros_fe/common/service/theme_service.dart';
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/widget/system_ui_overlay.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:eros_fe/widget/ui_theme_bridge.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart'
+    as legacy_l10n;
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_windowmanager_plus/flutter_windowmanager_plus.dart';
 import 'package:get/get.dart';
@@ -115,7 +117,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
         // resumed 时清除 FLAG_SECURE ,避免无法截屏
         FlutterWindowManagerPlus.clearFlags(
-            FlutterWindowManagerPlus.FLAG_SECURE);
+          FlutterWindowManagerPlus.FLAG_SECURE,
+        );
 
         if (context.mounted) {
           _ehSettingService.chkClipboardLink(context);
@@ -149,8 +152,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void didChangePlatformBrightness() {
-    themeService.platformBrightness.value =
-        View.of(context).platformDispatcher.platformBrightness;
+    themeService.platformBrightness.value = View.of(context)
+        .platformDispatcher
+        .platformBrightness;
   }
 
   @override
@@ -181,11 +185,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           builder: SystemUIOverlay.init(
             builder: FlutterSmartDialog.init(
               styleBuilder: (child) {
-                if (GetPlatform.isDesktop) {
-                  return Desktop(child: child);
-                } else {
-                  return child;
-                }
+                return UiThemeBridge(
+                  theme: themeService.themeData!,
+                  child: GetPlatform.isDesktop ? Desktop(child: child) : child,
+                );
               },
             ),
           ),
@@ -193,19 +196,19 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           getPages: AppPages.routes,
           defaultTransition: Transition.cupertino,
           initialRoute: EHRoutes.root,
-          theme: themeService.themeData,
+          theme: legacyCupertinoTheme(themeService.themeData!),
           locale: localeService.locale,
           enableLog: false,
           logWriterCallback: loggerGetx,
-          supportedLocales: <Locale>[
-            ...L10n.delegate.supportedLocales,
-          ],
+          supportedLocales: <Locale>[...L10n.delegate.supportedLocales],
           localizationsDelegates: const [
             // 本地化的代理类
             L10n.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
+            legacy_l10n.GlobalWidgetsLocalizations.delegate,
+            legacy_l10n.GlobalMaterialLocalizations.delegate,
+            legacy_l10n.GlobalCupertinoLocalizations.delegate,
           ],
 
           localeResolutionCallback: (_, Iterable<Locale> supportedLocales) {
@@ -221,9 +224,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       });
     }
 
-    return OKToast(
-      child: cupertinoApp(),
-    );
+    return OKToast(child: cupertinoApp());
   }
 }
 

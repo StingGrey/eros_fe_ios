@@ -1,5 +1,5 @@
 import 'package:eros_fe/const/const.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 class EmojiText extends StatelessWidget {
   const EmojiText({

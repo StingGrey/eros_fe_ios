@@ -5,8 +5,8 @@ import 'package:eros_fe/common/service/dns_service.dart';
 import 'package:eros_fe/common/service/theme_service.dart';
 // import 'package:extended_text/extended_text.dart';
 import 'package:eros_fe/index.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 

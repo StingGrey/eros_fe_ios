@@ -91,7 +91,7 @@ class CacheController extends GetxController with StateMixin<String> {
   }
 
   /// 递归方式 计算文件的大小
-  Future<int> _getTotalSizeOfFilesInDir(final io.FileSystemEntity file) async {
+  Future<int> _getTotalSizeOfFilesInDir(io.FileSystemEntity file) async {
     try {
       if (file is io.File) {
         // logger.d('is file');

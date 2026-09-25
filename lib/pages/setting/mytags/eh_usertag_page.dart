@@ -5,7 +5,7 @@ import 'package:eros_fe/pages/setting/const.dart';
 import 'package:eros_fe/pages/setting/controller/eh_mytags_controller.dart';
 import 'package:eros_fe/pages/setting/mytags/eh_usertag_edit_dialog.dart';
 import 'package:eros_fe/pages/setting/webview/eh_tagset_edit_dialog.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -356,14 +356,14 @@ class _ListViewEhMyTagsState extends State<ListViewEhMyTags> {
   }) {
     return EhCupertinoListTile(
       title: Text(usertag.title),
-      leading: const Icon(FontAwesomeIcons.tag),
+      leading: const FaIcon(FontAwesomeIcons.tag),
       subtitle: isTagTranslat ? Text(usertag.translate ?? '') : null,
       onTap: () async => tapAddUserTagItem(usertag),
     );
   }
 
   Widget _buildHideIcon(bool? hide, bool? watch) {
-    late final IconData iconData;
+    late final FaIconData iconData;
     late final Color iconColor;
 
     if (watch ?? false) {
@@ -382,7 +382,7 @@ class _ListViewEhMyTagsState extends State<ListViewEhMyTags> {
 
     return Container(
       margin: const EdgeInsets.only(right: 10),
-      child: Icon(
+      child: FaIcon(
         iconData,
         size: 24,
         color: iconColor,

@@ -1,7 +1,7 @@
 import 'package:eros_fe/common/service/theme_service.dart';
 import 'package:eros_fe/utils/logger.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -32,7 +32,7 @@ class EmptyPage extends StatelessWidget {
           child: SafeArea(
             child: Container(
               child: const Center(
-                child: Icon(
+                child: FaIcon(
                   FontAwesomeIcons.layerGroup,
                   size: 100,
                   color: CupertinoColors.inactiveGray,

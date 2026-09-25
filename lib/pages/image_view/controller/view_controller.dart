@@ -17,7 +17,7 @@ import 'package:eros_fe/store/archive_async.dart';
 import 'package:eros_fe/utils/orientation_helper.dart';
 import 'package:eros_fe/utils/saf_helper.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_android_volume_keydown/flutter_android_volume_keydown.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';

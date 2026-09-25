@@ -17,12 +17,7 @@
 #
 # This file contains the analysis options used by Flutter tools, such as IntelliJ,
 # Android Studio, and the `flutter analyze` command.
-include: package:flutter_lints/flutter.yaml
-
 analyzer:
-  strong-mode:
-    implicit-casts: false
-    implicit-dynamic: true
   errors:
     # treat missing required parameters as a warning (not a hint)
     missing_required_param: error
@@ -48,6 +43,11 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.gr.dart"
     - "**/*.freezed.dart"
+    - build/**
+    - android/**
+    - ios/**
+    - windows/**
+    - macos/**
 
 linter:
   rules:

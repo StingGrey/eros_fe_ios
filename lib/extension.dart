@@ -9,7 +9,7 @@ import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/image_view/common.dart';
 import 'package:eros_fe/pages/tab/fetch_list.dart';
 import 'package:eros_fe/store/db/entity/tag_translat.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:path/path.dart' as path;

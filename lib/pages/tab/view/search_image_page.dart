@@ -4,8 +4,8 @@ import 'package:blur/blur.dart';
 import 'package:eros_fe/pages/tab/controller/tab_scroll_position_store.dart';
 import 'package:eros_fe/pages/tab/view/list/tab_base.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -121,7 +121,7 @@ class SearchImagePage extends GetView<SearchImageController> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
+                  FaIcon(
                     FontAwesomeIcons.hippo,
                     size: 100,
                     color: CupertinoDynamicColor.resolve(
@@ -207,7 +207,7 @@ class ImagePersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                 child: Obx(() {
                   return searchImageController.imagePath.isEmpty
                       ? Center(
-                          child: Icon(
+                          child: FaIcon(
                             FontAwesomeIcons.circlePlus,
                             // color: CupertinoColors.systemGrey2,
                             color:
@@ -238,7 +238,7 @@ class ImagePersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                 margin: const EdgeInsets.only(right: 12),
                 // color: CupertinoColors.systemGrey3,
                 child: Center(
-                  child: Icon(
+                  child: FaIcon(
                     FontAwesomeIcons.magnifyingGlass,
                     color: CupertinoTheme.of(context).barBackgroundColor,
                     size: 40,

@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 class DownloadLabelsView extends StatelessWidget {
   const DownloadLabelsView({Key? key}) : super(key: key);

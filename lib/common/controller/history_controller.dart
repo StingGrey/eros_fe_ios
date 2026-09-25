@@ -6,7 +6,7 @@ import 'package:eros_fe/common/service/ehsetting_service.dart';
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/tab/controller/history_view_controller.dart';
 import 'package:eros_fe/pages/tab/view/list/tab_base.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 import 'package:throttling/throttling.dart';
 

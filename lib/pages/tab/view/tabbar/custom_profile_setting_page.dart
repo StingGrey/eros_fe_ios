@@ -12,7 +12,7 @@ import 'package:eros_fe/pages/tab/controller/group/custom_tabbar_controller.dart
 import 'package:eros_fe/pages/tab/controller/group/profile_edit_controller.dart';
 import 'package:eros_fe/pages/tab/fetch_list.dart';
 import 'package:eros_fe/pages/tab/view/tabbar/search_text_dialog.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';

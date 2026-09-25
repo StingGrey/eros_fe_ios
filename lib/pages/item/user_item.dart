@@ -6,7 +6,7 @@ import 'package:eros_fe/generated/l10n.dart';
 import 'package:eros_fe/route/routes.dart';
 import 'package:eros_fe/utils/logger.dart';
 import 'package:eros_fe/widget/image/eh_network_image.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -59,7 +59,7 @@ class _UserItem extends State<UserItem> {
     }
 
     Widget _buildAvastat() {
-      const Widget _defAvatar = Icon(
+      const Widget _defAvatar = FaIcon(
         FontAwesomeIcons.solidUserCircle,
         size: 55.0,
         color: CupertinoColors.systemGrey,
@@ -147,7 +147,7 @@ const double kNameTextSize = 13.0;
 
 class UserWidget extends GetView<UserController> {
   Widget _buildAvastat() {
-    const Widget _defAvatar = Icon(
+    const Widget _defAvatar = FaIcon(
       FontAwesomeIcons.solidCircleUser,
       size: kAvatarSize,
       color: CupertinoColors.systemGrey,

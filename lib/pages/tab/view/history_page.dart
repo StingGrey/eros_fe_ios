@@ -8,7 +8,7 @@ import 'package:eros_fe/utils/cust_lib/persistent_header_builder.dart';
 import 'package:eros_fe/utils/cust_lib/sliver/sliver_persistent_header.dart';
 import 'package:eros_fe/utils/logger.dart';
 import 'package:eros_fe/widget/refresh.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:keframe/keframe.dart';
@@ -85,7 +85,7 @@ class _HistoryTabState extends State<HistoryTab> {
           CupertinoButton(
             minSize: 40,
             padding: const EdgeInsets.all(0),
-            child: const Icon(
+            child: const FaIcon(
               FontAwesomeIcons.solidTrashCan,
               size: 20,
             ),

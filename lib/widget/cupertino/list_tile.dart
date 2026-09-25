@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 const double _kLeadingSize = 28.0;
 const double _kNotchedLeadingSize = 30.0;

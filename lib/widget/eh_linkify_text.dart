@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:linkfy_text/linkfy_text.dart';
 import 'package:linkfy_text/src/model/link.dart';
 

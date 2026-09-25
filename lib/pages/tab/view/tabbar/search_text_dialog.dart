@@ -1,6 +1,6 @@
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/tab/controller/group/profile_edit_controller.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 
 class ProfileSearchTextDialog extends StatelessWidget {

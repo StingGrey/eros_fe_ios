@@ -1,6 +1,6 @@
 import 'package:eros_fe/common/controller/image_block_controller.dart';
 import 'package:eros_fe/index.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 
 class PHashImageListPage extends GetView<ImageBlockController> {

@@ -9,7 +9,7 @@ import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/controller/fav_controller.dart';
 import 'package:eros_fe/pages/item/item_base.dart';
 import 'package:eros_fe/pages/tab/controller/tabhome_controller.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 
 class GalleryItemController extends GetxController {

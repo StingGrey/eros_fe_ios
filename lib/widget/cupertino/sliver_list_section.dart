@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 // Margin on top of the list section. This was eyeballed from iOS 14.4 Simulator

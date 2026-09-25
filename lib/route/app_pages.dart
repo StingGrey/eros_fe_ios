@@ -56,7 +56,7 @@ import 'package:eros_fe/pages/tab/view/tabbar/custom_tabbar_page.dart';
 import 'package:eros_fe/pages/tab/view/tabbar/favorite_tabbar_page.dart';
 import 'package:eros_fe/pages/tab/view/toplist_page.dart';
 import 'package:eros_fe/pages/tab/view/unlock_page.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 
 const Duration kUnLockPageTransitionDuration = Duration(milliseconds: 200);

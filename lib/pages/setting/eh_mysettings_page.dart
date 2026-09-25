@@ -7,7 +7,7 @@ import 'package:eros_fe/pages/setting/controller/eh_mysettings_controller.dart';
 import 'package:eros_fe/pages/setting/setting_items/excluded_language.dart';
 import 'package:eros_fe/pages/setting/setting_items/selector_Item.dart';
 import 'package:eros_fe/pages/setting/webview/web_mysetting_in.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -34,7 +34,7 @@ class EhMySettingsPage extends GetView<EhMySettingsController> {
                 CupertinoButton(
                   padding: const EdgeInsets.all(0),
                   minSize: 40,
-                  child: const Icon(
+                  child: const FaIcon(
                     FontAwesomeIcons.earthAmericas,
                     size: 22,
                   ),
@@ -45,7 +45,7 @@ class EhMySettingsPage extends GetView<EhMySettingsController> {
                 CupertinoButton(
                   padding: const EdgeInsets.all(0),
                   minSize: 40,
-                  child: const Icon(
+                  child: const FaIcon(
                     FontAwesomeIcons.circleCheck,
                     size: 22,
                   ),
@@ -202,7 +202,7 @@ class _ListViewEhMySettingsState extends State<ListViewEhMySettings> {
               final String favTitle = controller.ehSetting.favMap['$e'] ?? '';
               // logger.d('favMap: $e $_title');
               return CupertinoTextInputListTile(
-                leading: Icon(
+                leading: FaIcon(
                   FontAwesomeIcons.solidHeart,
                   color: ThemeColors.favColor['$e'],
                 ),

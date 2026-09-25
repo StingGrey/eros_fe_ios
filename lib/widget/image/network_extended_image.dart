@@ -4,8 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eros_fe/common/controller/image_block_controller.dart';
 import 'package:eros_fe/index.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -143,7 +143,7 @@ class _NetworkExtendedImageState extends State<NetworkExtendedImage>
                       final showCustomWidget = snapshot.data ?? false;
                       return showCustomWidget
                           ? const Center(
-                              child: Icon(FontAwesomeIcons.rectangleAd))
+                              child: FaIcon(FontAwesomeIcons.rectangleAd))
                           : _image;
                     } else if (snapshot.connectionState ==
                         ConnectionState.waiting) {

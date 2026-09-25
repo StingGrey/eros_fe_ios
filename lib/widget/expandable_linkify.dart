@@ -1,5 +1,5 @@
 // import 'package:eros_fe/utils/cust_lib/flutter_linkify.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:linkify/linkify.dart'
     show

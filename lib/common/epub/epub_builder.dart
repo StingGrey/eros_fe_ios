@@ -8,7 +8,7 @@ import 'package:eros_fe/component/exception/error.dart';
 import 'package:eros_fe/extension.dart';
 import 'package:eros_fe/store/db/entity/gallery_task.dart';
 import 'package:eros_fe/utils/logger.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:image/image.dart' as pimage;
 import 'package:jinja/jinja.dart';

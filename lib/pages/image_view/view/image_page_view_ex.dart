@@ -6,7 +6,7 @@ import 'package:eros_fe/pages/image_view/controller/view_controller.dart';
 import 'package:eros_fe/pages/image_view/controller/view_state.dart';
 import 'package:eros_fe/pages/image_view/view/view_widget.dart';
 import 'package:eros_fe/widget/preload_photo_view_gallery.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';

@@ -1,6 +1,6 @@
 import 'package:eros_fe/const/const.dart';
 import 'package:eros_fe/pages/tab/controller/tabhome_controller.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 
 class TabHomeSmall extends GetView<TabHomeController> {

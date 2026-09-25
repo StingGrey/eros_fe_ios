@@ -5,7 +5,7 @@ import 'package:eros_fe/common/service/layout_service.dart';
 import 'package:eros_fe/common/service/locale_service.dart';
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/utils/import_export.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -35,7 +35,7 @@ class QuickSearchListPage extends StatelessWidget {
             CupertinoButton(
               minSize: 40,
               padding: const EdgeInsets.all(0),
-              child: const Icon(
+              child: const FaIcon(
                 FontAwesomeIcons.solidTrashCan,
                 size: 20,
               ),
@@ -47,7 +47,7 @@ class QuickSearchListPage extends StatelessWidget {
               minSize: 40,
               padding: const EdgeInsets.all(0),
               onPressed: _showFile,
-              child: const Icon(
+              child: const FaIcon(
                 FontAwesomeIcons.solidFileLines,
                 size: 20,
               ),
@@ -57,7 +57,7 @@ class QuickSearchListPage extends StatelessWidget {
                 minSize: 40,
                 padding: const EdgeInsets.all(0),
                 onPressed: quickSearchController.syncQuickSearch,
-                child: const Icon(
+                child: const FaIcon(
                   FontAwesomeIcons.arrowsRotate,
                   size: 20,
                 ),
@@ -107,7 +107,7 @@ class QuickSearchListPage extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(FontAwesomeIcons.share).paddingOnly(right: 4),
+                  const FaIcon(FontAwesomeIcons.share).paddingOnly(right: 4),
                   const Text('Share'),
                 ],
               ),
@@ -116,7 +116,7 @@ class QuickSearchListPage extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(FontAwesomeIcons.fileExport).paddingOnly(right: 4),
+                  const FaIcon(FontAwesomeIcons.fileExport).paddingOnly(right: 4),
                   const Text('Export'),
                 ],
               ),
@@ -130,7 +130,7 @@ class QuickSearchListPage extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(FontAwesomeIcons.fileImport).paddingOnly(right: 4),
+                  const FaIcon(FontAwesomeIcons.fileImport).paddingOnly(right: 4),
                   const Text('Import'),
                 ],
               ),

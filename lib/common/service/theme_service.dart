@@ -3,7 +3,7 @@ import 'package:eros_fe/common/colors.dart';
 import 'package:eros_fe/common/global.dart';
 import 'package:eros_fe/common/service/base_service.dart';
 import 'package:eros_fe/const/theme_colors.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 
 import 'ehsetting_service.dart';

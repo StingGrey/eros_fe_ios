@@ -7,7 +7,7 @@ import 'package:eros_fe/pages/tab/controller/download_view_controller.dart';
 import 'package:eros_fe/pages/tab/controller/tab_scroll_position_store.dart';
 import 'package:eros_fe/store/db/entity/gallery_task.dart';
 import 'package:eros_fe/utils/logger.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -124,7 +124,7 @@ class _DownloadTabState extends State<DownloadTab> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(FontAwesomeIcons.squareShareNodes)
+                  const FaIcon(FontAwesomeIcons.squareShareNodes)
                       .paddingOnly(right: 8),
                   const Text('Share '),
                 ],
@@ -138,7 +138,7 @@ class _DownloadTabState extends State<DownloadTab> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(FontAwesomeIcons.fileArrowUp)
+                  const FaIcon(FontAwesomeIcons.fileArrowUp)
                       .paddingOnly(right: 8),
                   const Text('Export'),
                 ],
@@ -152,7 +152,7 @@ class _DownloadTabState extends State<DownloadTab> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(FontAwesomeIcons.fileArrowDown)
+                  const FaIcon(FontAwesomeIcons.fileArrowDown)
                       .paddingOnly(right: 8),
                   const Text('Import'),
                 ],

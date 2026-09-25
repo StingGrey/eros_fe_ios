@@ -11,7 +11,7 @@ import 'package:eros_fe/pages/gallery/view/gallery_favcat.dart';
 import 'package:eros_fe/pages/item/controller/galleryitem_controller.dart';
 import 'package:eros_fe/utils/logger.dart';
 import 'package:eros_fe/utils/toast.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -63,7 +63,7 @@ class FavController extends GetxController {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 4, bottom: 4),
-                  child: Icon(
+                  child: FaIcon(
                     FontAwesomeIcons.solidHeart,
                     color: ThemeColors.favColor[e.favId],
                     size: 18,

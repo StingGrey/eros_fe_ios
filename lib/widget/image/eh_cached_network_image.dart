@@ -4,7 +4,7 @@ import 'package:eros_fe/common/controller/image_block_controller.dart';
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/network/app_dio/dio_file_service.dart';
 import 'package:eros_fe/widget/image/rect_image_provider.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;

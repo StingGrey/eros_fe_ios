@@ -1,7 +1,7 @@
 import 'package:eros_fe/common/service/theme_service.dart';
 import 'package:eros_fe/utils/vibrate.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 

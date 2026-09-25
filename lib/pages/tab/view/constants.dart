@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 const double kNavBarBackButtonTapWidth = 50.0;
 const double kNavBarLargeTitleHeightExtension = 52.0;

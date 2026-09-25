@@ -14,8 +14,8 @@ import 'package:eros_fe/store/db/entity/gallery_task.dart';
 import 'package:eros_fe/widget/image/extended_saf_image_privider.dart';
 import 'package:eros_fe/widget/rating_bar.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -463,7 +463,7 @@ class DownloadGalleryItem extends GetView<DownloadViewController> {
         child: CupertinoButton(
           padding: buttonPadding,
           minSize: minSize,
-          child: const Icon(
+          child: const FaIcon(
             FontAwesomeIcons.pause,
             size: iconSize,
           ),
@@ -479,7 +479,7 @@ class DownloadGalleryItem extends GetView<DownloadViewController> {
         child: CupertinoButton(
           padding: buttonPadding,
           minSize: minSize,
-          child: const Icon(
+          child: const FaIcon(
             FontAwesomeIcons.check,
             size: iconSize,
           ),
@@ -493,7 +493,7 @@ class DownloadGalleryItem extends GetView<DownloadViewController> {
         child: CupertinoButton(
           padding: buttonPadding,
           minSize: minSize,
-          child: const Icon(
+          child: const FaIcon(
             FontAwesomeIcons.play,
             size: iconSize,
           ),
@@ -506,7 +506,7 @@ class DownloadGalleryItem extends GetView<DownloadViewController> {
       TaskStatus.failed: CupertinoButton(
         padding: buttonPadding,
         minSize: minSize,
-        child: const Icon(
+        child: const FaIcon(
           FontAwesomeIcons.play,
           size: iconSize,
         ),
@@ -518,7 +518,7 @@ class DownloadGalleryItem extends GetView<DownloadViewController> {
       TaskStatus.canceled: CupertinoButton(
         padding: buttonPadding,
         minSize: minSize,
-        child: const Icon(
+        child: const FaIcon(
           FontAwesomeIcons.redo,
           size: iconSize,
         ),

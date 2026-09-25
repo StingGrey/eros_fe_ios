@@ -1,7 +1,7 @@
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/gallery/controller/all_thumbnails_controller.dart';
 import 'package:eros_fe/pages/gallery/view/thumb_box.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 
 import 'const.dart';

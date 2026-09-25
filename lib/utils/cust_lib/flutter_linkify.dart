@@ -1,7 +1,7 @@
 /*
 import 'package:eros_fe/utils/cust_lib/selectable_text.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart' hide SelectableText;
+import 'package:material_ui/material_ui.dart' hide SelectableText;
 import 'package:flutter/rendering.dart';
 import 'package:linkify/linkify.dart';
 

@@ -12,8 +12,8 @@ import 'package:eros_fe/pages/tab/controller/tab_scroll_position_store.dart';
 import 'package:eros_fe/pages/tab/view/gallery_base.dart';
 import 'package:eros_fe/pages/tab/view/list/tab_base.dart';
 import 'package:extended_sliver/extended_sliver.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -194,7 +194,7 @@ class _GallerySearchPageState extends State<GallerySearchPage> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
+                        FaIcon(
                           FontAwesomeIcons.magnifyingGlass,
                           size: 20,
                           color: CupertinoDynamicColor.resolve(
@@ -374,7 +374,7 @@ class _GallerySearchPageState extends State<GallerySearchPage> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(FontAwesomeIcons.magnifyingGlass,
+        FaIcon(FontAwesomeIcons.magnifyingGlass,
                 size: 20,
                 color: CupertinoDynamicColor.resolve(
                     CupertinoColors.inactiveGray, Get.context!))
@@ -708,7 +708,7 @@ class _GallerySearchPageState extends State<GallerySearchPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
+                FaIcon(
                   FontAwesomeIcons.hippo,
                   size: 100,
                   color: CupertinoDynamicColor.resolve(
@@ -814,7 +814,7 @@ class _GallerySearchPageState extends State<GallerySearchPage> {
             CupertinoButton(
               minSize: 36,
               padding: const EdgeInsets.all(0),
-              child: const Icon(
+              child: const FaIcon(
                 FontAwesomeIcons.image,
                 size: 20,
               ),
@@ -828,7 +828,7 @@ class _GallerySearchPageState extends State<GallerySearchPage> {
             CupertinoButton(
               minSize: 36,
               padding: const EdgeInsets.all(0),
-              child: const Icon(
+              child: const FaIcon(
                 FontAwesomeIcons.filter,
                 size: 20,
               ),
@@ -912,7 +912,7 @@ class SearchTextFieldIn extends StatelessWidget {
           prefix: CupertinoButton(
             padding: const EdgeInsets.symmetric(horizontal: 4),
             minSize: 0,
-            child: Icon(
+            child: FaIcon(
               FontAwesomeIcons.magnifyingGlass,
               size: 20.0,
               color: CupertinoColors.systemGrey.withOpacity(iconOpacity),
@@ -944,7 +944,7 @@ class SearchTextFieldIn extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: isRefresh
                                 ? const CupertinoActivityIndicator(radius: 8)
-                                : Icon(
+                                : FaIcon(
                                     FontAwesomeIcons.rotateRight,
                                     size: 18.0,
                                     color: CupertinoDynamicColor.resolve(
@@ -958,7 +958,7 @@ class SearchTextFieldIn extends StatelessWidget {
                   if (controller.textIsGalleryUrl)
                     GestureDetector(
                       onTap: controller.jumpToGallery,
-                      child: Icon(
+                      child: FaIcon(
                         FontAwesomeIcons.circleArrowRight,
                         size: 20.0,
                         color: CupertinoDynamicColor.resolve(
@@ -969,7 +969,7 @@ class SearchTextFieldIn extends StatelessWidget {
                   if (controller.textIsNotEmpty && !controller.textIsGalleryUrl)
                     GestureDetector(
                       onTap: controller.addToQuickSearch,
-                      child: Icon(
+                      child: FaIcon(
                         FontAwesomeIcons.circlePlus,
                         size: 20.0,
                         color: CupertinoDynamicColor.resolve(
@@ -980,7 +980,7 @@ class SearchTextFieldIn extends StatelessWidget {
                   if (controller.textIsNotEmpty)
                     GestureDetector(
                       onTap: controller.clearText,
-                      child: Icon(
+                      child: FaIcon(
                         FontAwesomeIcons.circleXmark,
                         size: 20.0,
                         color: CupertinoDynamicColor.resolve(
@@ -990,7 +990,7 @@ class SearchTextFieldIn extends StatelessWidget {
                     ),
                   GestureDetector(
                     onTap: controller.quickSearchList,
-                    child: Icon(
+                    child: FaIcon(
                       FontAwesomeIcons.listUl,
                       size: 18.0,
                       color: CupertinoDynamicColor.resolve(

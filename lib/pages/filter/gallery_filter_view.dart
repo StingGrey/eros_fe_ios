@@ -10,8 +10,8 @@ import 'package:eros_fe/pages/filter/filter.dart';
 import 'package:eros_fe/pages/tab/controller/gallery_filter_controller.dart';
 import 'package:eros_fe/pages/tab/controller/search_page_controller.dart';
 import 'package:eros_fe/utils/logger.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -179,7 +179,7 @@ class GalleryFilterView extends StatelessWidget {
                       //   L10n.of(context).clear_filter,
                       //   style: const TextStyle(height: 1, fontSize: 14),
                       // ),
-                      child: const Icon(
+                      child: const FaIcon(
                         FontAwesomeIcons.rotateLeft,
                         size: 20,
                       ),

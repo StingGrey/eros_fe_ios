@@ -4,7 +4,7 @@ import 'package:eros_fe/const/theme_colors.dart';
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/gallery/controller/gallery_page_controller.dart';
 import 'package:eros_fe/pages/gallery/view/gallery_favcat.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -200,7 +200,7 @@ class _GalleryInfoBarState extends State<GalleryInfoBar> {
                     ),
                     Row(
                       children: [
-                        Icon(
+                        FaIcon(
                           FontAwesomeIcons.language,
                           color: CupertinoDynamicColor.resolve(
                               CupertinoColors.secondaryLabel, context),
@@ -211,7 +211,7 @@ class _GalleryInfoBarState extends State<GalleryInfoBar> {
                           style: widget._hearTextStyle,
                         ),
                         const Spacer(),
-                        Icon(
+                        FaIcon(
                           FontAwesomeIcons.images,
                           size: 13,
                           color: CupertinoDynamicColor.resolve(
@@ -233,7 +233,7 @@ class _GalleryInfoBarState extends State<GalleryInfoBar> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         // const Text('❤️', style: TextStyle(fontSize: 13)),
-                        const Icon(
+                        const FaIcon(
                           FontAwesomeIcons.solidHeart,
                           color: CupertinoColors.systemRed,
                           size: 13,

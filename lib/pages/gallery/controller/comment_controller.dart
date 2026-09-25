@@ -6,7 +6,7 @@ import 'package:eros_fe/index.dart';
 import 'package:eros_fe/network/api.dart';
 import 'package:eros_fe/network/request.dart';
 import 'package:eros_fe/utils/openl/translator_helper.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
@@ -464,7 +464,7 @@ class CommentController extends GetxController {
             )),
       ),
     );
-    SmartDialog.showLoading(builder: (_) => indicator, backDismiss: false);
+    SmartDialog.showLoading(builder: (_) => indicator, backType: SmartBackType.block);
 
     // await Future.delayed(const Duration(seconds: 2));
     logger.t('_postComment $comment');

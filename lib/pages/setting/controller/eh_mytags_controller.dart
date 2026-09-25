@@ -7,7 +7,7 @@ import 'package:eros_fe/network/api.dart';
 import 'package:eros_fe/network/request.dart';
 import 'package:eros_fe/pages/setting/mytags/eh_usertag_edit_dialog.dart';
 import 'package:eros_fe/store/db/entity/tag_translat.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -413,7 +413,7 @@ class _TagSetListItemState extends State<TagSetListItem> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
+            const FaIcon(
               FontAwesomeIcons.tags,
               size: 18,
             ).paddingOnly(left: 8, right: 12, bottom: 2),

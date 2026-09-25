@@ -1,5 +1,5 @@
 import 'package:eros_fe/index.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 import 'package:shared_storage/shared_storage.dart' as ss;
 

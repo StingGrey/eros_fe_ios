@@ -7,7 +7,7 @@
 // import 'package:eros_fe/pages/controller/favorite_sel_controller.dart';
 // import 'package:eros_fe/route/routes.dart';
 // import 'package:eros_fe/utils/logger.dart';
-// import 'package:flutter/cupertino.dart';
+// import 'package:cupertino_ui/cupertino_ui.dart';
 // import 'package:get/get.dart';
 //
 // import '../../fetch_list.dart';

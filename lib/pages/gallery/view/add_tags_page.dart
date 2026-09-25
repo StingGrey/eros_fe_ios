@@ -6,7 +6,7 @@ import 'package:eros_fe/extension.dart';
 import 'package:eros_fe/generated/l10n.dart';
 import 'package:eros_fe/models/base/eh_models.dart';
 import 'package:eros_fe/pages/gallery/controller/taginfo_controller.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -81,7 +81,7 @@ class _AddTagPageState extends State<AddTagPage> {
                     return controller.showClearButton
                         ? GestureDetector(
                             onTap: controller.clear,
-                            child: Icon(
+                            child: FaIcon(
                               FontAwesomeIcons.circleXmark,
                               size: 16.0,
                               color: CupertinoDynamicColor.resolve(

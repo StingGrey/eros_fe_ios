@@ -1,6 +1,6 @@
 import 'package:eros_fe/utils/logger.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// make hero better when slide out
 class HeroWidget extends StatefulWidget {

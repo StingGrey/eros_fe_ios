@@ -17,7 +17,7 @@ import 'package:eros_fe/network/app_dio/pdio.dart';
 import 'package:eros_fe/network/request.dart';
 import 'package:eros_fe/pages/gallery/gallery_repository.dart';
 import 'package:eros_fe/pages/gallery/view/const.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 import 'package:synchronized/synchronized.dart';
 

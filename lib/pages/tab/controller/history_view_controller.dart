@@ -4,7 +4,7 @@ import 'package:eros_fe/models/index.dart';
 import 'package:eros_fe/pages/tab/controller/default_tabview_controller.dart';
 import 'package:eros_fe/route/routes.dart';
 import 'package:eros_fe/utils/logger.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 
 class HistoryViewController extends DefaultTabViewController {

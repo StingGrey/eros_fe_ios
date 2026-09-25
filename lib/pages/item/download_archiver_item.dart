@@ -8,8 +8,8 @@ import 'package:eros_fe/network/api.dart';
 import 'package:eros_fe/pages/tab/controller/download_view_controller.dart';
 import 'package:eros_fe/store/archive_async.dart';
 import 'package:eros_fe/utils/saf_helper.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -320,7 +320,7 @@ class TaskActionButton extends GetView<DownloadViewController> {
           child: !Platform.isIOS
               ? CupertinoButton(
                   padding: const EdgeInsets.all(0),
-                  child: const Icon(
+                  child: const FaIcon(
                     FontAwesomeIcons.pause,
                     size: 18,
                   ),
@@ -330,7 +330,7 @@ class TaskActionButton extends GetView<DownloadViewController> {
                 )
               : CupertinoButton(
                   padding: const EdgeInsets.all(0),
-                  child: const Icon(
+                  child: const FaIcon(
                     FontAwesomeIcons.stop,
                     size: 18,
                   ),
@@ -346,7 +346,7 @@ class TaskActionButton extends GetView<DownloadViewController> {
               primaryColor: CupertinoColors.activeGreen),
           child: CupertinoButton(
             padding: const EdgeInsets.all(0),
-            child: const Icon(
+            child: const FaIcon(
               FontAwesomeIcons.check,
               size: 18,
             ),
@@ -360,7 +360,7 @@ class TaskActionButton extends GetView<DownloadViewController> {
               primaryColor: CupertinoColors.activeBlue),
           child: CupertinoButton(
             padding: const EdgeInsets.all(0),
-            child: const Icon(
+            child: const FaIcon(
               FontAwesomeIcons.play,
               size: 18,
             ),
@@ -376,7 +376,7 @@ class TaskActionButton extends GetView<DownloadViewController> {
               const CupertinoThemeData(primaryColor: CupertinoColors.systemRed),
           child: CupertinoButton(
             padding: const EdgeInsets.all(0),
-            child: const Icon(
+            child: const FaIcon(
               FontAwesomeIcons.arrowRotateLeft,
               size: 18,
             ),
@@ -389,7 +389,7 @@ class TaskActionButton extends GetView<DownloadViewController> {
         // 取消状态 显示重试按钮。按下重试任务
         return CupertinoButton(
           padding: const EdgeInsets.all(0),
-          child: const Icon(
+          child: const FaIcon(
             FontAwesomeIcons.arrowRotateLeft,
             size: 18,
           ),

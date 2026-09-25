@@ -5,8 +5,8 @@ import 'package:eros_fe/pages/item/controller/galleryitem_controller.dart';
 import 'package:eros_fe/widget/blur_image.dart';
 import 'package:eros_fe/widget/image/eh_network_image.dart';
 import 'package:eros_fe/widget/rating_bar.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -250,7 +250,7 @@ class GalleryItemSimpleWidget extends StatelessWidget {
               false
           ? Container(
               padding: const EdgeInsets.only(bottom: 2.5, right: 8),
-              child: Icon(
+              child: FaIcon(
                 FontAwesomeIcons.solidHeart,
                 size: 11,
                 color: ThemeColors

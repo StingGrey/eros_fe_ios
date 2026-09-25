@@ -8,7 +8,7 @@ import 'package:eros_fe/models/index.dart';
 import 'package:eros_fe/network/api.dart';
 import 'package:eros_fe/pages/tab/controller/favorite/favorite_tabbar_controller.dart';
 import 'package:eros_fe/utils/logger.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 import 'package:webview_cookie_manager_plus/webview_cookie_manager_plus.dart';
 

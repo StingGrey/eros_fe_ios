@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 class EhDarkCupertinoTheme extends StatelessWidget {
   const EhDarkCupertinoTheme({super.key, required this.child});

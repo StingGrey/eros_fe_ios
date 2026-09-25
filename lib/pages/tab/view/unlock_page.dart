@@ -1,5 +1,5 @@
 import 'package:eros_fe/pages/tab/controller/unlock_page_controller.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 
 class UnLockPage extends StatefulWidget {

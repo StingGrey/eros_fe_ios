@@ -6,7 +6,7 @@ import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/tab/controller/group/custom_sublist_controller.dart';
 import 'package:eros_fe/pages/tab/controller/group/custom_tabbar_controller.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
-import 'package:flutter/cupertino.dart' hide CupertinoTabBar;
+import 'package:cupertino_ui/cupertino_ui.dart' hide CupertinoTabBar;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:keframe/keframe.dart';
@@ -363,14 +363,14 @@ class CustomTabBar extends StatelessWidget {
                               .map((e) => LinkTabItem(title: e.name, actinos: [
                                     LinkTabItemAction(
                                       actinoText: '编辑分组',
-                                      icon: FontAwesomeIcons.penToSquare,
+                                      icon: FontAwesomeIcons.penToSquare.data,
                                       onTap: () {
                                         controller.toEditPage(uuid: e.uuid);
                                       },
                                     ),
                                     LinkTabItemAction(
                                       actinoText: '删除分组',
-                                      icon: FontAwesomeIcons.trashCan,
+                                      icon: FontAwesomeIcons.trashCan.data,
                                       color: CupertinoDynamicColor.resolve(
                                           CupertinoColors.destructiveRed,
                                           context),
@@ -406,7 +406,7 @@ class CustomTabBar extends StatelessWidget {
                               padding: const EdgeInsets.all(0),
                               child: isRefresh
                                   ? const CupertinoActivityIndicator(radius: 10)
-                                  : const Icon(
+                                  : const FaIcon(
                                       FontAwesomeIcons.rotateRight,
                                       size: 20,
                                     ),
@@ -429,7 +429,7 @@ class CustomTabBar extends StatelessWidget {
                         minSize: 40,
                         padding: const EdgeInsets.all(0),
                         onPressed: controller.pressedBar,
-                        child: const Icon(
+                        child: const FaIcon(
                           FontAwesomeIcons.bars,
                           size: 20,
                         ),

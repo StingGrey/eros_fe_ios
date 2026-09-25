@@ -7,7 +7,7 @@ import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/gallery/controller/gallery_page_controller.dart';
 import 'package:eros_fe/pages/gallery/controller/gallery_page_state.dart';
 import 'package:eros_fe/pages/gallery/view/gallery_widget.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -255,7 +255,7 @@ class _InfoWidget extends StatelessWidget {
     this.text,
   }) : super(key: key);
 
-  final IconData? icon;
+  final FaIconData? icon;
   final String? text;
 
   static const paddingRight = 5.0;
@@ -270,7 +270,7 @@ class _InfoWidget extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
+        FaIcon(
           icon,
           color: CupertinoDynamicColor.resolve(
               CupertinoColors.secondaryLabel, context),
@@ -304,7 +304,7 @@ class GalleryInfoView extends StatelessWidget {
     Widget languageWidget() => Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            FaIcon(
               FontAwesomeIcons.language,
               color: CupertinoDynamicColor.resolve(
                   CupertinoColors.secondaryLabel, context),
@@ -320,7 +320,7 @@ class GalleryInfoView extends StatelessWidget {
     Widget imageCountWidget() => Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            FaIcon(
               FontAwesomeIcons.solidImages,
               size: 12,
               color: CupertinoDynamicColor.resolve(
@@ -335,7 +335,7 @@ class GalleryInfoView extends StatelessWidget {
     Widget fileSizeWidget() => Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            FaIcon(
               FontAwesomeIcons.fileArrowDown,
               size: 12,
               color: CupertinoDynamicColor.resolve(
@@ -350,7 +350,7 @@ class GalleryInfoView extends StatelessWidget {
     Widget favCountWidget() => Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            FaIcon(
               FontAwesomeIcons.solidHeart,
               // color: CupertinoColors.systemRed,
               color: CupertinoDynamicColor.resolve(
@@ -364,7 +364,7 @@ class GalleryInfoView extends StatelessWidget {
     Widget rateCountWidget() => Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            FaIcon(
               FontAwesomeIcons.solidStar,
               color: CupertinoDynamicColor.resolve(
                   CupertinoColors.secondaryLabel, context),
@@ -377,7 +377,7 @@ class GalleryInfoView extends StatelessWidget {
     Widget potTimeWidget() => Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            FaIcon(
               FontAwesomeIcons.solidClock,
               size: 12,
               color: CupertinoDynamicColor.resolve(

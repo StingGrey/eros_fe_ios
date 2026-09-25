@@ -5,7 +5,7 @@ import 'package:eros_fe/common/service/theme_service.dart';
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/gallery/controller/comment_controller.dart';
 import 'package:eros_fe/pages/gallery/view/const.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -234,7 +234,7 @@ class _CommentPageState extends State<CommentPage>
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 minSize: 0,
                 onPressed: controller.pressCancel,
-                child: const Icon(
+                child: const FaIcon(
                   FontAwesomeIcons.xmark,
                   // FontAwesomeIcons.solidCheckCircle,
                   size: 24,
@@ -314,12 +314,12 @@ class _CommentPageState extends State<CommentPage>
                             //     scale: animation, child: child),
                             FadeTransition(opacity: animation, child: child),
                         child: controller.isEditStat || controller.isReptyStat
-                            ? Icon(
+                            ? FaIcon(
                                 FontAwesomeIcons.solidCircleCheck,
                                 key: UniqueKey(),
                                 size: 34,
                               )
-                            : Icon(
+                            : FaIcon(
                                 FontAwesomeIcons.circleArrowUp,
                                 key: UniqueKey(),
                                 size: 34,

@@ -1,7 +1,7 @@
 import 'package:eros_fe/common/controller/mysql_controller.dart';
 import 'package:eros_fe/common/service/layout_service.dart';
 import 'package:eros_fe/index.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -67,7 +67,7 @@ class _MysqlLoginState extends State<MysqlLogin> {
               children: [
                 const Padding(
                   padding: EdgeInsets.only(top: 50, bottom: 30),
-                  child: Icon(
+                  child: FaIcon(
                     FontAwesomeIcons.database,
                     size: 120,
                     color: CupertinoColors.activeBlue,

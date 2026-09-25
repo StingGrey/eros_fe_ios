@@ -1,6 +1,6 @@
 library flutter_egg;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 typedef OnTapCallBack = void Function(int tapNum, int neededNum);
 

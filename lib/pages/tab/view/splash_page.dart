@@ -1,6 +1,6 @@
 import 'package:eros_fe/generated/l10n.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +19,7 @@ class SplashPage extends GetView<SplashController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Icon(
+                const FaIcon(
                   FontAwesomeIcons.cat,
                   // FontAwesomeIcons.heading,
                   size: 150.0,

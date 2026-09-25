@@ -18,8 +18,10 @@ class L10n {
   static L10n? _current;
 
   static L10n get current {
-    assert(_current != null,
-        'No instance of L10n was loaded. Try to initialize the L10n delegate before accessing L10n.current.');
+    assert(
+      _current != null,
+      'No instance of L10n was loaded. Try to initialize the L10n delegate before accessing L10n.current.',
+    );
     return _current!;
   }
 
@@ -41,8 +43,10 @@ class L10n {
 
   static L10n of(BuildContext context) {
     final instance = L10n.maybeOf(context);
-    assert(instance != null,
-        'No instance of L10n present in the widget tree. Did you add L10n.delegate in localizationsDelegates?');
+    assert(
+      instance != null,
+      'No instance of L10n present in the widget tree. Did you add L10n.delegate in localizationsDelegates?',
+    );
     return instance!;
   }
 
@@ -52,12 +56,7 @@ class L10n {
 
   /// `Eros-FE`
   String get app_title {
-    return Intl.message(
-      'Eros-FE',
-      name: 'app_title',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Eros-FE', name: 'app_title', desc: '', args: []);
   }
 
   /// `~oh~ oh~ oh~~~`
@@ -72,102 +71,52 @@ class L10n {
 
   /// `Popular`
   String get tab_popular {
-    return Intl.message(
-      'Popular',
-      name: 'tab_popular',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Popular', name: 'tab_popular', desc: '', args: []);
   }
 
   /// `Watched`
   String get tab_watched {
-    return Intl.message(
-      'Watched',
-      name: 'tab_watched',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Watched', name: 'tab_watched', desc: '', args: []);
   }
 
   /// `Gallery`
   String get tab_gallery {
-    return Intl.message(
-      'Gallery',
-      name: 'tab_gallery',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Gallery', name: 'tab_gallery', desc: '', args: []);
   }
 
   /// `Favorites`
   String get tab_favorite {
-    return Intl.message(
-      'Favorites',
-      name: 'tab_favorite',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Favorites', name: 'tab_favorite', desc: '', args: []);
   }
 
   /// `Toplists`
   String get tab_toplist {
-    return Intl.message(
-      'Toplists',
-      name: 'tab_toplist',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Toplists', name: 'tab_toplist', desc: '', args: []);
   }
 
   /// `History`
   String get tab_history {
-    return Intl.message(
-      'History',
-      name: 'tab_history',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('History', name: 'tab_history', desc: '', args: []);
   }
 
   /// `Settings`
   String get tab_setting {
-    return Intl.message(
-      'Settings',
-      name: 'tab_setting',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Settings', name: 'tab_setting', desc: '', args: []);
   }
 
   /// `Download`
   String get tab_download {
-    return Intl.message(
-      'Download',
-      name: 'tab_download',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Download', name: 'tab_download', desc: '', args: []);
   }
 
   /// `Favorites`
   String get favcat {
-    return Intl.message(
-      'Favorites',
-      name: 'favcat',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Favorites', name: 'favcat', desc: '', args: []);
   }
 
   /// `Not Favorited`
   String get notFav {
-    return Intl.message(
-      'Not Favorited',
-      name: 'notFav',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Not Favorited', name: 'notFav', desc: '', args: []);
   }
 
   /// `All Favorites`
@@ -192,22 +141,12 @@ class L10n {
 
   /// `Processing`
   String get processing {
-    return Intl.message(
-      'Processing',
-      name: 'processing',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Processing', name: 'processing', desc: '', args: []);
   }
 
   /// `User Sign`
   String get user_login {
-    return Intl.message(
-      'User Sign',
-      name: 'user_login',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('User Sign', name: 'user_login', desc: '', args: []);
   }
 
   /// `Please enter user name`
@@ -232,42 +171,22 @@ class L10n {
 
   /// `Username`
   String get user_name {
-    return Intl.message(
-      'Username',
-      name: 'user_name',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Username', name: 'user_name', desc: '', args: []);
   }
 
   /// `Password`
   String get passwd {
-    return Intl.message(
-      'Password',
-      name: 'passwd',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Password', name: 'passwd', desc: '', args: []);
   }
 
   /// `Sign`
   String get login {
-    return Intl.message(
-      'Sign',
-      name: 'login',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Sign', name: 'login', desc: '', args: []);
   }
 
   /// `Not Login`
   String get not_login {
-    return Intl.message(
-      'Not Login',
-      name: 'not_login',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Not Login', name: 'not_login', desc: '', args: []);
   }
 
   /// `Sign in on the Web`
@@ -292,12 +211,7 @@ class L10n {
 
   /// `Read`
   String get read {
-    return Intl.message(
-      'Read',
-      name: 'read',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Read', name: 'read', desc: '', args: []);
   }
 
   /// `Gallery Comments`
@@ -312,12 +226,7 @@ class L10n {
 
   /// `All Comment`
   String get all_comment {
-    return Intl.message(
-      'All Comment',
-      name: 'all_comment',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('All Comment', name: 'all_comment', desc: '', args: []);
   }
 
   /// `All Thumbnails`
@@ -352,52 +261,27 @@ class L10n {
 
   /// `Thumbnails`
   String get thumbnails {
-    return Intl.message(
-      'Thumbnails',
-      name: 'thumbnails',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Thumbnails', name: 'thumbnails', desc: '', args: []);
   }
 
   /// `E·H`
   String get eh {
-    return Intl.message(
-      'E·H',
-      name: 'eh',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('E·H', name: 'eh', desc: '', args: []);
   }
 
   /// `Download`
   String get download {
-    return Intl.message(
-      'Download',
-      name: 'download',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Download', name: 'download', desc: '', args: []);
   }
 
   /// `Advanced`
   String get advanced {
-    return Intl.message(
-      'Advanced',
-      name: 'advanced',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Advanced', name: 'advanced', desc: '', args: []);
   }
 
   /// `About`
   String get about {
-    return Intl.message(
-      'About',
-      name: 'about',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('About', name: 'about', desc: '', args: []);
   }
 
   /// `Preload Image`
@@ -412,22 +296,12 @@ class L10n {
 
   /// `Language`
   String get language {
-    return Intl.message(
-      'Language',
-      name: 'language',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Language', name: 'language', desc: '', args: []);
   }
 
   /// `Theme`
   String get theme {
-    return Intl.message(
-      'Theme',
-      name: 'theme',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Theme', name: 'theme', desc: '', args: []);
   }
 
   /// `Follow System`
@@ -442,22 +316,12 @@ class L10n {
 
   /// `Ligth`
   String get light {
-    return Intl.message(
-      'Ligth',
-      name: 'light',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Ligth', name: 'light', desc: '', args: []);
   }
 
   /// `Dark`
   String get dark {
-    return Intl.message(
-      'Dark',
-      name: 'dark',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Dark', name: 'dark', desc: '', args: []);
   }
 
   /// `Custom Hosts`
@@ -472,72 +336,37 @@ class L10n {
 
   /// `Cancel`
   String get cancel {
-    return Intl.message(
-      'Cancel',
-      name: 'cancel',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Cancel', name: 'cancel', desc: '', args: []);
   }
 
   /// `OK`
   String get ok {
-    return Intl.message(
-      'OK',
-      name: 'ok',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('OK', name: 'ok', desc: '', args: []);
   }
 
   /// `Back`
   String get back {
-    return Intl.message(
-      'Back',
-      name: 'back',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Back', name: 'back', desc: '', args: []);
   }
 
   /// `Done`
   String get done {
-    return Intl.message(
-      'Done',
-      name: 'done',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Done', name: 'done', desc: '', args: []);
   }
 
   /// `Delete`
   String get delete {
-    return Intl.message(
-      'Delete',
-      name: 'delete',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Delete', name: 'delete', desc: '', args: []);
   }
 
   /// `On`
   String get on {
-    return Intl.message(
-      'On',
-      name: 'on',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('On', name: 'on', desc: '', args: []);
   }
 
   /// `Off`
   String get off {
-    return Intl.message(
-      'Off',
-      name: 'off',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Off', name: 'off', desc: '', args: []);
   }
 
   /// `Dark mode effect`
@@ -552,22 +381,12 @@ class L10n {
 
   /// `Gray black`
   String get gray_black {
-    return Intl.message(
-      'Gray black',
-      name: 'gray_black',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Gray black', name: 'gray_black', desc: '', args: []);
   }
 
   /// `Pure black`
   String get pure_black {
-    return Intl.message(
-      'Pure black',
-      name: 'pure_black',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Pure black', name: 'pure_black', desc: '', args: []);
   }
 
   /// `Domain fronting`
@@ -582,22 +401,12 @@ class L10n {
 
   /// `Clear cache`
   String get clear_cache {
-    return Intl.message(
-      'Clear cache',
-      name: 'clear_cache',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Clear cache', name: 'clear_cache', desc: '', args: []);
   }
 
   /// `Search`
   String get search {
-    return Intl.message(
-      'Search',
-      name: 'search',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Search', name: 'search', desc: '', args: []);
   }
 
   /// `Advanced Options`
@@ -702,42 +511,22 @@ class L10n {
 
   /// `{rating} ⭐`
   String s_stars(Object rating) {
-    return Intl.message(
-      '$rating ⭐',
-      name: 's_stars',
-      desc: '',
-      args: [rating],
-    );
+    return Intl.message('$rating ⭐', name: 's_stars', desc: '', args: [rating]);
   }
 
   /// `Between`
   String get s_Between {
-    return Intl.message(
-      'Between',
-      name: 's_Between',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Between', name: 's_Between', desc: '', args: []);
   }
 
   /// `and`
   String get s_and {
-    return Intl.message(
-      'and',
-      name: 's_and',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('and', name: 's_and', desc: '', args: []);
   }
 
   /// `pages`
   String get s_pages {
-    return Intl.message(
-      'pages',
-      name: 's_pages',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('pages', name: 's_pages', desc: '', args: []);
   }
 
   /// `Disable default filters`
@@ -782,32 +571,17 @@ class L10n {
 
   /// `Uploader`
   String get uploader {
-    return Intl.message(
-      'Uploader',
-      name: 'uploader',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Uploader', name: 'uploader', desc: '', args: []);
   }
 
   /// `Tags`
   String get tags {
-    return Intl.message(
-      'Tags',
-      name: 'tags',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Tags', name: 'tags', desc: '', args: []);
   }
 
   /// `Clear`
   String get clear_filter {
-    return Intl.message(
-      'Clear',
-      name: 'clear_filter',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Clear', name: 'clear_filter', desc: '', args: []);
   }
 
   /// `Clear All History`
@@ -862,12 +636,7 @@ class L10n {
 
   /// `My Tags`
   String get ehentai_my_tags {
-    return Intl.message(
-      'My Tags',
-      name: 'ehentai_my_tags',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('My Tags', name: 'ehentai_my_tags', desc: '', args: []);
   }
 
   /// `My Tags on Website`
@@ -882,12 +651,7 @@ class L10n {
 
   /// `List Mode`
   String get list_mode {
-    return Intl.message(
-      'List Mode',
-      name: 'list_mode',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('List Mode', name: 'list_mode', desc: '', args: []);
   }
 
   /// `List - Medium`
@@ -932,12 +696,7 @@ class L10n {
 
   /// `Grid`
   String get listmode_grid {
-    return Intl.message(
-      'Grid',
-      name: 'listmode_grid',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Grid', name: 'listmode_grid', desc: '', args: []);
   }
 
   /// `Favorites Order`
@@ -1002,62 +761,32 @@ class L10n {
 
   /// `Unlimited`
   String get unlimited {
-    return Intl.message(
-      'Unlimited',
-      name: 'unlimited',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Unlimited', name: 'unlimited', desc: '', args: []);
   }
 
   /// `Archiver`
   String get p_Archiver {
-    return Intl.message(
-      'Archiver',
-      name: 'p_Archiver',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Archiver', name: 'p_Archiver', desc: '', args: []);
   }
 
   /// `Download`
   String get p_Download {
-    return Intl.message(
-      'Download',
-      name: 'p_Download',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Download', name: 'p_Download', desc: '', args: []);
   }
 
   /// `Similar`
   String get p_Similar {
-    return Intl.message(
-      'Similar',
-      name: 'p_Similar',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Similar', name: 'p_Similar', desc: '', args: []);
   }
 
   /// `Torrent`
   String get p_Torrent {
-    return Intl.message(
-      'Torrent',
-      name: 'p_Torrent',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Torrent', name: 'p_Torrent', desc: '', args: []);
   }
 
   /// `Rate`
   String get p_Rate {
-    return Intl.message(
-      'Rate',
-      name: 'p_Rate',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Rate', name: 'p_Rate', desc: '', args: []);
   }
 
   /// `Read setting`
@@ -1132,12 +861,7 @@ class L10n {
 
   /// `Auto`
   String get orientation_auto {
-    return Intl.message(
-      'Auto',
-      name: 'orientation_auto',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Auto', name: 'orientation_auto', desc: '', args: []);
   }
 
   /// `Show page interval`
@@ -1252,22 +976,12 @@ class L10n {
 
   /// `Show filter`
   String get show_filter {
-    return Intl.message(
-      'Show filter',
-      name: 'show_filter',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Show filter', name: 'show_filter', desc: '', args: []);
   }
 
   /// `Search type`
   String get search_type {
-    return Intl.message(
-      'Search type',
-      name: 'search_type',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Search type', name: 'search_type', desc: '', args: []);
   }
 
   /// `Reload image`
@@ -1282,12 +996,7 @@ class L10n {
 
   /// `Share image`
   String get share_image {
-    return Intl.message(
-      'Share image',
-      name: 'share_image',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Share image', name: 'share_image', desc: '', args: []);
   }
 
   /// `Saved successfully`
@@ -1332,12 +1041,7 @@ class L10n {
 
   /// `Copy`
   String get copy {
-    return Intl.message(
-      'Copy',
-      name: 'copy',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Copy', name: 'copy', desc: '', args: []);
   }
 
   /// `Copied to clipboard`
@@ -1362,22 +1066,12 @@ class L10n {
 
   /// `Share`
   String get share {
-    return Intl.message(
-      'Share',
-      name: 'share',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Share', name: 'share', desc: '', args: []);
   }
 
   /// `Security`
   String get security {
-    return Intl.message(
-      'Security',
-      name: 'security',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Security', name: 'security', desc: '', args: []);
   }
 
   /// `Blurring in recent tasks`
@@ -1392,72 +1086,37 @@ class L10n {
 
   /// `Auto-lock`
   String get autoLock {
-    return Intl.message(
-      'Auto-lock',
-      name: 'autoLock',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Auto-lock', name: 'autoLock', desc: '', args: []);
   }
 
   /// `Disabled`
   String get disabled {
-    return Intl.message(
-      'Disabled',
-      name: 'disabled',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Disabled', name: 'disabled', desc: '', args: []);
   }
 
   /// `Instantly`
   String get instantly {
-    return Intl.message(
-      'Instantly',
-      name: 'instantly',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Instantly', name: 'instantly', desc: '', args: []);
   }
 
   /// `hours`
   String get hours {
-    return Intl.message(
-      'hours',
-      name: 'hours',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('hours', name: 'hours', desc: '', args: []);
   }
 
   /// `min`
   String get min {
-    return Intl.message(
-      'min',
-      name: 'min',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('min', name: 'min', desc: '', args: []);
   }
 
   /// `second`
   String get second {
-    return Intl.message(
-      'second',
-      name: 'second',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('second', name: 'second', desc: '', args: []);
   }
 
   /// `Loading`
   String get loading {
-    return Intl.message(
-      'Loading',
-      name: 'loading',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Loading', name: 'loading', desc: '', args: []);
   }
 
   /// `Search history`
@@ -1482,22 +1141,12 @@ class L10n {
 
   /// `Vote Up`
   String get tag_vote_up {
-    return Intl.message(
-      'Vote Up',
-      name: 'tag_vote_up',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Vote Up', name: 'tag_vote_up', desc: '', args: []);
   }
 
   /// `Vote Down`
   String get tag_vote_down {
-    return Intl.message(
-      'Vote Down',
-      name: 'tag_vote_down',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Vote Down', name: 'tag_vote_down', desc: '', args: []);
   }
 
   /// `Withdraw Vote`
@@ -1512,12 +1161,7 @@ class L10n {
 
   /// `Add tags`
   String get add_tags {
-    return Intl.message(
-      'Add tags',
-      name: 'add_tags',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Add tags', name: 'add_tags', desc: '', args: []);
   }
 
   /// `Enter new tags, separated with comma`
@@ -1572,22 +1216,12 @@ class L10n {
 
   /// `Expand`
   String get expand {
-    return Intl.message(
-      'Expand',
-      name: 'expand',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Expand', name: 'expand', desc: '', args: []);
   }
 
   /// `Collapse`
   String get collapse {
-    return Intl.message(
-      'Collapse',
-      name: 'collapse',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Collapse', name: 'collapse', desc: '', args: []);
   }
 
   /// `Download Location`
@@ -1662,12 +1296,7 @@ class L10n {
 
   /// `Page range`
   String get page_range {
-    return Intl.message(
-      'Page range',
-      name: 'page_range',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Page range', name: 'page_range', desc: '', args: []);
   }
 
   /// `Page range error`
@@ -1682,22 +1311,12 @@ class L10n {
 
   /// `Input error`
   String get input_error {
-    return Intl.message(
-      'Input error',
-      name: 'input_error',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Input error', name: 'input_error', desc: '', args: []);
   }
 
   /// `Input empty`
   String get input_empty {
-    return Intl.message(
-      'Input empty',
-      name: 'input_empty',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Input empty', name: 'input_empty', desc: '', args: []);
   }
 
   /// `Allow media scan`
@@ -1732,42 +1351,22 @@ class L10n {
 
   /// `Downloaded`
   String get downloaded {
-    return Intl.message(
-      'Downloaded',
-      name: 'downloaded',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Downloaded', name: 'downloaded', desc: '', args: []);
   }
 
   /// `Downloading`
   String get downloading {
-    return Intl.message(
-      'Downloading',
-      name: 'downloading',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Downloading', name: 'downloading', desc: '', args: []);
   }
 
   /// `Paused`
   String get paused {
-    return Intl.message(
-      'Paused',
-      name: 'paused',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Paused', name: 'paused', desc: '', args: []);
   }
 
   /// `All-Time`
   String get tolist_alltime {
-    return Intl.message(
-      'All-Time',
-      name: 'tolist_alltime',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('All-Time', name: 'tolist_alltime', desc: '', args: []);
   }
 
   /// `Past Year`
@@ -1842,12 +1441,7 @@ class L10n {
 
   /// `Sync group`
   String get sync_group {
-    return Intl.message(
-      'Sync group',
-      name: 'sync_group',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Sync group', name: 'sync_group', desc: '', args: []);
   }
 
   /// `Sync quick search`
@@ -1862,22 +1456,12 @@ class L10n {
 
   /// `Skip`
   String get skip {
-    return Intl.message(
-      'Skip',
-      name: 'skip',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Skip', name: 'skip', desc: '', args: []);
   }
 
   /// `Export`
   String get export {
-    return Intl.message(
-      'Export',
-      name: 'export',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Export', name: 'export', desc: '', args: []);
   }
 
   /// `Read from clipboard`
@@ -1892,12 +1476,7 @@ class L10n {
 
   /// `Delete Task`
   String get delete_task {
-    return Intl.message(
-      'Delete Task',
-      name: 'delete_task',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Delete Task', name: 'delete_task', desc: '', args: []);
   }
 
   /// `Delete task only`
@@ -1922,32 +1501,17 @@ class L10n {
 
   /// `Profile`
   String get uc_profile {
-    return Intl.message(
-      'Profile',
-      name: 'uc_profile',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Profile', name: 'uc_profile', desc: '', args: []);
   }
 
   /// `Selected`
   String get uc_selected {
-    return Intl.message(
-      'Selected',
-      name: 'uc_selected',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Selected', name: 'uc_selected', desc: '', args: []);
   }
 
   /// `Rename`
   String get uc_rename {
-    return Intl.message(
-      'Rename',
-      name: 'uc_rename',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Rename', name: 'uc_rename', desc: '', args: []);
   }
 
   /// `Create New`
@@ -2032,22 +1596,12 @@ class L10n {
 
   /// `Horizontal`
   String get uc_img_horiz {
-    return Intl.message(
-      'Horizontal',
-      name: 'uc_img_horiz',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Horizontal', name: 'uc_img_horiz', desc: '', args: []);
   }
 
   /// `Vertical`
   String get uc_img_vert {
-    return Intl.message(
-      'Vertical',
-      name: 'uc_img_vert',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Vertical', name: 'uc_img_vert', desc: '', args: []);
   }
 
   /// `While the site will automatically scale down images to fit your screen width, you can also manually restrict the maximum display size of an image. Like the automatic scaling, this does not resample the image, as the resizing is done browser-side. (0 = no limit)`
@@ -2122,12 +1676,7 @@ class L10n {
 
   /// `Favorites`
   String get uc_fav {
-    return Intl.message(
-      'Favorites',
-      name: 'uc_fav',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Favorites', name: 'uc_fav', desc: '', args: []);
   }
 
   /// `Default sort`
@@ -2182,82 +1731,42 @@ class L10n {
 
   /// `reclass`
   String get uc_reclass {
-    return Intl.message(
-      'reclass',
-      name: 'uc_reclass',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('reclass', name: 'uc_reclass', desc: '', args: []);
   }
 
   /// `language`
   String get uc_language {
-    return Intl.message(
-      'language',
-      name: 'uc_language',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('language', name: 'uc_language', desc: '', args: []);
   }
 
   /// `parody`
   String get uc_parody {
-    return Intl.message(
-      'parody',
-      name: 'uc_parody',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('parody', name: 'uc_parody', desc: '', args: []);
   }
 
   /// `character`
   String get uc_character {
-    return Intl.message(
-      'character',
-      name: 'uc_character',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('character', name: 'uc_character', desc: '', args: []);
   }
 
   /// `group`
   String get uc_group {
-    return Intl.message(
-      'group',
-      name: 'uc_group',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('group', name: 'uc_group', desc: '', args: []);
   }
 
   /// `artist`
   String get uc_artist {
-    return Intl.message(
-      'artist',
-      name: 'uc_artist',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('artist', name: 'uc_artist', desc: '', args: []);
   }
 
   /// `male`
   String get uc_male {
-    return Intl.message(
-      'male',
-      name: 'uc_male',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('male', name: 'uc_male', desc: '', args: []);
   }
 
   /// `female`
   String get uc_female {
-    return Intl.message(
-      'female',
-      name: 'uc_female',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('female', name: 'uc_female', desc: '', args: []);
   }
 
   /// `If you want to exclude certain namespaces from a default tag search, you can check those abover. Note that this does not prevent galleries with tags in these namespaces from appearing, it just makes it so that when searching tags, it will forego those namespaces.`
@@ -2392,22 +1901,12 @@ class L10n {
 
   /// `Size`
   String get uc_thumb_size {
-    return Intl.message(
-      'Size',
-      name: 'uc_thumb_size',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Size', name: 'uc_thumb_size', desc: '', args: []);
   }
 
   /// `Row`
   String get uc_thumb_row {
-    return Intl.message(
-      'Row',
-      name: 'uc_thumb_row',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Row', name: 'uc_thumb_row', desc: '', args: []);
   }
 
   /// `Thumbnail Scaling`
@@ -2482,12 +1981,7 @@ class L10n {
 
   /// `Gallery Tags`
   String get uc_tag {
-    return Intl.message(
-      'Gallery Tags',
-      name: 'uc_tag',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Gallery Tags', name: 'uc_tag', desc: '', args: []);
   }
 
   /// `Gallery Tags Sort order`
@@ -2602,22 +2096,12 @@ class L10n {
 
   /// `pixels`
   String get uc_pixels {
-    return Intl.message(
-      'pixels',
-      name: 'uc_pixels',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('pixels', name: 'uc_pixels', desc: '', args: []);
   }
 
   /// `Original`
   String get uc_Original {
-    return Intl.message(
-      'Original',
-      name: 'uc_Original',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Original', name: 'uc_Original', desc: '', args: []);
   }
 
   /// `Translated`
@@ -2632,112 +2116,57 @@ class L10n {
 
   /// `Rewrite`
   String get uc_Rewrite {
-    return Intl.message(
-      'Rewrite',
-      name: 'uc_Rewrite',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Rewrite', name: 'uc_Rewrite', desc: '', args: []);
   }
 
   /// `Japanese`
   String get uc_Japanese {
-    return Intl.message(
-      'Japanese',
-      name: 'uc_Japanese',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Japanese', name: 'uc_Japanese', desc: '', args: []);
   }
 
   /// `English`
   String get uc_English {
-    return Intl.message(
-      'English',
-      name: 'uc_English',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('English', name: 'uc_English', desc: '', args: []);
   }
 
   /// `Chinese`
   String get uc_Chinese {
-    return Intl.message(
-      'Chinese',
-      name: 'uc_Chinese',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Chinese', name: 'uc_Chinese', desc: '', args: []);
   }
 
   /// `Dutch`
   String get uc_Dutch {
-    return Intl.message(
-      'Dutch',
-      name: 'uc_Dutch',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Dutch', name: 'uc_Dutch', desc: '', args: []);
   }
 
   /// `French`
   String get uc_French {
-    return Intl.message(
-      'French',
-      name: 'uc_French',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('French', name: 'uc_French', desc: '', args: []);
   }
 
   /// `German`
   String get uc_German {
-    return Intl.message(
-      'German',
-      name: 'uc_German',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('German', name: 'uc_German', desc: '', args: []);
   }
 
   /// `Hungarian`
   String get uc_Hungarian {
-    return Intl.message(
-      'Hungarian',
-      name: 'uc_Hungarian',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Hungarian', name: 'uc_Hungarian', desc: '', args: []);
   }
 
   /// `Italian`
   String get uc_Italian {
-    return Intl.message(
-      'Italian',
-      name: 'uc_Italian',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Italian', name: 'uc_Italian', desc: '', args: []);
   }
 
   /// `Korean`
   String get uc_Korean {
-    return Intl.message(
-      'Korean',
-      name: 'uc_Korean',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Korean', name: 'uc_Korean', desc: '', args: []);
   }
 
   /// `Polish`
   String get uc_Polish {
-    return Intl.message(
-      'Polish',
-      name: 'uc_Polish',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Polish', name: 'uc_Polish', desc: '', args: []);
   }
 
   /// `Portuguese`
@@ -2752,32 +2181,17 @@ class L10n {
 
   /// `Russian`
   String get uc_Russian {
-    return Intl.message(
-      'Russian',
-      name: 'uc_Russian',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Russian', name: 'uc_Russian', desc: '', args: []);
   }
 
   /// `Spanish`
   String get uc_Spanish {
-    return Intl.message(
-      'Spanish',
-      name: 'uc_Spanish',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Spanish', name: 'uc_Spanish', desc: '', args: []);
   }
 
   /// `Thai`
   String get uc_Thai {
-    return Intl.message(
-      'Thai',
-      name: 'uc_Thai',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Thai', name: 'uc_Thai', desc: '', args: []);
   }
 
   /// `Vietnamese`
@@ -2792,22 +2206,12 @@ class L10n {
 
   /// `N/A`
   String get uc_NA {
-    return Intl.message(
-      'N/A',
-      name: 'uc_NA',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('N/A', name: 'uc_NA', desc: '', args: []);
   }
 
   /// `Other`
   String get uc_Other {
-    return Intl.message(
-      'Other',
-      name: 'uc_Other',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Other', name: 'uc_Other', desc: '', args: []);
   }
 
   /// `Any client (Recommended)`
@@ -2852,12 +2256,7 @@ class L10n {
 
   /// `Any client`
   String get uc_uh_0_s {
-    return Intl.message(
-      'Any client',
-      name: 'uc_uh_0_s',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Any client', name: 'uc_uh_0_s', desc: '', args: []);
   }
 
   /// `Default port clients only`
@@ -2892,22 +2291,12 @@ class L10n {
 
   /// `Auto`
   String get uc_auto {
-    return Intl.message(
-      'Auto',
-      name: 'uc_auto',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Auto', name: 'uc_auto', desc: '', args: []);
   }
 
   /// `Default Title`
   String get uc_tl_0 {
-    return Intl.message(
-      'Default Title',
-      name: 'uc_tl_0',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Default Title', name: 'uc_tl_0', desc: '', args: []);
   }
 
   /// `Japanese Title (if available)`
@@ -2982,52 +2371,27 @@ class L10n {
 
   /// `Compact`
   String get uc_dm_0 {
-    return Intl.message(
-      'Compact',
-      name: 'uc_dm_0',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Compact', name: 'uc_dm_0', desc: '', args: []);
   }
 
   /// `Thumbnail`
   String get uc_dm_1 {
-    return Intl.message(
-      'Thumbnail',
-      name: 'uc_dm_1',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Thumbnail', name: 'uc_dm_1', desc: '', args: []);
   }
 
   /// `Extended`
   String get uc_dm_2 {
-    return Intl.message(
-      'Extended',
-      name: 'uc_dm_2',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Extended', name: 'uc_dm_2', desc: '', args: []);
   }
 
   /// `Minimal`
   String get uc_dm_3 {
-    return Intl.message(
-      'Minimal',
-      name: 'uc_dm_3',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Minimal', name: 'uc_dm_3', desc: '', args: []);
   }
 
   /// `Minimal+`
   String get uc_dm_4 {
-    return Intl.message(
-      'Minimal+',
-      name: 'uc_dm_4',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Minimal+', name: 'uc_dm_4', desc: '', args: []);
   }
 
   /// `By last gallery update time`
@@ -3072,52 +2436,27 @@ class L10n {
 
   /// `On mouse-over`
   String get uc_lt_0_s {
-    return Intl.message(
-      'On mouse-over',
-      name: 'uc_lt_0_s',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('On mouse-over', name: 'uc_lt_0_s', desc: '', args: []);
   }
 
   /// `On page load`
   String get uc_lt_1_s {
-    return Intl.message(
-      'On page load',
-      name: 'uc_lt_1_s',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('On page load', name: 'uc_lt_1_s', desc: '', args: []);
   }
 
   /// `Auto`
   String get uc_ts_0 {
-    return Intl.message(
-      'Auto',
-      name: 'uc_ts_0',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Auto', name: 'uc_ts_0', desc: '', args: []);
   }
 
   /// `Normal`
   String get uc_ts_1 {
-    return Intl.message(
-      'Normal',
-      name: 'uc_ts_1',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Normal', name: 'uc_ts_1', desc: '', args: []);
   }
 
   /// `Small`
   String get uc_ts_2 {
-    return Intl.message(
-      'Small',
-      name: 'uc_ts_2',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Small', name: 'uc_ts_2', desc: '', args: []);
   }
 
   /// `Oldest comments first`
@@ -3162,42 +2501,22 @@ class L10n {
 
   /// `Always`
   String get uc_sc_1 {
-    return Intl.message(
-      'Always',
-      name: 'uc_sc_1',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Always', name: 'uc_sc_1', desc: '', args: []);
   }
 
   /// `Alphabetical`
   String get uc_tb_0 {
-    return Intl.message(
-      'Alphabetical',
-      name: 'uc_tb_0',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Alphabetical', name: 'uc_tb_0', desc: '', args: []);
   }
 
   /// `By tag power`
   String get uc_tb_1 {
-    return Intl.message(
-      'By tag power',
-      name: 'uc_tb_1',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('By tag power', name: 'uc_tb_1', desc: '', args: []);
   }
 
   /// `None`
   String get uc_pn_0 {
-    return Intl.message(
-      'None',
-      name: 'uc_pn_0',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('None', name: 'uc_pn_0', desc: '', args: []);
   }
 
   /// `Page Number Only`
@@ -3242,22 +2561,12 @@ class L10n {
 
   /// `Nope`
   String get uc_qb_0 {
-    return Intl.message(
-      'Nope',
-      name: 'uc_qb_0',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Nope', name: 'uc_qb_0', desc: '', args: []);
   }
 
   /// `Yup`
   String get uc_qb_1 {
-    return Intl.message(
-      'Yup',
-      name: 'uc_qb_1',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Yup', name: 'uc_qb_1', desc: '', args: []);
   }
 
   /// `Align left;\n Only scale if image is larger than browser width`
@@ -3292,22 +2601,12 @@ class L10n {
 
   /// `Show`
   String get uc_mt_0 {
-    return Intl.message(
-      'Show',
-      name: 'uc_mt_0',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Show', name: 'uc_mt_0', desc: '', args: []);
   }
 
   /// `Hide`
   String get uc_mt_1 {
-    return Intl.message(
-      'Hide',
-      name: 'uc_mt_1',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Hide', name: 'uc_mt_1', desc: '', args: []);
   }
 
   /// `Auto select profile`
@@ -3362,12 +2661,7 @@ class L10n {
 
   /// `Redownload`
   String get redownload {
-    return Intl.message(
-      'Redownload',
-      name: 'redownload',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Redownload', name: 'redownload', desc: '', args: []);
   }
 
   /// `Open with other apps`
@@ -3446,62 +2740,32 @@ class L10n {
 
   /// `New comment`
   String get new_comment {
-    return Intl.message(
-      'New comment',
-      name: 'new_comment',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('New comment', name: 'new_comment', desc: '', args: []);
   }
 
   /// `Group`
   String get group {
-    return Intl.message(
-      'Group',
-      name: 'group',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Group', name: 'group', desc: '', args: []);
   }
 
   /// `Edit`
   String get edit {
-    return Intl.message(
-      'Edit',
-      name: 'edit',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Edit', name: 'edit', desc: '', args: []);
   }
 
   /// `New Group`
   String get newGroup {
-    return Intl.message(
-      'New Group',
-      name: 'newGroup',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('New Group', name: 'newGroup', desc: '', args: []);
   }
 
   /// `Group Name`
   String get groupName {
-    return Intl.message(
-      'Group Name',
-      name: 'groupName',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Group Name', name: 'groupName', desc: '', args: []);
   }
 
   /// `Group Type`
   String get groupType {
-    return Intl.message(
-      'Group Type',
-      name: 'groupType',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Group Type', name: 'groupType', desc: '', args: []);
   }
 
   /// `Search texts`
@@ -3516,12 +2780,7 @@ class L10n {
 
   /// `New Text`
   String get newText {
-    return Intl.message(
-      'New Text',
-      name: 'newText',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('New Text', name: 'newText', desc: '', args: []);
   }
 
   /// `Global Setting`
@@ -3566,52 +2825,27 @@ class L10n {
 
   /// `Resample`
   String get resample_image {
-    return Intl.message(
-      'Resample',
-      name: 'resample_image',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Resample', name: 'resample_image', desc: '', args: []);
   }
 
   /// `Original`
   String get original_image {
-    return Intl.message(
-      'Original',
-      name: 'original_image',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Original', name: 'original_image', desc: '', args: []);
   }
 
   /// `No`
   String get no {
-    return Intl.message(
-      'No',
-      name: 'no',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('No', name: 'no', desc: '', args: []);
   }
 
   /// `Ask for Me`
   String get ask_me {
-    return Intl.message(
-      'Ask for Me',
-      name: 'ask_me',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Ask for Me', name: 'ask_me', desc: '', args: []);
   }
 
   /// `Always`
   String get always {
-    return Intl.message(
-      'Always',
-      name: 'always',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Always', name: 'always', desc: '', args: []);
   }
 
   /// `Add to Mytags`
@@ -3626,22 +2860,12 @@ class L10n {
 
   /// `Watch`
   String get tag_dialog_Watch {
-    return Intl.message(
-      'Watch',
-      name: 'tag_dialog_Watch',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Watch', name: 'tag_dialog_Watch', desc: '', args: []);
   }
 
   /// `Hide`
   String get tag_dialog_Hide {
-    return Intl.message(
-      'Hide',
-      name: 'tag_dialog_Hide',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Hide', name: 'tag_dialog_Hide', desc: '', args: []);
   }
 
   /// `Tag Weight`
@@ -3716,12 +2940,7 @@ class L10n {
 
   /// `Aggregate`
   String get aggregate {
-    return Intl.message(
-      'Aggregate',
-      name: 'aggregate',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Aggregate', name: 'aggregate', desc: '', args: []);
   }
 
   /// `Aggregate groups`
@@ -3736,12 +2955,7 @@ class L10n {
 
   /// `Hide`
   String get hide {
-    return Intl.message(
-      'Hide',
-      name: 'hide',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Hide', name: 'hide', desc: '', args: []);
   }
 
   /// `Double page model`
@@ -3766,12 +2980,7 @@ class L10n {
 
   /// `Reply`
   String get reply_to_comment {
-    return Intl.message(
-      'Reply',
-      name: 'reply_to_comment',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Reply', name: 'reply_to_comment', desc: '', args: []);
   }
 
   /// `Show comment avatar`
@@ -3786,12 +2995,7 @@ class L10n {
 
   /// `Avatar`
   String get avatar {
-    return Intl.message(
-      'Avatar',
-      name: 'avatar',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Avatar', name: 'avatar', desc: '', args: []);
   }
 
   /// `Default Avatar Style`
@@ -3826,12 +3030,7 @@ class L10n {
 
   /// `Chapter`
   String get chapter {
-    return Intl.message(
-      'Chapter',
-      name: 'chapter',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Chapter', name: 'chapter', desc: '', args: []);
   }
 
   /// `Image Limits`
@@ -3846,22 +3045,12 @@ class L10n {
 
   /// `Reset Cost`
   String get reset_cost {
-    return Intl.message(
-      'Reset Cost',
-      name: 'reset_cost',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Reset Cost', name: 'reset_cost', desc: '', args: []);
   }
 
   /// `Image Block`
   String get image_block {
-    return Intl.message(
-      'Image Block',
-      name: 'image_block',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Image Block', name: 'image_block', desc: '', args: []);
   }
 
   /// `Block images containing QR codes`
@@ -3906,62 +3095,32 @@ class L10n {
 
   /// `Author`
   String get author {
-    return Intl.message(
-      'Author',
-      name: 'author',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Author', name: 'author', desc: '', args: []);
   }
 
   /// `Version`
   String get version {
-    return Intl.message(
-      'Version',
-      name: 'version',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Version', name: 'version', desc: '', args: []);
   }
 
   /// `Donate`
   String get donate {
-    return Intl.message(
-      'Donate',
-      name: 'donate',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Donate', name: 'donate', desc: '', args: []);
   }
 
   /// `License`
   String get license {
-    return Intl.message(
-      'License',
-      name: 'license',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('License', name: 'license', desc: '', args: []);
   }
 
   /// `Fullscreen`
   String get fullscreen {
-    return Intl.message(
-      'Fullscreen',
-      name: 'fullscreen',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Fullscreen', name: 'fullscreen', desc: '', args: []);
   }
 
   /// `Layout`
   String get layout {
-    return Intl.message(
-      'Layout',
-      name: 'layout',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Layout', name: 'layout', desc: '', args: []);
   }
 
   /// `Blurring of cover background`
@@ -3976,22 +3135,12 @@ class L10n {
 
   /// `Tag Limit`
   String get tag_limit {
-    return Intl.message(
-      'Tag Limit',
-      name: 'tag_limit',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Tag Limit', name: 'tag_limit', desc: '', args: []);
   }
 
   /// `No Limit`
   String get no_limit {
-    return Intl.message(
-      'No Limit',
-      name: 'no_limit',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('No Limit', name: 'no_limit', desc: '', args: []);
   }
 
   /// `Redirect Thumb Link`
@@ -4056,42 +3205,22 @@ class L10n {
 
   /// `Landscape`
   String get landscape {
-    return Intl.message(
-      'Landscape',
-      name: 'landscape',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Landscape', name: 'landscape', desc: '', args: []);
   }
 
   /// `Automatic`
   String get automatic {
-    return Intl.message(
-      'Automatic',
-      name: 'automatic',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Automatic', name: 'automatic', desc: '', args: []);
   }
 
   /// `Never`
   String get never {
-    return Intl.message(
-      'Never',
-      name: 'never',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Never', name: 'never', desc: '', args: []);
   }
 
   /// `Proxy`
   String get proxy {
-    return Intl.message(
-      'Proxy',
-      name: 'proxy',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Proxy', name: 'proxy', desc: '', args: []);
   }
 
   /// `System Proxy`
@@ -4106,52 +3235,27 @@ class L10n {
 
   /// `Proxy Type`
   String get proxy_type {
-    return Intl.message(
-      'Proxy Type',
-      name: 'proxy_type',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Proxy Type', name: 'proxy_type', desc: '', args: []);
   }
 
   /// `Host`
   String get host {
-    return Intl.message(
-      'Host',
-      name: 'host',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Host', name: 'host', desc: '', args: []);
   }
 
   /// `Port`
   String get port {
-    return Intl.message(
-      'Port',
-      name: 'port',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Port', name: 'port', desc: '', args: []);
   }
 
   /// `Direct`
   String get direct {
-    return Intl.message(
-      'Direct',
-      name: 'direct',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Direct', name: 'direct', desc: '', args: []);
   }
 
   /// `Save`
   String get save {
-    return Intl.message(
-      'Save',
-      name: 'save',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Save', name: 'save', desc: '', args: []);
   }
 
   /// `Hide top bar on scroll`
@@ -4196,22 +3300,12 @@ class L10n {
 
   /// `Next`
   String get jump_next {
-    return Intl.message(
-      'Next',
-      name: 'jump_next',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Next', name: 'jump_next', desc: '', args: []);
   }
 
   /// `Prev`
   String get jump_prev {
-    return Intl.message(
-      'Prev',
-      name: 'jump_prev',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Prev', name: 'jump_prev', desc: '', args: []);
   }
 
   /// `Custom Width`
@@ -4316,12 +3410,7 @@ class L10n {
 
   /// `Blockers`
   String get blockers {
-    return Intl.message(
-      'Blockers',
-      name: 'blockers',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Blockers', name: 'blockers', desc: '', args: []);
   }
 
   /// `Filter Comments By Score`
@@ -4406,12 +3495,7 @@ class L10n {
 
   /// `Block Rules`
   String get block_rules {
-    return Intl.message(
-      'Block Rules',
-      name: 'block_rules',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Block Rules', name: 'block_rules', desc: '', args: []);
   }
 
   /// `Edit Block Rule`
@@ -4426,62 +3510,32 @@ class L10n {
 
   /// `Block Rule`
   String get block_rule {
-    return Intl.message(
-      'Block Rule',
-      name: 'block_rule',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Block Rule', name: 'block_rule', desc: '', args: []);
   }
 
   /// `Enable`
   String get enable {
-    return Intl.message(
-      'Enable',
-      name: 'enable',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Enable', name: 'enable', desc: '', args: []);
   }
 
   /// `Regex`
   String get regex {
-    return Intl.message(
-      'Regex',
-      name: 'regex',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Regex', name: 'regex', desc: '', args: []);
   }
 
   /// `Title`
   String get title {
-    return Intl.message(
-      'Title',
-      name: 'title',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Title', name: 'title', desc: '', args: []);
   }
 
   /// `Comment`
   String get comment {
-    return Intl.message(
-      'Comment',
-      name: 'comment',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Comment', name: 'comment', desc: '', args: []);
   }
 
   /// `Commentator`
   String get commentator {
-    return Intl.message(
-      'Commentator',
-      name: 'commentator',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Commentator', name: 'commentator', desc: '', args: []);
   }
 
   /// `Regex format error`

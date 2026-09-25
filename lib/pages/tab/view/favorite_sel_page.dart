@@ -5,7 +5,7 @@ import 'package:eros_fe/network/request.dart';
 import 'package:eros_fe/pages/controller/favorite_sel_controller.dart';
 import 'package:eros_fe/pages/tab/fetch_list.dart';
 import 'package:eros_fe/pages/tab/view/gallery_base.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 
 class FavoriteSelectorPage extends StatelessWidget {

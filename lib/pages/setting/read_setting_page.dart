@@ -8,7 +8,7 @@ import 'package:eros_fe/pages/image_view/common.dart';
 import 'package:eros_fe/pages/image_view/controller/view_controller.dart';
 import 'package:eros_fe/pages/setting/setting_items/selector_Item.dart';
 import 'package:eros_fe/utils/orientation_helper.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sliver_tools/sliver_tools.dart';

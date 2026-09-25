@@ -1,7 +1,7 @@
 import 'package:eros_fe/common/service/layout_service.dart';
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/item/setting_item.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -119,14 +119,14 @@ class SettingViewController extends GetxController
     ];
 
     _icons = <IconData>[
-      FontAwesomeIcons.cookieBite,
-      FontAwesomeIcons.layerGroup,
-      FontAwesomeIcons.bookOpen,
-      FontAwesomeIcons.download,
-      FontAwesomeIcons.magnifyingGlass,
-      FontAwesomeIcons.screwdriverWrench,
-      FontAwesomeIcons.shieldHalved,
-      FontAwesomeIcons.circleInfo,
+      FontAwesomeIcons.cookieBite.data,
+      FontAwesomeIcons.layerGroup.data,
+      FontAwesomeIcons.bookOpen.data,
+      FontAwesomeIcons.download.data,
+      FontAwesomeIcons.magnifyingGlass.data,
+      FontAwesomeIcons.screwdriverWrench.data,
+      FontAwesomeIcons.shieldHalved.data,
+      FontAwesomeIcons.circleInfo.data,
     ];
 
     _routes = <String>[
