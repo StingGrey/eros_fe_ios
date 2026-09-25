@@ -1,3 +1,5 @@
+import 'package:eros_fe/const/design_tokens.dart';
+
 import 'dart:math';
 
 import 'package:blur/blur.dart';
@@ -61,7 +63,9 @@ class GalleryItemFlowLarge extends StatelessWidget {
             colorLight: ThemeColors
                 .colorRatingMap[galleryProvider.colorRating?.trim() ?? 'ir'],
             colorDark: CupertinoDynamicColor.resolve(
-                CupertinoColors.systemGrey3, Get.context!),
+              CupertinoColors.systemGrey3,
+              Get.context!,
+            ),
           ),
         ),
       ],
@@ -89,22 +93,26 @@ class GalleryItemFlowLarge extends StatelessWidget {
         galleryProviderController.galleryProvider;
 
     final Color _colorCategory = CupertinoDynamicColor.resolve(
-        ThemeColors.catColor[galleryProvider.category ?? 'default'] ??
-            CupertinoColors.systemBackground,
-        context);
+      ThemeColors.catColor[galleryProvider.category ?? 'default'] ??
+          CupertinoColors.systemBackground,
+      context,
+    );
 
     final Widget container = Container(
       decoration: BoxDecoration(
-        color: ehTheme.itemBackgroundColor,
+        color: DesignTokens.surface(context),
         borderRadius: BorderRadius.circular(kRadius), //圆角
         boxShadow: ehTheme.isDarkMode
             ? null
             : [
                 BoxShadow(
                   color: CupertinoDynamicColor.resolve(
-                      CupertinoColors.systemGrey3, Get.context!),
-                  blurRadius: 10,
-                )
+                    CupertinoColors.systemGrey3,
+                    Get.context!,
+                  ),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
               ],
       ),
       child: Column(
@@ -141,9 +149,7 @@ class GalleryItemFlowLarge extends StatelessWidget {
                 _buildTitle(),
                 const SizedBox(height: 6),
                 // _buildSimpleTagsView(),
-                TagWaterfallFlowViewBox(
-                  simpleTags: galleryProvider.simpleTags,
-                ),
+                TagWaterfallFlowViewBox(simpleTags: galleryProvider.simpleTags),
               ],
             ),
           ),
@@ -203,22 +209,21 @@ class _CoverWidget extends StatelessWidget {
               badgeSize: const Size(kCategoryWidth, kCategoryHeight),
               textSpan: TextSpan(
                 text: translated ?? '',
-                style:
-                    const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             child: Stack(
               fit: StackFit.expand,
               children: [
-                CoverImg(
-                  imgUrl: imgUrl ?? '',
-                ),
+                CoverImg(imgUrl: imgUrl ?? ''),
                 Positioned(
-                    bottom: 4,
-                    right: 4,
-                    child: _CountWidget(
-                      fileCount: fileCount,
-                    )),
+                  bottom: 4,
+                  right: 4,
+                  child: _CountWidget(fileCount: fileCount),
+                ),
               ],
             ),
           ),

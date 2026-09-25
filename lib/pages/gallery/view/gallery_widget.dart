@@ -1,3 +1,4 @@
+import 'package:eros_fe/const/design_tokens.dart';
 import 'package:collection/collection.dart';
 import 'package:eros_fe/common/controller/block_controller.dart';
 import 'package:eros_fe/common/service/controller_tag_service.dart';
@@ -17,9 +18,11 @@ import 'package:get/get.dart';
 
 /// 封面小图 纯StatelessWidget
 class CoveTinyImage extends StatelessWidget {
-  const CoveTinyImage(
-      {Key? key, required this.imgUrl, required this.statusBarHeight})
-      : super(key: key);
+  const CoveTinyImage({
+    Key? key,
+    required this.imgUrl,
+    required this.statusBarHeight,
+  }) : super(key: key);
 
   final String imgUrl;
   final double statusBarHeight;
@@ -69,56 +72,58 @@ class CoverImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (_) {
-      if (imageUrl != null && imageUrl!.isNotEmpty) {
-        Widget image = Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              //阴影
-              BoxShadow(
-                color: CupertinoDynamicColor.resolve(
-                    CupertinoColors.systemGrey4, context),
-                blurRadius: 10,
-              )
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: Container(
-              height: imgHeight,
-              width: imgWidth,
-              child: EhNetworkImage(
-                placeholder: (_, __) {
-                  return Container(
-                    alignment: Alignment.center,
-                    color: CupertinoDynamicColor.resolve(
-                        CupertinoColors.systemGrey5, context),
-                    child: const CupertinoActivityIndicator(),
-                  );
-                },
-                imageUrl: (imageUrl ?? '').handleUrl,
-                fit: BoxFit.cover,
+    return Builder(
+      builder: (_) {
+        if (imageUrl != null && imageUrl!.isNotEmpty) {
+          Widget image = Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                //阴影
+                BoxShadow(
+                  color: CupertinoDynamicColor.resolve(
+                    CupertinoColors.systemGrey4,
+                    context,
+                  ),
+                  blurRadius: 10,
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: Container(
+                height: imgHeight,
+                width: imgWidth,
+                child: EhNetworkImage(
+                  placeholder: (_, __) {
+                    return Container(
+                      alignment: Alignment.center,
+                      color: CupertinoDynamicColor.resolve(
+                        CupertinoColors.systemGrey5,
+                        context,
+                      ),
+                      child: const CupertinoActivityIndicator(),
+                    );
+                  },
+                  imageUrl: (imageUrl ?? '').handleUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-        );
+          );
 
-        return Container(
-          width: kWidth,
-          margin: const EdgeInsets.only(right: 10),
-          child: Center(
-            child: Hero(
-              tag: heroTag,
-              child: image,
+          return Container(
+            width: kWidth,
+            margin: const EdgeInsets.only(right: 10),
+            child: Center(
+              child: Hero(tag: heroTag, child: image),
             ),
-          ),
-        );
-      } else {
-        return Container(
-          width: kWidth,
-          margin: const EdgeInsets.only(right: 10),
-          child: Container(
-            decoration: BoxDecoration(
+          );
+        } else {
+          return Container(
+            width: kWidth,
+            margin: const EdgeInsets.only(right: 10),
+            child: Container(
+              decoration: BoxDecoration(
                 color: CupertinoColors.systemBackground,
                 borderRadius: BorderRadius.circular(6.0), //圆角
                 // ignore: prefer_const_literals_to_create_immutables
@@ -127,26 +132,25 @@ class CoverImage extends StatelessWidget {
                   const BoxShadow(
                     color: CupertinoColors.systemGrey2,
                     blurRadius: 2.0,
-                  )
-                ]),
-            // child: ClipRRect(
-            //   borderRadius: BorderRadius.circular(6),
-            //   child: Container(
-            //     color: CupertinoColors.systemBackground,
-            //   ),
-            // ),
-          ),
-        );
-      }
-    });
+                  ),
+                ],
+              ),
+              // child: ClipRRect(
+              //   borderRadius: BorderRadius.circular(6),
+              //   child: Container(
+              //     color: CupertinoColors.systemBackground,
+              //   ),
+              // ),
+            ),
+          );
+        }
+      },
+    );
   }
 }
 
 class GalleryTitle extends StatelessWidget {
-  const GalleryTitle({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
+  const GalleryTitle({Key? key, required this.title}) : super(key: key);
 
   // final GalleryPageController _pageController = Get.find(tag: pageCtrlTag);
   // GalleryPageState get _pageState => _pageController.gState;
@@ -174,16 +178,8 @@ class GalleryTitle extends StatelessWidget {
         textAlign: TextAlign.left,
         // 对齐方式
         // overflow: TextOverflow.ellipsis, // 超出部分省略号
-        style: const TextStyle(
-          textBaseline: TextBaseline.alphabetic,
-          // height: 1.2,
-          fontSize: 16,
-          // fontWeight: FontWeight.w500,
-        ),
-        strutStyle: const StrutStyle(
-          height: 1.2,
-          forceStrutHeight: true,
-        ),
+        style: DesignTokens.title,
+        strutStyle: const StrutStyle(height: 1.2, forceStrutHeight: true),
       ),
     );
   }
@@ -191,10 +187,7 @@ class GalleryTitle extends StatelessWidget {
 
 /// 上传用户
 class GalleryUploader extends StatelessWidget {
-  const GalleryUploader({
-    Key? key,
-    required this.uploader,
-  }) : super(key: key);
+  const GalleryUploader({Key? key, required this.uploader}) : super(key: key);
 
   final String uploader;
 
@@ -212,7 +205,9 @@ class GalleryUploader extends StatelessWidget {
           style: TextStyle(
             fontSize: 13,
             color: CupertinoDynamicColor.resolve(
-                CupertinoColors.secondaryLabel, context),
+              CupertinoColors.secondaryLabel,
+              context,
+            ),
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -226,10 +221,7 @@ class GalleryUploader extends StatelessWidget {
 }
 
 class ReadButton extends StatelessWidget {
-  ReadButton({
-    super.key,
-    required this.gid,
-  });
+  ReadButton({super.key, required this.gid});
   final String gid;
 
   final GalleryPageController _pageController = Get.find(tag: pageCtrlTag);
@@ -240,19 +232,23 @@ class ReadButton extends StatelessWidget {
     return Obx(
       () => MouseRegionClick(
         child: CupertinoButton.filled(
-            minSize: 24,
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
-            borderRadius: BorderRadius.circular(20),
-            // color: CupertinoColors.activeBlue,
-            onPressed: _pageState.enableRead
-                ? () => _toViewPage(_pageState.galleryProvider?.gid ?? '0',
-                    _pageState.lastIndex)
-                : null,
-            child: Text(
-                (_pageState.lastIndex > 0)
-                    ? '${L10n.of(context).read.toUpperCase()} ${_pageState.lastIndex + 1}'
-                    : L10n.of(context).read.toUpperCase(),
-                style: const TextStyle(fontSize: 15, height: 1.2))),
+          minSize: 24,
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+          borderRadius: BorderRadius.circular(20),
+          // color: CupertinoColors.activeBlue,
+          onPressed: _pageState.enableRead
+              ? () => _toViewPage(
+                    _pageState.galleryProvider?.gid ?? '0',
+                    _pageState.lastIndex,
+                  )
+              : null,
+          child: Text(
+            (_pageState.lastIndex > 0)
+                ? '${L10n.of(context).read.toUpperCase()} ${_pageState.lastIndex + 1}'
+                : L10n.of(context).read.toUpperCase(),
+            style: const TextStyle(fontSize: 15, height: 1.2),
+          ),
+        ),
       ),
     );
   }
@@ -265,19 +261,17 @@ class ReadButton extends StatelessWidget {
 
 /// 类别
 class GalleryCategory extends StatelessWidget {
-  const GalleryCategory({
-    Key? key,
-    required this.category,
-  }) : super(key: key);
+  const GalleryCategory({Key? key, required this.category}) : super(key: key);
 
   final String? category;
 
   @override
   Widget build(BuildContext context) {
     final Color _colorCategory = CupertinoDynamicColor.resolve(
-        ThemeColors.catColor[category ?? 'default'] ??
-            CupertinoColors.systemGrey4,
-        context);
+      ThemeColors.catColor[category ?? 'default'] ??
+          CupertinoColors.systemGrey4,
+      context,
+    );
     // final Color _colorCategory = CupertinoDynamicColor.resolve(
     //     ThemeColors.catColor[category ?? 'default']!, context);
     return GestureDetector(
@@ -306,12 +300,8 @@ class GalleryCategory extends StatelessWidget {
 }
 
 class GalleryRating extends StatelessWidget {
-  const GalleryRating({
-    Key? key,
-    this.rating,
-    this.ratingFB,
-    this.color,
-  }) : super(key: key);
+  const GalleryRating({Key? key, this.rating, this.ratingFB, this.color})
+      : super(key: key);
 
   final double? rating;
   final double? ratingFB;
@@ -323,8 +313,9 @@ class GalleryRating extends StatelessWidget {
     return Row(
       children: <Widget>[
         Container(
-            padding: const EdgeInsets.only(right: 8),
-            child: Text('${rating ?? 0}')),
+          padding: const EdgeInsets.only(right: 8),
+          child: Text('${rating ?? 0}'),
+        ),
         // 星星
         StaticRatingBar(
           size: 18.0,
@@ -332,7 +323,9 @@ class GalleryRating extends StatelessWidget {
           radiusRatio: 1.5,
           colorLight: color,
           colorDark: CupertinoDynamicColor.resolve(
-              CupertinoColors.systemGrey3, context),
+            CupertinoColors.systemGrey3,
+            context,
+          ),
         ),
       ],
     );
@@ -366,19 +359,23 @@ class TopCommentEx extends StatelessWidget {
             ?.memberId;
         logger.d('_uploaderId $uploaderId');
         if (uploaderId != null) {
-          commentsToShow =
-              commentsToShow.where((element) => element.memberId == uploaderId);
+          commentsToShow = commentsToShow.where(
+            (element) => element.memberId == uploaderId,
+          );
         } else {
-          commentsToShow = commentsToShow
-              .where((element) => element.name == uploader?.trim());
+          commentsToShow = commentsToShow.where(
+            (element) => element.name == uploader?.trim(),
+          );
         }
 
         logger.d('commentsToShow.length ${commentsToShow.length}');
       } else if (_ehSettingService.filterCommentsByScore) {
-        commentsToShow = commentsToShow.where((comment) =>
-            comment.score.isEmpty ||
-            (int.tryParse(comment.score) ?? 0) >
-                _ehSettingService.scoreFilteringThreshold);
+        commentsToShow = commentsToShow.where(
+          (comment) =>
+              comment.score.isEmpty ||
+              (int.tryParse(comment.score) ?? 0) >
+                  _ehSettingService.scoreFilteringThreshold,
+        );
       }
 
       // 根据屏蔽规则过滤评论
@@ -396,10 +393,10 @@ class TopCommentEx extends StatelessWidget {
       commentsToShow = commentsToShow.take(max);
 
       return commentsToShow
-          .map((GalleryComment comment) => CommentItem(
-                galleryComment: comment,
-                simple: true,
-              ))
+          .map(
+            (GalleryComment comment) =>
+                CommentItem(galleryComment: comment, simple: true),
+          )
           .toList();
     }
 
@@ -425,9 +422,10 @@ class TagBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        children: listTagGroup
-            .map((tagGroupData) => TagGroupItem(tagGroupData: tagGroupData))
-            .toList());
+      children: listTagGroup
+          .map((tagGroupData) => TagGroupItem(tagGroupData: tagGroupData))
+          .toList(),
+    );
   }
 }
 
@@ -464,9 +462,7 @@ class MorePreviewButton extends StatelessWidget {
 
 /// 一个标签组 第一个是类型
 class TagGroupItem extends StatelessWidget {
-  const TagGroupItem({
-    required this.tagGroupData,
-  });
+  const TagGroupItem({required this.tagGroupData});
 
   final TagGroup tagGroupData;
 
@@ -478,36 +474,43 @@ class TagGroupItem extends StatelessWidget {
 
     return galleryTags.map((e) {
       final tag = e.setColor();
-      return Obx(() => TagButton(
-            text: ehSettingService.isTagTranslate ? tag.tagTranslat : tag.title,
-            color: ColorsUtil.hexStringToColor(tag.backgrondColor),
-            textColor: () {
-              switch (tag.vote) {
-                case 0:
-                  return ColorsUtil.hexStringToColor(tag.color);
-                case 1:
-                  return CupertinoDynamicColor.resolve(
-                      ThemeColors.tagUpColor, context);
-                case -1:
-                  return CupertinoDynamicColor.resolve(
-                      ThemeColors.tagDownColor, context);
-              }
-            }(),
-            onPressed: () {
-              logger.t('search type[${tag.type}] tag[${tag.title}]');
-              NavigatorUtil.goSearchPageWithParam(
-                  simpleSearch: '${tag.type}:${tag.title.trim()}');
-            },
-            onLongPress: () {
-              showTagInfoDialog(
-                context,
-                tag.title,
-                translate: tag.tagTranslat,
-                type: tag.type,
-                vote: tag.vote ?? 0,
-              );
-            },
-          ));
+      return Obx(
+        () => TagButton(
+          text: ehSettingService.isTagTranslate ? tag.tagTranslat : tag.title,
+          color: ColorsUtil.hexStringToColor(tag.backgrondColor),
+          textColor: () {
+            switch (tag.vote) {
+              case 0:
+                return ColorsUtil.hexStringToColor(tag.color);
+              case 1:
+                return CupertinoDynamicColor.resolve(
+                  ThemeColors.tagUpColor,
+                  context,
+                );
+              case -1:
+                return CupertinoDynamicColor.resolve(
+                  ThemeColors.tagDownColor,
+                  context,
+                );
+            }
+          }(),
+          onPressed: () {
+            logger.t('search type[${tag.type}] tag[${tag.title}]');
+            NavigatorUtil.goSearchPageWithParam(
+              simpleSearch: '${tag.type}:${tag.title.trim()}',
+            );
+          },
+          onLongPress: () {
+            showTagInfoDialog(
+              context,
+              tag.title,
+              translate: tag.tagTranslat,
+              type: tag.type,
+              vote: tag.vote ?? 0,
+            );
+          },
+        ),
+      );
     }).toList();
   }
 
@@ -515,8 +518,10 @@ class TagGroupItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final EhSettingService ehSettingService = Get.find();
 
-    final List<Widget> _tagBtnList =
-        _initTagBtnList(tagGroupData.galleryTags, context);
+    final List<Widget> _tagBtnList = _initTagBtnList(
+      tagGroupData.galleryTags,
+      context,
+    );
     final String? _tagType = tagGroupData.tagType;
 
     logger.t('tagType $_tagType');
@@ -529,18 +534,23 @@ class TagGroupItem extends StatelessWidget {
           // tag 分类
           Container(
             padding: const EdgeInsets.only(right: 8),
-            child: Obx(() => _tagType != null
-                ? TagButton(
-                    color: CupertinoDynamicColor.resolve(
+            child: Obx(
+              () => _tagType != null
+                  ? TagButton(
+                      color: CupertinoDynamicColor.resolve(
                         ThemeColors.tagColorTagType[_tagType.trim()] ??
                             randomList<Color>(
-                                ThemeColors.tagColorTagType.values),
-                        context),
-                    text: ehSettingService.isTagTranslate
-                        ? EHConst.translateTagType[_tagType.trim()] ?? _tagType
-                        : _tagType,
-                  )
-                : const SizedBox.shrink()),
+                              ThemeColors.tagColorTagType.values,
+                            ),
+                        context,
+                      ),
+                      text: ehSettingService.isTagTranslate
+                          ? EHConst.translateTagType[_tagType.trim()] ??
+                              _tagType
+                          : _tagType,
+                    )
+                  : const SizedBox.shrink(),
+            ),
           ),
           Expanded(
             child: Wrap(
@@ -548,7 +558,7 @@ class TagGroupItem extends StatelessWidget {
               runSpacing: 4, //交叉轴上子控件之间的间距
               children: _tagBtnList, //要显示的子控件集合
             ),
-          )
+          ),
         ],
       ),
     );
@@ -649,7 +659,9 @@ class SearchHisTagButton extends StatelessWidget {
                 style: TextStyle(
                   color: textColor ??
                       CupertinoDynamicColor.resolve(
-                          ThemeColors.tagText, context),
+                        ThemeColors.tagText,
+                        context,
+                      ),
                   fontSize: 13,
                   fontWeight: textColor != null ? FontWeight.w500 : null,
                   height: 1.3,
@@ -657,17 +669,16 @@ class SearchHisTagButton extends StatelessWidget {
                 strutStyle: const StrutStyle(height: 1),
               ),
               if (desc != null && desc!.isNotEmpty)
-                Container(
-                  height: 0.1,
-                  color: ThemeColors.tagText,
-                ),
+                Container(height: 0.1, color: ThemeColors.tagText),
               if (desc != null && desc!.isNotEmpty)
                 Text(
                   desc!,
                   style: TextStyle(
                     color: textColor ??
                         CupertinoDynamicColor.resolve(
-                            ThemeColors.tagText, context),
+                          ThemeColors.tagText,
+                          context,
+                        ),
                     fontSize: 12,
                     height: 1.3,
                     // fontWeight: FontWeight.w500,
@@ -682,15 +693,16 @@ class SearchHisTagButton extends StatelessWidget {
 }
 
 class TextBtn extends StatelessWidget {
-  const TextBtn(this.iconData,
-      {Key? key,
-      this.iconSize,
-      this.title,
-      this.onTap,
-      this.onLongPress,
-      this.color,
-      this.iconPadding})
-      : super(key: key);
+  const TextBtn(
+    this.iconData, {
+    Key? key,
+    this.iconSize,
+    this.title,
+    this.onTap,
+    this.onLongPress,
+    this.color,
+    this.iconPadding,
+  }) : super(key: key);
   final FaIconData iconData;
   final double? iconSize;
   final String? title;
@@ -703,8 +715,9 @@ class TextBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoTheme(
-      data:
-          CupertinoThemeData(primaryColor: color ?? CupertinoColors.systemGrey),
+      data: CupertinoThemeData(
+        primaryColor: color ?? CupertinoColors.systemGrey,
+      ),
       child: GestureDetector(
         // behavior: HitTestBehavior.opaque,
         onLongPress: onLongPress,
@@ -726,10 +739,7 @@ class TextBtn extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              title ?? '',
-              style: const TextStyle(fontSize: 12, height: 1),
-            ),
+            Text(title ?? '', style: const TextStyle(fontSize: 12, height: 1)),
           ],
         ),
       ),
@@ -739,11 +749,8 @@ class TextBtn extends StatelessWidget {
 
 // 导航栏封面小图
 class NavigationBarImage extends StatelessWidget {
-  const NavigationBarImage({
-    Key? key,
-    this.imageUrl,
-    this.scrollController,
-  }) : super(key: key);
+  const NavigationBarImage({Key? key, this.imageUrl, this.scrollController})
+      : super(key: key);
 
   final String? imageUrl;
   final ScrollController? scrollController;
@@ -763,8 +770,11 @@ class NavigationBarImage extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        scrollController?.animateTo(0,
-            duration: const Duration(milliseconds: 500), curve: Curves.ease);
+        scrollController?.animateTo(
+          0,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.ease,
+        );
       },
       child: cover,
     );

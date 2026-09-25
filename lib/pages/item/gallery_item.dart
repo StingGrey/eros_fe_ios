@@ -1,3 +1,4 @@
+import 'package:eros_fe/const/design_tokens.dart';
 import 'package:eros_fe/common/service/ehsetting_service.dart';
 import 'package:eros_fe/common/service/layout_service.dart';
 import 'package:eros_fe/common/service/theme_service.dart';
@@ -12,10 +13,10 @@ import 'package:get/get.dart';
 
 import 'item_base.dart';
 
-const double kPaddingHorizontal = 12.0;
+const double kPaddingHorizontal = DesignTokens.spaceM;
 const double kPaddingVertical = 18.0;
 
-const double kCardRadius = 12.0;
+const double kCardRadius = DesignTokens.radiusM;
 
 const double kFixedHeight = 204.0;
 
@@ -23,9 +24,11 @@ final EhSettingService _ehSettingService = Get.find();
 
 /// 画廊列表项
 class GalleryItemWidget extends StatelessWidget {
-  const GalleryItemWidget(
-      {Key? key, required this.tabTag, required this.galleryProvider})
-      : super(key: key);
+  const GalleryItemWidget({
+    Key? key,
+    required this.tabTag,
+    required this.galleryProvider,
+  }) : super(key: key);
 
   final GalleryProvider galleryProvider;
   final dynamic tabTag;
@@ -50,17 +53,20 @@ class GalleryItemWidget extends StatelessWidget {
               Positioned(
                 left: 4,
                 top: 4,
-                child: Text('${galleryProvider.pageOfList ?? ''}',
-                    style: const TextStyle(
-                        fontSize: 20,
-                        color: CupertinoColors.secondarySystemBackground,
-                        shadows: <Shadow>[
-                          Shadow(
-                            color: Colors.black,
-                            offset: Offset(2, 2),
-                            blurRadius: 4,
-                          )
-                        ])),
+                child: Text(
+                  '${galleryProvider.pageOfList ?? ''}',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: CupertinoColors.secondarySystemBackground,
+                    shadows: <Shadow>[
+                      Shadow(
+                        color: Colors.black,
+                        offset: Offset(2, 2),
+                        blurRadius: 4,
+                      ),
+                    ],
+                  ),
+                ),
               ),
           ],
         ),
@@ -69,143 +75,133 @@ class GalleryItemWidget extends StatelessWidget {
   }
 
   Widget _buildCardItem() {
-    return Obx(
-      () {
-        return Container(
-          height:
-              _ehSettingService.fixedHeightOfListItems ? kFixedHeight : null,
-          decoration: BoxDecoration(
-            boxShadow: ehTheme.isDarkMode
-                ? null
-                : [
-                    BoxShadow(
-                      color: CupertinoDynamicColor.resolve(
-                              CupertinoColors.darkBackgroundGray, Get.context!)
-                          .withOpacity(0.11),
-                      blurRadius: 8,
-                      spreadRadius: 2,
-                      offset: const Offset(0.5, 4),
-                    )
-                  ],
-            color: itemController.colorTap.value,
-            borderRadius: BorderRadius.circular(kCardRadius),
-          ),
-          padding: const EdgeInsets.only(right: kPaddingHorizontal),
-          margin: const EdgeInsets.fromLTRB(10, 8, 10, 4),
-          child: IntrinsicHeight(
-            child: Row(
-              children: <Widget>[
-                // 封面图片
-                Column(
-                  children: [
-                    Expanded(
-                      child: _CoverImage(
-                        galleryProviderController: itemController,
-                        tabTag: tabTag,
-                        cardType: true,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  width: 6,
-                ),
-                // 右侧信息
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        // 标题 provider
-                        _Title(
-                          galleryItemController: itemController,
-                        ),
-                        const SizedBox(height: 6),
-                        // 上传者 或 收藏备注
-                        Text(
-                          (galleryProvider.uploader?.isNotEmpty ?? false)
-                              ? galleryProvider.uploader ?? ''
-                              : (galleryProvider.favNote?.isNotEmpty ?? false)
-                                  ? 'Note: ${galleryProvider.favNote ?? ''}'
-                                  : '',
-                          style: const TextStyle(
-                              fontSize: 12, color: CupertinoColors.systemGrey),
-                        ),
-                        const Spacer(),
-                        const SizedBox(height: 6),
-                        // 标签
-                        if (_ehSettingService.fixedHeightOfListItems)
-                          TagWaterfallFlowViewBox(
-                            simpleTags: galleryProvider.simpleTags,
-                            crossAxisCount: itemController.tagLine,
-                          )
-                        else
-                          TagBox(
-                            simpleTags: galleryProvider.simpleTags ?? [],
-                          ),
-                        const SizedBox(height: 6),
-                        const Spacer(),
-                        // 评分行
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            // 评分
-                            Expanded(
-                              child: Obx(() {
-                                return _Rating(
-                                  rating: itemController.rating,
-                                  ratingFallBack: itemController.ratingFallBack,
-                                  colorRating: itemController.colorRating,
-                                );
-                              }),
-                            ),
-                            // 收藏图标
-                            Obx(() {
-                              logger.t(
-                                  '${itemController.galleryProvider.gid} favCat ${itemController.favCat}');
-                              return _FavcatIcon(
-                                favCat: itemController.favCat,
-                              );
-                            }),
-                            // 图片数量
-                            _Filecont(
-                              translated: galleryProvider.translated,
-                              filecount: galleryProvider.filecount,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 6,
-                        ),
-                        // 类型和时间
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            // 类型
-                            _Category(
-                              category: galleryProvider.category,
-                            ),
-
-                            // 上传时间
-                            Expanded(
-                                child: PostTime(
-                              postTime: galleryProvider.postTime,
-                              expunged: galleryProvider.expunged,
-                            )),
-                          ],
-                        ),
-                      ],
+    return Obx(() {
+      return Container(
+        height: _ehSettingService.fixedHeightOfListItems ? kFixedHeight : null,
+        decoration: BoxDecoration(
+          boxShadow: ehTheme.isDarkMode
+              ? null
+              : [
+                  BoxShadow(
+                    color: CupertinoDynamicColor.resolve(
+                      CupertinoColors.darkBackgroundGray,
+                      Get.context!,
+                    ).withOpacity(0.11),
+                    blurRadius: 8,
+                    spreadRadius: 2,
+                    offset: const Offset(0.5, 4),
+                  ),
+                ],
+          color: itemController.colorTap.value,
+          borderRadius: BorderRadius.circular(kCardRadius),
+        ),
+        padding: const EdgeInsets.only(right: kPaddingHorizontal),
+        margin: const EdgeInsets.fromLTRB(10, 8, 10, 4),
+        child: IntrinsicHeight(
+          child: Row(
+            children: <Widget>[
+              // 封面图片
+              Column(
+                children: [
+                  Expanded(
+                    child: _CoverImage(
+                      galleryProviderController: itemController,
+                      tabTag: tabTag,
+                      cardType: true,
                     ),
                   ),
+                ],
+              ),
+              const SizedBox(width: 6),
+              // 右侧信息
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      // 标题 provider
+                      _Title(galleryItemController: itemController),
+                      const SizedBox(height: 6),
+                      // 上传者 或 收藏备注
+                      Text(
+                        (galleryProvider.uploader?.isNotEmpty ?? false)
+                            ? galleryProvider.uploader ?? ''
+                            : (galleryProvider.favNote?.isNotEmpty ?? false)
+                                ? 'Note: ${galleryProvider.favNote ?? ''}'
+                                : '',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: CupertinoColors.systemGrey,
+                        ),
+                      ),
+                      const Spacer(),
+                      const SizedBox(height: 6),
+                      // 标签
+                      if (_ehSettingService.fixedHeightOfListItems)
+                        TagWaterfallFlowViewBox(
+                          simpleTags: galleryProvider.simpleTags,
+                          crossAxisCount: itemController.tagLine,
+                        )
+                      else
+                        TagBox(simpleTags: galleryProvider.simpleTags ?? []),
+                      const SizedBox(height: 6),
+                      const Spacer(),
+                      // 评分行
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          // 评分
+                          Expanded(
+                            child: Obx(() {
+                              return _Rating(
+                                rating: itemController.rating,
+                                ratingFallBack: itemController.ratingFallBack,
+                                colorRating: itemController.colorRating,
+                              );
+                            }),
+                          ),
+                          // 收藏图标
+                          Obx(() {
+                            logger.t(
+                              '${itemController.galleryProvider.gid} favCat ${itemController.favCat}',
+                            );
+                            return _FavcatIcon(favCat: itemController.favCat);
+                          }),
+                          // 图片数量
+                          _Filecont(
+                            translated: galleryProvider.translated,
+                            filecount: galleryProvider.filecount,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      // 类型和时间
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          // 类型
+                          _Category(category: galleryProvider.category),
+
+                          // 上传时间
+                          Expanded(
+                            child: PostTime(
+                              postTime: galleryProvider.postTime,
+                              expunged: galleryProvider.expunged,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        );
-      },
-    );
+        ),
+      );
+    });
   }
 }
 
@@ -250,9 +246,11 @@ class _CoverImage extends StatelessWidget {
       }
     }
 
-    logger.t('iRatio:$imageRatio\n'
-        'w:${_item.imgWidth} h:${_item.imgHeight}\n'
-        'cW:$coverImageWidth  cH:$coverImageHeight');
+    logger.t(
+      'iRatio:$imageRatio\n'
+      'w:${_item.imgWidth} h:${_item.imgHeight}\n'
+      'cW:$coverImageWidth  cH:$coverImageHeight',
+    );
 
     final containRatio = coverImageWidth / (coverImageHeight ?? 0);
 
@@ -304,7 +302,9 @@ class _CoverImage extends StatelessWidget {
       } else {
         return Container(
           color: CupertinoDynamicColor.resolve(
-              CupertinoColors.systemGrey5, context),
+            CupertinoColors.systemGrey5,
+            context,
+          ),
         );
       }
     }
@@ -312,21 +312,22 @@ class _CoverImage extends StatelessWidget {
     if (!cardType) {
       image = HeroMode(
         enabled: !isLayoutLarge,
-        child: Hero(
-          tag: '${_item.gid}_cover_$tabTag',
-          child: image,
-        ),
+        child: Hero(tag: '${_item.gid}_cover_$tabTag', child: image),
       );
 
       image = Container(
-        decoration: BoxDecoration(boxShadow: [
-          //阴影
-          BoxShadow(
-            color: CupertinoDynamicColor.resolve(
-                CupertinoColors.systemGrey4, Get.context!),
-            blurRadius: 10,
-          )
-        ]),
+        decoration: BoxDecoration(
+          boxShadow: [
+            //阴影
+            BoxShadow(
+              color: CupertinoDynamicColor.resolve(
+                CupertinoColors.systemGrey4,
+                Get.context!,
+              ),
+              blurRadius: 10,
+            ),
+          ],
+        ),
         child: ClipRRect(
           // 圆角
           borderRadius: BorderRadius.circular(6),
@@ -386,17 +387,19 @@ class _Title extends StatelessWidget {
   Widget build(BuildContext context) {
     final maxLine = 5 - galleryItemController.tagLine;
 
-    return Obx(() => Text(
-          galleryItemController.title,
-          maxLines: _ehSettingService.fixedHeightOfListItems ? maxLine : 4,
-          textAlign: TextAlign.left, // 对齐方式
-          overflow: TextOverflow.ellipsis, // 超出部分省略号
-          style: const TextStyle(
-            fontSize: 14.5,
-            // fontWeight: FontWeight.normal,
-            // color: CupertinoColors.label,
-          ),
-        ));
+    return Obx(
+      () => Text(
+        galleryItemController.title,
+        maxLines: _ehSettingService.fixedHeightOfListItems ? maxLine : 4,
+        textAlign: TextAlign.left, // 对齐方式
+        overflow: TextOverflow.ellipsis, // 超出部分省略号
+        style: const TextStyle(
+          fontSize: 14.5,
+          // fontWeight: FontWeight.normal,
+          // color: CupertinoColors.label,
+        ),
+      ),
+    );
   }
 }
 
@@ -415,20 +418,20 @@ class _Filecont extends StatelessWidget {
           child: Text(
             translated ?? '',
             style: const TextStyle(
-                fontSize: 12, color: CupertinoColors.systemGrey),
+              fontSize: 12,
+              color: CupertinoColors.systemGrey,
+            ),
           ),
         ),
-        const Icon(
-          Icons.panorama,
-          size: 13,
-          color: CupertinoColors.systemGrey,
-        ),
+        const Icon(Icons.panorama, size: 13, color: CupertinoColors.systemGrey),
         Container(
           padding: const EdgeInsets.only(left: 2),
           child: Text(
             filecount ?? '',
             style: const TextStyle(
-                fontSize: 12, color: CupertinoColors.systemGrey),
+              fontSize: 12,
+              color: CupertinoColors.systemGrey,
+            ),
           ),
         ),
       ],
@@ -458,12 +461,8 @@ class _FavcatIcon extends StatelessWidget {
 }
 
 class _Rating extends StatelessWidget {
-  const _Rating({
-    Key? key,
-    this.ratingFallBack,
-    this.rating,
-    this.colorRating,
-  }) : super(key: key);
+  const _Rating({Key? key, this.ratingFallBack, this.rating, this.colorRating})
+      : super(key: key);
   final double? ratingFallBack;
   final double? rating;
   final String? colorRating;
@@ -481,7 +480,9 @@ class _Rating extends StatelessWidget {
             radiusRatio: 1.5,
             colorLight: ThemeColors.colorRatingMap[colorRating?.trim() ?? 'ir'],
             colorDark: CupertinoDynamicColor.resolve(
-                CupertinoColors.systemGrey3, Get.context!),
+              CupertinoColors.systemGrey3,
+              Get.context!,
+            ),
           ),
         ),
         // Text(
@@ -504,9 +505,10 @@ class _Category extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color _colorCategory = CupertinoDynamicColor.resolve(
-        ThemeColors.catColor[category ?? 'default'] ??
-            CupertinoColors.systemBackground,
-        Get.context!);
+      ThemeColors.catColor[category ?? 'default'] ??
+          CupertinoColors.systemBackground,
+      Get.context!,
+    );
 
     return Container(
       decoration: BoxDecoration(
@@ -527,12 +529,8 @@ class _Category extends StatelessWidget {
 }
 
 class TagItem extends StatelessWidget {
-  const TagItem({
-    Key? key,
-    this.text,
-    this.color,
-    this.backgroundColor,
-  }) : super(key: key);
+  const TagItem({Key? key, this.text, this.color, this.backgroundColor})
+      : super(key: key);
 
   final String? text;
   final Color? color;
@@ -576,8 +574,10 @@ class TagBox extends StatelessWidget {
     final EhSettingService _ehSettingService = Get.find();
 
     return Obx(() {
-      List<SimpleTag>? _simpleTags =
-          getLimitSimpleTags(simpleTags, _ehSettingService.listViewTagLimit);
+      List<SimpleTag>? _simpleTags = getLimitSimpleTags(
+        simpleTags,
+        _ehSettingService.listViewTagLimit,
+      );
 
       if (_simpleTags == null || _simpleTags.isEmpty) {
         return const SizedBox.shrink();
@@ -588,17 +588,20 @@ class TagBox extends StatelessWidget {
         child: Wrap(
           spacing: 4, //主轴上子控件的间距
           runSpacing: 4, //交叉轴上子控件之间的间距
-          children: List<Widget>.from(_simpleTags.map((SimpleTag _simpleTag) {
-            final String? _text = _ehSettingService.isTagTranslate
-                ? _simpleTag.translat
-                : _simpleTag.text;
-            return TagItem(
-              text: _text,
-              color: ColorsUtil.getTagColor(_simpleTag.color),
-              backgroundColor:
-                  ColorsUtil.getTagColor(_simpleTag.backgrondColor),
-            );
-          }).toList()), //要显示的子控件集合
+          children: List<Widget>.from(
+            _simpleTags.map((SimpleTag _simpleTag) {
+              final String? _text = _ehSettingService.isTagTranslate
+                  ? _simpleTag.translat
+                  : _simpleTag.text;
+              return TagItem(
+                text: _text,
+                color: ColorsUtil.getTagColor(_simpleTag.color),
+                backgroundColor: ColorsUtil.getTagColor(
+                  _simpleTag.backgrondColor,
+                ),
+              );
+            }).toList(),
+          ), //要显示的子控件集合
         ),
       );
     });

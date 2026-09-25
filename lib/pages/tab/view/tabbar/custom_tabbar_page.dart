@@ -1,4 +1,4 @@
-import 'package:blur/blur.dart';
+import 'package:eros_fe/widget/glass/glass_container.dart';
 import 'package:english_words/english_words.dart';
 import 'package:eros_fe/common/service/ehsetting_service.dart';
 import 'package:eros_fe/common/service/theme_service.dart';
@@ -39,12 +39,12 @@ class _CustomTabbarListState extends State<CustomTabbarList> {
     return Obx(() {
       final hideTopBarOnScroll = _ehSettingService.hideTopBarOnScroll;
 
-      final Widget scrollView =
-          buildNestedScrollView(context, hideTopBarOnScroll);
-
-      return CupertinoPageScaffold(
-        child: SizeCacheWidget(child: scrollView),
+      final Widget scrollView = buildNestedScrollView(
+        context,
+        hideTopBarOnScroll,
       );
+
+      return CupertinoPageScaffold(child: SizeCacheWidget(child: scrollView));
 
       // return CupertinoPageScaffold(child: scrollView);
     });
@@ -59,16 +59,14 @@ class _CustomTabbarListState extends State<CustomTabbarList> {
         return [
           SliverOverlapAbsorber(
             handle: ExtendedNestedScrollView.sliverOverlapAbsorberHandleFor(
-                context),
+              context,
+            ),
             sliver: SliverPersistentHeader(
               floating: true,
               pinned: true,
               delegate: FooSliverPersistentHeaderDelegate(
-                builder: (context, offset, _) => _buildSliverTopBar(
-                  context,
-                  offset,
-                  headerMaxHeight,
-                ),
+                builder: (context, offset, _) =>
+                    _buildSliverTopBar(context, offset, headerMaxHeight),
                 minHeight: hideTopBarOnScroll
                     ? context.mediaQueryPadding.top + kTopTabbarHeight
                     : headerMaxHeight,
@@ -83,45 +81,46 @@ class _CustomTabbarListState extends State<CustomTabbarList> {
   }
 
   Builder buildSubPages() {
-    return Builder(builder: (context) {
-      return GestureDetector(
-        onPanDown: (e) {
-          // 恢复启用 scrollToItem
-          controller.linkScrollBarController.enableScrollToItem();
-        },
-        child: Obx(() {
-          final hideTopBarOnScroll = _ehSettingService.hideTopBarOnScroll;
-          return PageView(
-            // CustomScrollPhysics对于改善滑动问题没有帮助
-            // physics: const CustomScrollPhysics(),
-            key: ValueKey(
-                controller.profiles.map((e) => '${e.uuid}${e.name}').join()),
-            controller: controller.pageController,
-            children: controller.profiles.isNotEmpty
-                ? [
-                    ...controller.profilesShow
-                        .map((e) => SubListView<CustomSubListController>(
-                              profileUuid: e.uuid,
-                              key: ValueKey(e.uuid),
-                              pinned: !hideTopBarOnScroll,
-                            )),
-                  ]
-                : [
-                    const Center(
-                      child: Text(
-                        '[ ]',
-                        style: TextStyle(fontSize: 40),
+    return Builder(
+      builder: (context) {
+        return GestureDetector(
+          onPanDown: (e) {
+            // 恢复启用 scrollToItem
+            controller.linkScrollBarController.enableScrollToItem();
+          },
+          child: Obx(() {
+            final hideTopBarOnScroll = _ehSettingService.hideTopBarOnScroll;
+            return PageView(
+              // CustomScrollPhysics对于改善滑动问题没有帮助
+              // physics: const CustomScrollPhysics(),
+              key: ValueKey(
+                controller.profiles.map((e) => '${e.uuid}${e.name}').join(),
+              ),
+              controller: controller.pageController,
+              children: controller.profiles.isNotEmpty
+                  ? [
+                      ...controller.profilesShow.map(
+                        (e) => SubListView<CustomSubListController>(
+                          profileUuid: e.uuid,
+                          key: ValueKey(e.uuid),
+                          pinned: !hideTopBarOnScroll,
+                        ),
                       ),
-                    )
-                  ],
-            onPageChanged: (index) {
-              controller.linkScrollBarController.scrollToItem(index);
-              controller.onPageChanged(index);
-            },
-          );
-        }),
-      );
-    });
+                    ]
+                  : [
+                      const Center(
+                        child: Text('[ ]', style: TextStyle(fontSize: 40)),
+                      ),
+                    ],
+              onPageChanged: (index) {
+                controller.linkScrollBarController.scrollToItem(index);
+                controller.onPageChanged(index);
+              },
+            );
+          }),
+        );
+      },
+    );
   }
 
   Widget _buildSliverTopBar(
@@ -160,8 +159,10 @@ class _CustomTabbarListState extends State<CustomTabbarList> {
           // TabBar固定在底部
           Align(
             alignment: Alignment.bottomCenter,
-            child:
-                CustomTabBar(controller: controller, opacity: customBarOpacity),
+            child: CustomTabBar(
+              controller: controller,
+              opacity: customBarOpacity,
+            ),
           ),
         ],
       ),
@@ -195,9 +196,8 @@ class _CustomTabbarListState extends State<CustomTabbarList> {
               Text(L10n.of(context).tab_gallery),
               Obx(() {
                 if (controller.isBackgroundRefresh) {
-                  return const CupertinoActivityIndicator(
-                    radius: 10,
-                  ).paddingSymmetric(horizontal: 8);
+                  return const CupertinoActivityIndicator(radius: 10)
+                      .paddingSymmetric(horizontal: 8);
                 } else {
                   return const SizedBox();
                 }
@@ -219,10 +219,7 @@ class _CustomTabbarListState extends State<CustomTabbarList> {
             CupertinoButton(
               minSize: 40,
               padding: const EdgeInsets.all(0),
-              child: const Icon(
-                CupertinoIcons.search,
-                size: 28,
-              ),
+              child: const Icon(CupertinoIcons.search, size: 28),
               onPressed: () {
                 NavigatorUtil.goSearchPage();
               },
@@ -234,10 +231,7 @@ class _CustomTabbarListState extends State<CustomTabbarList> {
                 return CupertinoButton(
                   minSize: 40,
                   padding: const EdgeInsets.all(0),
-                  child: const Icon(
-                    CupertinoIcons.arrow_up_circle,
-                    size: 28,
-                  ),
+                  child: const Icon(CupertinoIcons.arrow_up_circle, size: 28),
                   onPressed: () {
                     controller.jumpToTop();
                   },
@@ -265,10 +259,7 @@ class _CustomTabbarListState extends State<CustomTabbarList> {
 }
 
 class JumpButton extends StatelessWidget {
-  const JumpButton({
-    super.key,
-    required this.controller,
-  });
+  const JumpButton({super.key, required this.controller});
 
   final CustomTabbarController controller;
 
@@ -284,23 +275,30 @@ class JumpButton extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             color: CupertinoDynamicColor.resolve(
-                CupertinoColors.activeBlue, context),
+              CupertinoColors.activeBlue,
+              context,
+            ),
             width: 1.8,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Obx(() => Text(
-              // '${max(1, controller.curPage + 1)}',
-              '1',
-              textAlign: TextAlign.center,
-              textScaler: const TextScaler.linear(0.9),
-              // textScaler: const TextScaler.linear(0.9),
-              style: TextStyle(
-                  height: 1.3,
-                  fontWeight: FontWeight.bold,
-                  color: CupertinoDynamicColor.resolve(
-                      CupertinoColors.activeBlue, context)),
-            )),
+        child: Obx(
+          () => Text(
+            // '${max(1, controller.curPage + 1)}',
+            '1',
+            textAlign: TextAlign.center,
+            textScaler: const TextScaler.linear(0.9),
+            // textScaler: const TextScaler.linear(0.9),
+            style: TextStyle(
+              height: 1.3,
+              fontWeight: FontWeight.bold,
+              color: CupertinoDynamicColor.resolve(
+                CupertinoColors.activeBlue,
+                context,
+              ),
+            ),
+          ),
+        ),
       ),
       onPressed: () {
         controller.showJumpDialog(context);
@@ -310,18 +308,13 @@ class JumpButton extends StatelessWidget {
 }
 
 class CustomTabBar extends StatelessWidget {
-  const CustomTabBar({
-    super.key,
-    required this.controller,
-    this.opacity = 0.0,
-  });
+  const CustomTabBar({super.key, required this.controller, this.opacity = 0.0});
 
   final CustomTabbarController controller;
   final double opacity;
 
   @override
   Widget build(BuildContext context) {
-    final barBackgroundColor = CupertinoTheme.of(context).barBackgroundColor;
     return Stack(
       // fit: StackFit.expand,
       alignment: Alignment.topCenter,
@@ -329,19 +322,17 @@ class CustomTabBar extends StatelessWidget {
         Obx(() {
           // 不要删除这行
           ehTheme.isDarkMode;
-          return Blur(
-            blur: 10,
-            blurColor: barBackgroundColor,
-            colorOpacity: kEnableImpeller ? 1.0 : opacity,
-            child: Container(
+          return GlassContainer(
+            dark: ehTheme.isDarkMode,
+            radius: 0,
+            child: const SizedBox(
               height: kTopTabbarHeight,
+              width: double.infinity,
             ),
           );
         }),
         Container(
-          decoration: const BoxDecoration(
-            border: kDefaultNavBarBorder,
-          ),
+          decoration: const BoxDecoration(border: kDefaultNavBarBorder),
           padding: EdgeInsets.only(
             left: context.mediaQueryPadding.left,
             right: context.mediaQueryPadding.right,
@@ -353,14 +344,19 @@ class CustomTabBar extends StatelessWidget {
                 Expanded(
                   child: Obx(() {
                     return LinkScrollBar(
-                      key: ValueKey(controller.profiles
-                          .map((e) => '${e.uuid}${e.name}')
-                          .join()),
+                      key: ValueKey(
+                        controller.profiles
+                            .map((e) => '${e.uuid}${e.name}')
+                            .join(),
+                      ),
                       controller: controller.linkScrollBarController,
                       pageController: controller.pageController,
                       items: controller.profiles.isNotEmpty
                           ? controller.profiles
-                              .map((e) => LinkTabItem(title: e.name, actinos: [
+                              .map(
+                                (e) => LinkTabItem(
+                                  title: e.name,
+                                  actinos: [
                                     LinkTabItemAction(
                                       actinoText: '编辑分组',
                                       icon: FontAwesomeIcons.penToSquare.data,
@@ -372,22 +368,29 @@ class CustomTabBar extends StatelessWidget {
                                       actinoText: '删除分组',
                                       icon: FontAwesomeIcons.trashCan.data,
                                       color: CupertinoDynamicColor.resolve(
-                                          CupertinoColors.destructiveRed,
-                                          context),
+                                        CupertinoColors.destructiveRed,
+                                        context,
+                                      ),
                                       onTap: () {
                                         controller
                                             .showDeleteGroupModalBottomSheet(
-                                                e.uuid, context);
+                                          e.uuid,
+                                          context,
+                                        );
                                       },
                                     ),
-                                  ]))
+                                  ],
+                                ),
+                              )
                               .toList()
                           : [LinkTabItem(title: '+++')],
                       initIndex: controller.index,
-                      onItemChange: (index) => controller.pageController
-                          .animateToPage(index,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.ease),
+                      onItemChange: (index) =>
+                          controller.pageController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.ease,
+                      ),
                     );
                   }),
                 ),
@@ -398,41 +401,44 @@ class CustomTabBar extends StatelessWidget {
                     children: [
                       // 刷新按钮
                       if (GetPlatform.isDesktop)
-                        Builder(builder: (context) {
-                          bool isRefresh = false;
-                          return StatefulBuilder(builder: (context, setState) {
-                            return CupertinoButton(
-                              minSize: 40,
-                              padding: const EdgeInsets.all(0),
-                              child: isRefresh
-                                  ? const CupertinoActivityIndicator(radius: 10)
-                                  : const FaIcon(
-                                      FontAwesomeIcons.rotateRight,
-                                      size: 20,
-                                    ),
-                              onPressed: () async {
-                                setState(() {
-                                  isRefresh = true;
-                                });
-                                try {
-                                  await controller.reloadData();
-                                } finally {
-                                  setState(() {
-                                    isRefresh = false;
-                                  });
-                                }
+                        Builder(
+                          builder: (context) {
+                            bool isRefresh = false;
+                            return StatefulBuilder(
+                              builder: (context, setState) {
+                                return CupertinoButton(
+                                  minSize: 40,
+                                  padding: const EdgeInsets.all(0),
+                                  child: isRefresh
+                                      ? const CupertinoActivityIndicator(
+                                          radius: 10,
+                                        )
+                                      : const FaIcon(
+                                          FontAwesomeIcons.rotateRight,
+                                          size: 20,
+                                        ),
+                                  onPressed: () async {
+                                    setState(() {
+                                      isRefresh = true;
+                                    });
+                                    try {
+                                      await controller.reloadData();
+                                    } finally {
+                                      setState(() {
+                                        isRefresh = false;
+                                      });
+                                    }
+                                  },
+                                );
                               },
                             );
-                          });
-                        }),
+                          },
+                        ),
                       CupertinoButton(
                         minSize: 40,
                         padding: const EdgeInsets.all(0),
                         onPressed: controller.pressedBar,
-                        child: const FaIcon(
-                          FontAwesomeIcons.bars,
-                          size: 20,
-                        ),
+                        child: const FaIcon(FontAwesomeIcons.bars, size: 20),
                       ),
                     ],
                   ),
@@ -471,21 +477,24 @@ class _EnglishWordListState extends State<EnglishWordList>
       physics: const AlwaysScrollableScrollPhysics(),
       slivers: [
         SliverPadding(
-            padding: EdgeInsets.only(
-                top: context.mediaQueryPadding.top + kTopTabbarHeight),
-            sliver: EhCupertinoSliverRefreshControl(
-              onRefresh: () async {
-                await 1.seconds.delay();
-                wordList.clear();
-                wordList.addAll(generateWordPairs().take(100).toList());
-                setState(() {});
-              },
-            )),
+          padding: EdgeInsets.only(
+            top: context.mediaQueryPadding.top + kTopTabbarHeight,
+          ),
+          sliver: EhCupertinoSliverRefreshControl(
+            onRefresh: () async {
+              await 1.seconds.delay();
+              wordList.clear();
+              wordList.addAll(generateWordPairs().take(100).toList());
+              setState(() {});
+            },
+          ),
+        ),
         SliverFixedExtentList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              return Text(wordList[index].asString);
-            }, childCount: wordList.length),
-            itemExtent: 50.0),
+          delegate: SliverChildBuilderDelegate((context, index) {
+            return Text(wordList[index].asString);
+          }, childCount: wordList.length),
+          itemExtent: 50.0,
+        ),
       ],
     );
   }

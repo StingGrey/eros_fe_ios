@@ -29,3 +29,11 @@ Application pages import material_ui/cupertino_ui. GetX 4.7.3 still uses framewo
 - Dart analyzer: zero errors (existing warnings/lints remain). Use `dart analyze --format=machine`; Flutter's LSP analyzer command currently fails on this checkout's non-ASCII path.
 - `flutter test test/ui_theme_bridge_test.dart`: passed.
 - `flutter build ios --no-codesign --no-pub`: passed on Xcode 27.0; fehviewer.app 70.1 MB.
+
+## Phase B: native glass surfaces
+
+`NativeGlassPlugin` uses compile-time UIKit glass APIs with one platform view per toolbar group. UIKit buttons share a `UIGlassContainerEffect`; iOS 15.6–25 uses system material blur, and Reduce Transparency uses an opaque system surface. Library tabs, filter bars, gallery actions and reader controls use the shared tokens. List cards remain Flutter content.
+
+All root/nested navigators install a glass observer. Non-opaque routes hide native views immediately and restore them only after their transition completes. SmartDialog loading overlays hold a separate, idempotent cover lease. Widget tests cover modal dismissal, overlapping covers, tab selection through CupertinoTabScaffold cloning, and the legacy GetX theme bridge.
+
+Phase B checks: Dart analyzer reported zero errors; all three widget tests passed; the unsigned device build passed (70.2 MB). Modal compositing and the pre-iOS-26 fallback still require runtime checks on a device. Google ML Kit dependencies currently exclude arm64 simulators, so simulator availability alone does not validate this app.

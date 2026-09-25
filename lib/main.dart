@@ -1,3 +1,5 @@
+import 'package:eros_fe/widget/glass/glass_route_observer.dart';
+
 import 'dart:async';
 
 import 'package:bitsdojo_window/bitsdojo_window.dart';
@@ -89,6 +91,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  final _glassObserver = GlassRouteObserver();
   final LocaleService localeService = Get.find();
   final ThemeService themeService = Get.find();
   final EhSettingService _ehSettingService = Get.find();
@@ -152,9 +155,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void didChangePlatformBrightness() {
-    themeService.platformBrightness.value = View.of(context)
-        .platformDispatcher
-        .platformBrightness;
+    themeService.platformBrightness.value =
+        View.of(context).platformDispatcher.platformBrightness;
   }
 
   @override
@@ -166,6 +168,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           onGenerateTitle: (BuildContext context) => L10n.of(context).app_title,
           navigatorObservers: [
             FlutterSmartDialog.observer,
+            _glassObserver,
             MainNavigatorObserver(),
           ],
           // builder: kReleaseMode

@@ -1,3 +1,5 @@
+import 'package:eros_fe/widget/glass/glass_tab_bar.dart';
+import 'package:eros_fe/widget/glass/glass_route_observer.dart';
 import 'package:eros_fe/const/const.dart';
 import 'package:eros_fe/pages/tab/controller/tabhome_controller.dart';
 import 'package:cupertino_ui/cupertino_ui.dart';
@@ -9,28 +11,35 @@ class TabHomeSmall extends GetView<TabHomeController> {
   Widget build(BuildContext context) {
     controller.init(inContext: context);
 
-    return Obx(() => CupertinoTabScaffold(
-          controller: controller.tabController,
-          tabBar: CupertinoTabBar(
-            backgroundColor: kEnableImpeller
-                ? CupertinoTheme.of(context).barBackgroundColor.withOpacity(1)
-                : null,
-            items: controller.listBottomNavigationBarItem,
-            onTap: controller.onTap,
+    return Obx(
+      () => CupertinoTabScaffold(
+        controller: controller.tabController,
+        tabBar: GlassTabBar(
+          routes: List.generate(
+            controller.listBottomNavigationBarItem.length,
+            controller.routeAtIndex,
           ),
-          tabBuilder: (BuildContext context, int index) {
-            // return controller.viewList[index];
-            return CupertinoTabView(
-              builder: (BuildContext context) {
-                // logger.d('build CupertinoTabView');
-                final route = controller.routeAtIndex(index);
-                return PageStorage(
-                  bucket: controller.pageStorageBucketFor(route),
-                  child: controller.viewList[index],
-                );
-              },
-            );
-          },
-        ));
+          backgroundColor: kEnableImpeller
+              ? CupertinoTheme.of(context).barBackgroundColor.withOpacity(1)
+              : null,
+          items: controller.listBottomNavigationBarItem,
+          onTap: controller.onTap,
+        ),
+        tabBuilder: (BuildContext context, int index) {
+          // return controller.viewList[index];
+          return CupertinoTabView(
+            navigatorObservers: [GlassRouteObserver()],
+            builder: (BuildContext context) {
+              // logger.d('build CupertinoTabView');
+              final route = controller.routeAtIndex(index);
+              return PageStorage(
+                bucket: controller.pageStorageBucketFor(route),
+                child: controller.viewList[index],
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 }

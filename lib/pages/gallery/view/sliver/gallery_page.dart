@@ -1,3 +1,5 @@
+import 'package:eros_fe/widget/glass/glass_container.dart';
+import 'package:eros_fe/const/design_tokens.dart';
 import 'package:eros_fe/common/service/controller_tag_service.dart';
 import 'package:eros_fe/common/service/ehsetting_service.dart';
 import 'package:eros_fe/common/service/layout_service.dart';
@@ -51,8 +53,9 @@ class _GalleryPageState extends State<GalleryPage> {
     super.didChangeDependencies();
 
     _controller.scrollController = PrimaryScrollController.of(context);
-    _controller.scrollController
-        ?.addListener(_controller.scrollControllerLister);
+    _controller.scrollController?.addListener(
+      _controller.scrollControllerLister,
+    );
   }
 
   @override
@@ -93,10 +96,7 @@ class _GalleryPageState extends State<GalleryPage> {
 }
 
 class GalleryNavigationBar extends StatelessWidget {
-  const GalleryNavigationBar({
-    super.key,
-    required this.controller,
-  });
+  const GalleryNavigationBar({super.key, required this.controller});
   final GalleryPageController controller;
 
   GalleryPageState get pageState => controller.gState;
@@ -120,7 +120,9 @@ class GalleryNavigationBar extends StatelessWidget {
                 fontSize: 11,
                 height: 1.2,
                 color: CupertinoDynamicColor.resolve(
-                    CupertinoColors.secondaryLabel, context),
+                  CupertinoColors.secondaryLabel,
+                  context,
+                ),
                 fontWeight: FontWeight.normal,
                 fontStyle: FontStyle.italic,
               ),
@@ -128,91 +130,53 @@ class GalleryNavigationBar extends StatelessWidget {
           },
         ),
       ),
-      middle: Obx(
-        () {
-          Widget coverOpacity = AnimatedOpacity(
-            opacity: pageState.hideNavigationBtn ? 0.0 : 1.0,
-            duration: 300.milliseconds,
-            curve: Curves.ease,
-            child: GetBuilder<GalleryPageController>(
-              id: GetIds.PAGE_VIEW_HEADER,
-              tag: pageCtrlTag,
-              builder: (logic) {
-                return NavigationBarImage(
-                  imageUrl: logic.gState.galleryProvider?.imgUrl ?? '',
-                  scrollController: logic.scrollController,
-                );
-              },
-            ),
-          );
+      middle: Obx(() {
+        Widget coverOpacity = AnimatedOpacity(
+          opacity: pageState.hideNavigationBtn ? 0.0 : 1.0,
+          duration: 300.milliseconds,
+          curve: Curves.ease,
+          child: GetBuilder<GalleryPageController>(
+            id: GetIds.PAGE_VIEW_HEADER,
+            tag: pageCtrlTag,
+            builder: (logic) {
+              return NavigationBarImage(
+                imageUrl: logic.gState.galleryProvider?.imgUrl ?? '',
+                scrollController: logic.scrollController,
+              );
+            },
+          ),
+        );
 
-          return coverOpacity;
-        },
-      ),
+        return coverOpacity;
+      }),
       trailing: Obx(() {
-        bool isRefresh = false;
-        Widget buttons = Row(
+        Widget buttons = SizedBox(
           key: const ValueKey('buttons'),
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Refresh button
-            if (GetPlatform.isDesktop)
-              StatefulBuilder(builder: (context, setState) {
-                return CupertinoButton(
-                  padding: const EdgeInsets.all(0),
-                  minSize: 40,
-                  child: isRefresh
-                      ? const CupertinoActivityIndicator(
-                          radius: 12,
-                        )
-                      : const MouseRegionClick(
-                          child: Icon(
-                            CupertinoIcons.arrow_clockwise,
-                            size: 24,
-                          ),
-                        ),
-                  onPressed: () async {
-                    setState(() {
-                      isRefresh = true;
-                    });
-                    try {
-                      await controller.handOnRefresh();
-                    } finally {
-                      setState(() {
-                        isRefresh = false;
-                      });
-                    }
-                  },
-                );
-              }),
-
-            CupertinoButton(
-              padding: const EdgeInsets.all(0),
-              minSize: 38,
-              child: const MouseRegionClick(
-                child: Icon(CupertinoIcons.tag_circle, size: 28),
+          width: 100,
+          height: DesignTokens.controlSize,
+          child: GlassContainer(
+            items: [
+              GlassItem(
+                id: 'tag',
+                label: L10n.of(context).tags,
+                symbol: 'tag',
+                onPressed: controller.addTag,
               ),
-              onPressed: () {
-                controller.addTag();
-              },
-            ),
-            CupertinoButton(
-              padding: const EdgeInsets.only(bottom: 4),
-              minSize: 38,
-              child: const MouseRegionClick(
-                child: Icon(CupertinoIcons.share, size: 26),
+              GlassItem(
+                id: 'share',
+                label: L10n.of(context).share_image,
+                symbol: 'square.and.arrow.up',
+                enabled: provider != null,
+                onPressed: () {
+                  if (provider != null) {
+                    Share.share(
+                      '${Api.getBaseUrl()}/g/${provider.gid}/${provider.token}',
+                    );
+                  }
+                },
               ),
-              onPressed: () {
-                if (provider == null) {
-                  return;
-                }
-                final String _url =
-                    '${Api.getBaseUrl()}/g/${provider.gid}/${provider.token}';
-                logger.d('share $_url');
-                Share.share(_url);
-              },
-            ),
-          ],
+            ],
+          ),
         );
 
         Widget gt = GalleryTrailing(
@@ -247,25 +211,27 @@ class GalleryHeadTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final GalleryProvider? provider = pageState.galleryProvider;
     final dynamic tabTag = pageState.galleryRepository?.tabTag;
-    return MultiSliver(children: [
-      if (pageState.fromUrl)
-        GallerySliverSafeArea(
-          child: GalleryObxSliver(
-            (state) => GalleryHeaderSliver(
-              initGalleryProvider: state,
+    return MultiSliver(
+      children: [
+        if (pageState.fromUrl)
+          GallerySliverSafeArea(
+            child: GalleryObxSliver(
+              (state) => GalleryHeaderSliver(
+                initGalleryProvider: state,
+                tabTag: tabTag,
+              ),
+              pageController: controller,
+            ),
+          )
+        else if (provider != null)
+          GallerySliverSafeArea(
+            child: GalleryHeaderSliver(
+              initGalleryProvider: provider,
               tabTag: tabTag,
             ),
-            pageController: controller,
           ),
-        )
-      else if (provider != null)
-        GallerySliverSafeArea(
-          child: GalleryHeaderSliver(
-            initGalleryProvider: provider,
-            tabTag: tabTag,
-          ),
-        ),
-    ]);
+      ],
+    );
   }
 }
 
@@ -283,21 +249,23 @@ class GalleryBody extends StatelessWidget {
     return GalleryObxSliver(
       (GalleryProvider state) {
         return GallerySliverSafeArea(
-          child: MultiSliver(children: [
-            GalleryActions(controller: controller, provider: state),
-            if (_ehSettingService.showGalleryTags) TagTile(provider: state),
-            ChapterTile(controller: controller, provider: state),
-            if (_ehSettingService.showComments)
-              CommentTile(controller: controller, provider: state),
-            if (!_ehSettingService.hideGalleryThumbnails)
-              ThumbTile(
-                controller: controller,
-                provider: state,
-                horizontal: _ehSettingService.horizontalThumbnails,
-              )
-            else
-              const MorePreviewButton(hasMorePreview: true),
-          ]),
+          child: MultiSliver(
+            children: [
+              GalleryActions(controller: controller, provider: state),
+              if (_ehSettingService.showGalleryTags) TagTile(provider: state),
+              ChapterTile(controller: controller, provider: state),
+              if (_ehSettingService.showComments)
+                CommentTile(controller: controller, provider: state),
+              if (!_ehSettingService.hideGalleryThumbnails)
+                ThumbTile(
+                  controller: controller,
+                  provider: state,
+                  horizontal: _ehSettingService.horizontalThumbnails,
+                )
+              else
+                const MorePreviewButton(hasMorePreview: true),
+            ],
+          ),
         );
       },
       showLoading: true,
@@ -313,25 +281,25 @@ class TagTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiSliver(children: [
-      MiniTitle(title: L10n.of(context).tags),
-      SliverPadding(
-        padding: const EdgeInsets.only(
-          left: kPadding,
-          right: kPadding,
-          bottom: 20,
-        ),
-        sliver: SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
+    return MultiSliver(
+      children: [
+        MiniTitle(title: L10n.of(context).tags),
+        SliverPadding(
+          padding: const EdgeInsets.only(
+            left: kPadding,
+            right: kPadding,
+            bottom: 20,
+          ),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate((context, index) {
               return TagGroupItem(
-                  tagGroupData: (provider.tagGroup ?? [])[index]);
-            },
-            childCount: (provider.tagGroup ?? []).length,
+                tagGroupData: (provider.tagGroup ?? [])[index],
+              );
+            }, childCount: (provider.tagGroup ?? []).length),
           ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }
 
@@ -347,19 +315,22 @@ class ChapterTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiSliver(children: [
-      if (provider.chapter?.isNotEmpty ?? false)
-        MiniTitle(title: L10n.of(context).chapter),
-      Container(
-        padding: EdgeInsets.only(
-            bottom: (provider.chapter?.isNotEmpty ?? false) ? 20 : 0),
-        child: ChapterGridView(
-          controller: controller,
-          chapter: provider.chapter,
-          maxLine: 3,
+    return MultiSliver(
+      children: [
+        if (provider.chapter?.isNotEmpty ?? false)
+          MiniTitle(title: L10n.of(context).chapter),
+        Container(
+          padding: EdgeInsets.only(
+            bottom: (provider.chapter?.isNotEmpty ?? false) ? 20 : 0,
+          ),
+          child: ChapterGridView(
+            controller: controller,
+            chapter: provider.chapter,
+            maxLine: 3,
+          ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }
 
@@ -374,41 +345,46 @@ class CommentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiSliver(children: [
-      GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () =>
-            Get.toNamed(EHRoutes.galleryComment, id: isLayoutLarge ? 2 : null),
-        child: Row(
-          children: [
-            MiniTitle(title: L10n.of(context).gallery_comments),
-            const Spacer(),
-          ],
-        ),
-      ),
-      Container(
-        padding: const EdgeInsets.only(
-          left: kPadding,
-          right: kPadding,
-          bottom: 20,
-        ),
-        child: GestureDetector(
-          behavior: HitTestBehavior.deferToChild,
+    return MultiSliver(
+      children: [
+        GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: () => Get.toNamed(
             EHRoutes.galleryComment,
             id: isLayoutLarge ? 2 : null,
           ),
-          child: Obx(() {
-            return TopCommentEx(
-              key: ValueKey(
-                  controller.gState.comments.map((e) => e.id).join('')),
-              comments: controller.gState.comments,
-              uploader: controller.gState.galleryProvider?.uploader,
-            );
-          }),
+          child: Row(
+            children: [
+              MiniTitle(title: L10n.of(context).gallery_comments),
+              const Spacer(),
+            ],
+          ),
         ),
-      ),
-    ]);
+        Container(
+          padding: const EdgeInsets.only(
+            left: kPadding,
+            right: kPadding,
+            bottom: 20,
+          ),
+          child: GestureDetector(
+            behavior: HitTestBehavior.deferToChild,
+            onTap: () => Get.toNamed(
+              EHRoutes.galleryComment,
+              id: isLayoutLarge ? 2 : null,
+            ),
+            child: Obx(() {
+              return TopCommentEx(
+                key: ValueKey(
+                  controller.gState.comments.map((e) => e.id).join(''),
+                ),
+                comments: controller.gState.comments,
+                uploader: controller.gState.galleryProvider?.uploader,
+              );
+            }),
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -453,24 +429,26 @@ class ThumbTile extends StatelessWidget {
         ],
       );
     } else {
-      return MultiSliver(children: [
-        SliverPadding(
-          padding: const EdgeInsets.only(
-            left: kPadding,
-            right: kPadding,
-            bottom: 20,
+      return MultiSliver(
+        children: [
+          SliverPadding(
+            padding: const EdgeInsets.only(
+              left: kPadding,
+              right: kPadding,
+              bottom: 20,
+            ),
+            sliver: ThumbSliverGrid(
+              images: pageState.firstPageImage,
+              gid: provider.gid ?? '',
+              referer: controller.gState.url,
+            ),
           ),
-          sliver: ThumbSliverGrid(
-            images: pageState.firstPageImage,
-            gid: provider.gid ?? '',
-            referer: controller.gState.url,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: MorePreviewButton(hasMorePreview: pageState.hasMoreImage),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 20),
-          child: MorePreviewButton(hasMorePreview: pageState.hasMoreImage),
-        ),
-      ]);
+        ],
+      );
     }
   }
 }

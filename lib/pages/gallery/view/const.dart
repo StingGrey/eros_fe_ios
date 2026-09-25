@@ -1,8 +1,10 @@
+import 'package:eros_fe/const/design_tokens.dart';
+
 const double kHeightPreview = 180.0;
-const double kPadding = 12.0;
+const double kPadding = DesignTokens.spaceL;
 
 const double kHeaderHeight = 200.0;
-const double kHeaderPaddingTop = 12.0;
+const double kHeaderPaddingTop = DesignTokens.spaceM;
 
 const double kMaxCrossAxisExtent = 135.0;
 const double kMainAxisSpacing = 0; //主轴方向的间距

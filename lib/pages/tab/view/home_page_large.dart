@@ -1,3 +1,6 @@
+import 'package:eros_fe/const/design_tokens.dart';
+import 'package:eros_fe/widget/glass/glass_route_observer.dart';
+
 import 'dart:math';
 
 import 'package:eros_fe/common/service/layout_service.dart';
@@ -16,10 +19,7 @@ import 'home_page_small.dart';
 const kMinWidth = 320.0;
 
 class TabHomeLarge extends GetView<TabHomeController> {
-  const TabHomeLarge({
-    Key? key,
-    this.sideProportion = 0.0,
-  }) : super(key: key);
+  const TabHomeLarge({Key? key, this.sideProportion = 0.0}) : super(key: key);
   final double sideProportion;
 
   double getSideWidth(BuildContext context) {
@@ -45,35 +45,40 @@ class TabHomeLarge extends GetView<TabHomeController> {
       children: [
         AnimatedContainer(
           width: getSideWidth(context),
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.ease,
+          duration: MediaQuery.disableAnimationsOf(context)
+              ? Duration.zero
+              : DesignTokens.normal,
+          curve: DesignTokens.curve,
           child: ClipRect(
             child: Navigator(
-                key: Get.nestedKey(1),
-                observers: [
-                  FirstNavigatorObserver(),
-                  if (mainNavigatorObserver.navigator == null)
-                    mainNavigatorObserver
-                ],
-                onGenerateRoute: (settings) {
-                  final GetPage? _route = AppPages.routes
-                      .firstWhereOrNull((GetPage e) => e.name == settings.name);
-                  if (_route != null &&
-                      _route.name != EHRoutes.root &&
-                      _route.name != EHRoutes.home) {
-                    return GetPageRoute(
-                      settings: settings,
-                      showCupertinoParallax: false,
-                      page: _route.page,
-                    );
-                  } else {
-                    return GetPageRoute(
-                      settings: settings,
-                      page: () => const TabHomeSmall(),
-                      showCupertinoParallax: false,
-                    );
-                  }
-                }),
+              key: Get.nestedKey(1),
+              observers: [
+                FirstNavigatorObserver(),
+                GlassRouteObserver(),
+                if (mainNavigatorObserver.navigator == null)
+                  mainNavigatorObserver,
+              ],
+              onGenerateRoute: (settings) {
+                final GetPage? _route = AppPages.routes.firstWhereOrNull(
+                  (GetPage e) => e.name == settings.name,
+                );
+                if (_route != null &&
+                    _route.name != EHRoutes.root &&
+                    _route.name != EHRoutes.home) {
+                  return GetPageRoute(
+                    settings: settings,
+                    showCupertinoParallax: false,
+                    page: _route.page,
+                  );
+                } else {
+                  return GetPageRoute(
+                    settings: settings,
+                    page: () => const TabHomeSmall(),
+                    showCupertinoParallax: false,
+                  );
+                }
+              },
+            ),
           ),
         ),
         Expanded(
@@ -82,14 +87,19 @@ class TabHomeLarge extends GetView<TabHomeController> {
               children: [
                 Container(
                   color: CupertinoDynamicColor.resolve(
-                      CupertinoColors.systemGrey4, context),
+                    CupertinoColors.systemGrey4,
+                    context,
+                  ),
                   width: 0.6,
                 ),
                 Expanded(
                   child: ClipRect(
                     child: Navigator(
                       key: Get.nestedKey(2),
-                      observers: [SecondNavigatorObserver()],
+                      observers: [
+                        SecondNavigatorObserver(),
+                        GlassRouteObserver(),
+                      ],
                       // observers: [MainNavigatorObserver()],
                       initialRoute: EHRoutes.empty,
                       onGenerateRoute: AppPages.onGenerateRoute,
@@ -120,13 +130,16 @@ class _SideControllerbarState extends State<SideControllerbar> {
   Widget _normalBar({bool dragging = false}) {
     return AnimatedContainer(
       decoration: BoxDecoration(
-        color:
-            CupertinoDynamicColor.resolve(CupertinoColors.systemGrey, context)
-                .withOpacity(0.7),
+        color: CupertinoDynamicColor.resolve(
+          CupertinoColors.systemGrey,
+          context,
+        ).withOpacity(0.7),
         borderRadius: BorderRadius.circular(dragging ? 5.0 : 1.5),
       ),
       margin: EdgeInsets.only(
-          left: dragging ? 5.0 : 2.0, right: dragging ? 5.0 : 20.0),
+        left: dragging ? 5.0 : 2.0,
+        right: dragging ? 5.0 : 20.0,
+      ),
       height: dragging ? 80 : 55,
       width: dragging ? 10 : 3,
       duration: const Duration(milliseconds: 200),
@@ -163,6 +176,7 @@ class _SideControllerbarState extends State<SideControllerbar> {
             });
           },
           onPanUpdate: (details) {
+            if (context.width <= 2 * kMinWidth) return;
             final proportion = layoutServices.sideProportion +
                 details.delta.dx / (context.width - 2 * kMinWidth);
 

@@ -1,3 +1,5 @@
+import 'package:eros_fe/widget/glass/glass_route_observer.dart';
+
 import 'dart:async';
 
 import 'package:eros_fe/common/controller/user_controller.dart';
@@ -16,11 +18,7 @@ import '../../../utils/bcd_code.dart';
 import 'gallery_page_controller.dart';
 import 'gallery_page_state.dart';
 
-enum EditState {
-  newComment,
-  editComment,
-  reptyComment,
-}
+enum EditState { newComment, editComment, reptyComment }
 
 class CommentController extends GetxController {
   CommentController();
@@ -42,8 +40,9 @@ class CommentController extends GetxController {
 
   // id降序排序
   List<GalleryComment> get commentsSorted => List<GalleryComment>.from(
-      comments ?? [])
-    ..sort((a, b) => int.parse(b.id ?? '0').compareTo(int.parse(a.id ?? '0')));
+        comments ?? [],
+      )..sort(
+          (a, b) => int.parse(b.id ?? '0').compareTo(int.parse(a.id ?? '0')));
 
   final TextEditingController commentTextController = TextEditingController();
 
@@ -100,8 +99,9 @@ class CommentController extends GetxController {
       return null;
     }
 
-    final curIndex =
-        commentsSorted.indexWhere((element) => element.id == comment.id);
+    final curIndex = commentsSorted.indexWhere(
+      (element) => element.id == comment.id,
+    );
     if (curIndex < 0) {
       return null;
     }
@@ -159,7 +159,8 @@ class CommentController extends GetxController {
         // logger.d('name ($_name)');
 
         repty = fill.firstWhereOrNull(
-            (element) => element.name.replaceAll(_splitRegexp, ' ') == _name);
+          (element) => element.name.replaceAll(_splitRegexp, ' ') == _name,
+        );
         if (repty != null) {
           return repty;
         }
@@ -189,8 +190,9 @@ class CommentController extends GetxController {
         continue;
       }
 
-      final curIndex =
-          commentsSorted.indexWhere((element) => element.id == comment.id);
+      final curIndex = commentsSorted.indexWhere(
+        (element) => element.id == comment.id,
+      );
       if (curIndex < 0) {
         continue;
       }
@@ -222,8 +224,9 @@ class CommentController extends GetxController {
       // 没有明确的评论id 或id和所 @用户名 对应不上的
       if (repty == null && reptyUserName != null) {
         // reptyUserName发表的离当前评论最进的评论
-        repty =
-            fill.firstWhereOrNull((element) => element.name == reptyUserName);
+        repty = fill.firstWhereOrNull(
+          (element) => element.name == reptyUserName,
+        );
         logger.t('没有明确的评论id 或id和所 @用户名 对应不上的\n${repty?.toJson()}');
       }
 
@@ -247,7 +250,8 @@ class CommentController extends GetxController {
           // logger.d('name ($_name)');
 
           repty = fill.firstWhereOrNull(
-              (element) => element.name.replaceAll(_splitRegexp, ' ') == _name);
+            (element) => element.name.replaceAll(_splitRegexp, ' ') == _name,
+          );
         }
       }
 
@@ -269,8 +273,9 @@ class CommentController extends GetxController {
   // 翻译评论内容
   Future<void> commitTranslate(String _id) async {
     logger.t('commitTranslate');
-    final int? _commentIndex =
-        comments?.indexWhere((element) => element.id == _id.toString());
+    final int? _commentIndex = comments?.indexWhere(
+      (element) => element.id == _id.toString(),
+    );
     final comment = comments?[_commentIndex!];
 
     if (comment?.translatedElement != null &&
@@ -318,7 +323,8 @@ class CommentController extends GetxController {
             translatedTextList.add(node.text);
           } else if (node.localName == 'img') {
             translatedTextList.add(
-                node.attributes['alt'] ?? '[Image]${node.attributes['src']}');
+              node.attributes['alt'] ?? '[Image]${node.attributes['src']}',
+            );
           } else {
             await _translateText(node, translatedTextList);
           }
@@ -341,8 +347,9 @@ class CommentController extends GetxController {
     }
 
     logger.t('commit up id $_id');
-    final int? _commentIndex =
-        comments?.indexWhere((element) => element.id == _id.toString());
+    final int? _commentIndex = comments?.indexWhere(
+      (element) => element.id == _id.toString(),
+    );
     comments![_commentIndex!] = comments![_commentIndex].copyWith(vote: 1.oN);
 
     update([_id]);
@@ -363,10 +370,12 @@ class CommentController extends GetxController {
   // 点踩
   Future<void> commitVoteDown(String _id) async {
     logger.t('commit down id $_id');
-    final int? _commentIndex =
-        comments?.indexWhere((element) => element.id == _id.toString());
-    comments![_commentIndex!] =
-        comments![_commentIndex].copyWith(vote: (-1).oN);
+    final int? _commentIndex = comments?.indexWhere(
+      (element) => element.id == _id.toString(),
+    );
+    comments![_commentIndex!] = comments![_commentIndex].copyWith(
+      vote: (-1).oN,
+    );
     update([_id]);
     final CommitVoteRes rult = await Api.commitVote(
       apikey: _item?.apikey ?? '',
@@ -387,17 +396,23 @@ class CommentController extends GetxController {
     logger.t('${rult.toJson()}');
 
     final int? _commentIndex = comments?.indexWhere(
-        (GalleryComment element) => element.id == rult.commentId.toString());
-    comments![_commentIndex!] = comments![_commentIndex]
-        .copyWith(vote: rult.commentVote.oN, score: '${rult.commentScore}');
+      (GalleryComment element) => element.id == rult.commentId.toString(),
+    );
+    comments![_commentIndex!] = comments![_commentIndex].copyWith(
+      vote: rult.commentVote.oN,
+      score: '${rult.commentScore}',
+    );
 
     update();
     logger.t('update CommentController id ${rult.commentId}');
   }
 
   // 推送评论
-  Future<void> _postComment(String comment,
-      {bool isEdit = false, String? commentId}) async {
+  Future<void> _postComment(
+    String comment, {
+    bool isEdit = false,
+    String? commentId,
+  }) async {
     logger.d('_postComment\n$comment');
     // final bool result = await Api.postComment(
     //   gid: pageController.gid,
@@ -432,20 +447,16 @@ class CommentController extends GetxController {
 
     final Completer completer = Completer();
 
-    showLoadingDialog(
-      Get.context!,
-      completer,
-      () async {
-        await _postComment(
-          comment,
-          isEdit: editState == EditState.editComment,
-          commentId: commentId,
-        );
-        pressCancel();
-        // await Future.delayed(const Duration(seconds: 3));
-        logger.t('_postComment $comment');
-      },
-    );
+    showLoadingDialog(Get.context!, completer, () async {
+      await _postComment(
+        comment,
+        isEdit: editState == EditState.editComment,
+        commentId: commentId,
+      );
+      pressCancel();
+      // await Future.delayed(const Duration(seconds: 3));
+      logger.t('_postComment $comment');
+    });
   }
 
   Future<void> pressSend() async {
@@ -456,15 +467,18 @@ class CommentController extends GetxController {
     final indicator = Center(
       child: CupertinoPopupSurface(
         child: Container(
-            height: 80,
-            width: 80,
-            alignment: Alignment.center,
-            child: const CupertinoActivityIndicator(
-              radius: 20,
-            )),
+          height: 80,
+          width: 80,
+          alignment: Alignment.center,
+          child: const CupertinoActivityIndicator(radius: 20),
+        ),
       ),
     );
-    SmartDialog.showLoading(builder: (_) => indicator, backType: SmartBackType.block);
+    SmartDialog.showLoading(
+      onDismiss: GlassVisibility.coverOverlay(),
+      builder: (_) => indicator,
+      backType: SmartBackType.block,
+    );
 
     // await Future.delayed(const Duration(seconds: 2));
     logger.t('_postComment $comment');
@@ -494,8 +508,9 @@ class CommentController extends GetxController {
     this.oriComment = oriComment;
     commentTextController.value = TextEditingValue(
       text: comment,
-      selection: TextSelection.fromPosition(TextPosition(
-          affinity: TextAffinity.downstream, offset: comment.length)),
+      selection: TextSelection.fromPosition(
+        TextPosition(affinity: TextAffinity.downstream, offset: comment.length),
+      ),
     );
     editState = EditState.editComment;
     FocusScope.of(Get.context!).requestFocus(focusNode);
@@ -504,8 +519,9 @@ class CommentController extends GetxController {
 
   // 回复评论
   void reptyComment({required String reptyCommentId}) {
-    final repty =
-        comments?.firstWhereOrNull((element) => element.id == reptyCommentId);
+    final repty = comments?.firstWhereOrNull(
+      (element) => element.id == reptyCommentId,
+    );
 
     reptyCommentText = repty?.text.replaceAll('\n', '    ') ?? '';
     reptyUser = repty?.name ?? '';
@@ -518,8 +534,9 @@ class CommentController extends GetxController {
 
     commentTextController.value = TextEditingValue(
       text: comment,
-      selection: TextSelection.fromPosition(TextPosition(
-          affinity: TextAffinity.downstream, offset: comment.length)),
+      selection: TextSelection.fromPosition(
+        TextPosition(affinity: TextAffinity.downstream, offset: comment.length),
+      ),
     );
     editState = EditState.reptyComment;
     FocusScope.of(Get.context!).requestFocus(focusNode);
@@ -560,12 +577,11 @@ Future<void> showLoadingDialog(
       return Center(
         child: CupertinoPopupSurface(
           child: Container(
-              height: 80,
-              width: 80,
-              alignment: Alignment.center,
-              child: const CupertinoActivityIndicator(
-                radius: 20,
-              )),
+            height: 80,
+            width: 80,
+            alignment: Alignment.center,
+            child: const CupertinoActivityIndicator(radius: 20),
+          ),
         ),
       );
     },

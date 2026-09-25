@@ -1,3 +1,4 @@
+import 'package:eros_fe/const/design_tokens.dart';
 import 'package:eros_fe/common/controller/download_controller.dart';
 import 'package:eros_fe/common/service/layout_service.dart';
 import 'package:eros_fe/common/service/theme_service.dart';
@@ -35,24 +36,22 @@ class GalleryActions extends StatelessWidget {
     final List<Widget> _btns = <Widget>[
       // 进行评分
       Expanded(
-        child: Obx(() => TextBtn(
-              pageStat.isRatinged
-                  ? FontAwesomeIcons.solidStar
-                  : FontAwesomeIcons.star,
-              title: L10n.of(context).p_Rate,
-              onTap: provider.apiuid?.isNotEmpty ?? false
-                  ? () {
-                      showRateDialog(context);
-                    }
-                  : null,
-            )),
-      ),
-      // 画廊下载
-      Expanded(
-        child: DownloadGalleryButton(
-          pageController: controller,
+        child: Obx(
+          () => TextBtn(
+            pageStat.isRatinged
+                ? FontAwesomeIcons.solidStar
+                : FontAwesomeIcons.star,
+            title: L10n.of(context).p_Rate,
+            onTap: provider.apiuid?.isNotEmpty ?? false
+                ? () {
+                    showRateDialog(context);
+                  }
+                : null,
+          ),
         ),
       ),
+      // 画廊下载
+      Expanded(child: DownloadGalleryButton(pageController: controller)),
       // 种子下载
       Expanded(
         child: TextBtn(
@@ -91,19 +90,14 @@ class GalleryActions extends StatelessWidget {
     ];
 
     return Container(
-      padding: const EdgeInsets.only(top: 0, bottom: 14),
-      child: Row(
-        children: _btns,
-      ),
+      padding: const EdgeInsets.only(bottom: DesignTokens.spaceL),
+      child: Row(children: _btns),
     );
   }
 }
 
 class DownloadGalleryButton extends StatelessWidget {
-  const DownloadGalleryButton({
-    super.key,
-    required this.pageController,
-  });
+  const DownloadGalleryButton({super.key, required this.pageController});
 
   final GalleryPageController pageController;
 
@@ -171,8 +165,9 @@ class DownloadGalleryButton extends StatelessWidget {
               return SleekCircularSlider(
                 appearance: CircularSliderAppearance(
                   infoProperties: InfoProperties(
-                    mainLabelStyle:
-                        const TextStyle(color: CupertinoColors.systemGrey6),
+                    mainLabelStyle: const TextStyle(
+                      color: CupertinoColors.systemGrey6,
+                    ),
                     modifier: (_) => '',
                   ),
                   size: 31,
@@ -208,14 +203,13 @@ class MiniTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-          const EdgeInsets.symmetric(horizontal: 2 + kPadding, vertical: 4),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 2 + kPadding,
+        vertical: 4,
+      ),
       child: Text(
         title,
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
-        ),
+        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -248,9 +242,7 @@ class GalleryObxSliver extends StatelessWidget {
                   height: 200,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.only(bottom: 50),
-                  child: const CupertinoActivityIndicator(
-                    radius: 14.0,
-                  ),
+                  child: const CupertinoActivityIndicator(radius: 14.0),
                 ),
               );
             }()
@@ -260,11 +252,11 @@ class GalleryObxSliver extends StatelessWidget {
               logger.e('$err ');
               return SliverFillRemaining(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 50, horizontal: 40),
-                  child: GalleryErrorPage(
-                    error: err,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 50,
+                    horizontal: 40,
                   ),
+                  child: GalleryErrorPage(error: err),
                 ),
               );
             }
@@ -290,7 +282,9 @@ class ThumbHorizontalList extends StatelessWidget {
     return Container(
       height: 200,
       margin: EdgeInsets.only(
-          bottom: context.mediaQueryPadding.bottom + 20, top: 4),
+        bottom: context.mediaQueryPadding.bottom + 20,
+        top: 4,
+      ),
       child: ListView.separated(
         padding: const EdgeInsets.symmetric(horizontal: kPadding),
         scrollDirection: Axis.horizontal,
@@ -327,25 +321,22 @@ class ThumbSliverGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverGrid(
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: kMaxCrossAxisExtent,
-          mainAxisSpacing: kMainAxisSpacing, //主轴方向的间距
-          crossAxisSpacing: kCrossAxisSpacing, //交叉轴方向子元素的间距
-          childAspectRatio: kChildAspectRatio //显示区域宽高
-          ),
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          return ThumbBox(
-            galleryImageList: images,
-            index: index,
-            gid: gid,
-            onLoadComplete: () {
-              final thumbUrl = images[index].thumbUrl ?? '';
-            },
-            referer: referer,
-          );
-        },
-        childCount: images.length,
+        maxCrossAxisExtent: kMaxCrossAxisExtent,
+        mainAxisSpacing: kMainAxisSpacing, //主轴方向的间距
+        crossAxisSpacing: kCrossAxisSpacing, //交叉轴方向子元素的间距
+        childAspectRatio: kChildAspectRatio, //显示区域宽高
       ),
+      delegate: SliverChildBuilderDelegate((context, index) {
+        return ThumbBox(
+          galleryImageList: images,
+          index: index,
+          gid: gid,
+          onLoadComplete: () {
+            final thumbUrl = images[index].thumbUrl ?? '';
+          },
+          referer: referer,
+        );
+      }, childCount: images.length),
     );
   }
 }
@@ -500,56 +491,58 @@ class _ChapterGridViewState extends State<ChapterGridView> {
       duration: const Duration(milliseconds: 300),
     );
 
-    return LayoutBuilder(builder: (context, c) {
-      final _sgp = sliverGridDelegateWithMaxToCount(
-        c.maxWidth -
-            context.mediaQueryPadding.left -
-            context.mediaQueryPadding.right -
-            2 * kPadding,
-        _gridDelegateWithMaxCrossAxisExtent,
-      );
+    return LayoutBuilder(
+      builder: (context, c) {
+        final _sgp = sliverGridDelegateWithMaxToCount(
+          c.maxWidth -
+              context.mediaQueryPadding.left -
+              context.mediaQueryPadding.right -
+              2 * kPadding,
+          _gridDelegateWithMaxCrossAxisExtent,
+        );
 
-      final gridDelegate = _sgp.gridDelegate;
-      final _crossAxisCount = gridDelegate.crossAxisCount;
+        final gridDelegate = _sgp.gridDelegate;
+        final _crossAxisCount = gridDelegate.crossAxisCount;
 
-      Widget _full = getChapter(gridDelegate);
-      final limit = (widget.maxLine ?? 0) * _crossAxisCount;
+        Widget _full = getChapter(gridDelegate);
+        final limit = (widget.maxLine ?? 0) * _crossAxisCount;
 
-      if (limit > _chapter.length) {
-        // logger.d('full _chapter');
-        return _full;
-      }
+        if (limit > _chapter.length) {
+          // logger.d('full _chapter');
+          return _full;
+        }
 
-      Widget _limit = getChapter(gridDelegate, limit: limit);
+        Widget _limit = getChapter(gridDelegate, limit: limit);
 
-      Widget _animate = AnimatedCrossFade(
-        firstChild: _limit,
-        secondChild: _full,
-        crossFadeState:
-            showFull ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-        duration: const Duration(milliseconds: 300),
-        firstCurve: Curves.ease,
-        secondCurve: Curves.ease,
-        sizeCurve: Curves.ease,
-      );
+        Widget _animate = AnimatedCrossFade(
+          firstChild: _limit,
+          secondChild: _full,
+          crossFadeState:
+              showFull ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+          duration: const Duration(milliseconds: 300),
+          firstCurve: Curves.ease,
+          secondCurve: Curves.ease,
+          sizeCurve: Curves.ease,
+        );
 
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _animate,
-          CupertinoButton(
-            minSize: 0,
-            padding: const EdgeInsets.all(0),
-            child: Center(child: _icon),
-            onPressed: () {
-              setState(() {
-                showFull = !showFull;
-              });
-            },
-          ),
-        ],
-      );
-    });
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _animate,
+            CupertinoButton(
+              minSize: 0,
+              padding: const EdgeInsets.all(0),
+              child: Center(child: _icon),
+              onPressed: () {
+                setState(() {
+                  showFull = !showFull;
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget getChapter(SliverGridDelegate gridDelegate, {int? limit}) {
@@ -594,12 +587,11 @@ class ChapterItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _pageStyle = TextStyle(
-      fontSize: 12,
-      fontWeight: FontWeight.bold,
-    );
+    final _pageStyle = TextStyle(fontSize: 12, fontWeight: FontWeight.bold);
     final _authStyle = TextStyle(
-        fontSize: 12, color: title != null ? ehTheme.commitIconColor : null);
+      fontSize: 12,
+      color: title != null ? ehTheme.commitIconColor : null,
+    );
     final _titleStyle = TextStyle(
       fontSize: 13,
       fontWeight: FontWeight.bold,
@@ -614,7 +606,9 @@ class ChapterItem extends StatelessWidget {
         // height: 40,
         decoration: BoxDecoration(
           color: CupertinoDynamicColor.resolve(
-              CupertinoColors.systemGrey6, context),
+            CupertinoColors.systemGrey6,
+            context,
+          ),
           borderRadius: BorderRadius.circular(10),
         ),
         constraints: BoxConstraints(
@@ -628,11 +622,7 @@ class ChapterItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('$page. $author', style: _authStyle),
-            if (title != null)
-              Text(
-                '$title',
-                style: _titleStyle,
-              ),
+            if (title != null) Text('$title', style: _titleStyle),
           ],
         ),
       ),
@@ -656,10 +646,7 @@ class ChapterItemFlex extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _pageStyle = TextStyle(
-      fontSize: 11,
-      fontWeight: FontWeight.w500,
-    );
+    final _pageStyle = TextStyle(fontSize: 11, fontWeight: FontWeight.w500);
     final _authStyle = TextStyle(
       fontSize: title != null ? 11 : 13,
       color: title != null
@@ -686,8 +673,9 @@ class ChapterItemFlex extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: CupertinoDynamicColor.resolve(
-                    CupertinoColors.darkBackgroundGray, context)
-                .withOpacity(0.4),
+              CupertinoColors.darkBackgroundGray,
+              context,
+            ).withOpacity(0.4),
             offset: const Offset(0, 0),
             blurRadius: 20, //阴影模糊程度
             spreadRadius: 4, //阴影扩散程度
@@ -697,11 +685,16 @@ class ChapterItemFlex extends StatelessWidget {
             ? Border.all(
                 width: 1,
                 color: CupertinoDynamicColor.resolve(
-                    CupertinoColors.systemGrey4, context))
+                  CupertinoColors.systemGrey4,
+                  context,
+                ),
+              )
             : null,
         borderRadius: BorderRadius.circular(10),
-        color:
-            CupertinoDynamicColor.resolve(CupertinoColors.systemGrey6, context),
+        color: CupertinoDynamicColor.resolve(
+          CupertinoColors.systemGrey6,
+          context,
+        ),
       ),
       child: GestureDetector(
         onTap: () {
@@ -710,7 +703,9 @@ class ChapterItemFlex extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: CupertinoDynamicColor.resolve(
-                CupertinoColors.systemGrey6, context),
+              CupertinoColors.systemGrey6,
+              context,
+            ),
             borderRadius: BorderRadius.circular(10),
           ),
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
@@ -756,8 +751,10 @@ class SGDelegatePack {
 }
 
 SGDelegatePack sliverGridDelegateWithMaxToCount(
-    double width, SliverGridDelegateWithMaxCrossAxisExtent sliverGridDelegate,
-    [double extendHeight = 0]) {
+  double width,
+  SliverGridDelegateWithMaxCrossAxisExtent sliverGridDelegate, [
+  double extendHeight = 0,
+]) {
   int crossAxisCount = (width /
           (sliverGridDelegate.maxCrossAxisExtent +
               sliverGridDelegate.crossAxisSpacing))
@@ -773,11 +770,12 @@ SGDelegatePack sliverGridDelegateWithMaxToCount(
   childMainAxisExtent += extendHeight;
   final childAspectRatio = childCrossAxisExtent / childMainAxisExtent;
   return SGDelegatePack(
-      SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
-        mainAxisSpacing: sliverGridDelegate.mainAxisSpacing,
-        crossAxisSpacing: sliverGridDelegate.crossAxisSpacing,
-        childAspectRatio: childAspectRatio,
-      ),
-      Size(childCrossAxisExtent, childMainAxisExtent));
+    SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: crossAxisCount,
+      mainAxisSpacing: sliverGridDelegate.mainAxisSpacing,
+      crossAxisSpacing: sliverGridDelegate.crossAxisSpacing,
+      childAspectRatio: childAspectRatio,
+    ),
+    Size(childCrossAxisExtent, childMainAxisExtent),
+  );
 }

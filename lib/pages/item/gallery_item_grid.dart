@@ -1,3 +1,4 @@
+import 'package:eros_fe/const/design_tokens.dart';
 import 'package:blur/blur.dart';
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:material_ui/material_ui.dart';
@@ -16,7 +17,7 @@ import 'gallery_item.dart';
 import 'item_base.dart';
 
 const int kTitleMaxLines = 2;
-const double kRadius = 6.0;
+const double kRadius = DesignTokens.radiusM;
 const double kCategoryWidth = 32.0;
 const double kCategoryHeight = 20.0;
 const double kCoverRatio = 4 / 3;
@@ -38,128 +39,131 @@ class GalleryItemGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Color _colorCategory = CupertinoDynamicColor.resolve(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Color _colorCategory = CupertinoDynamicColor.resolve(
           ThemeColors.catColor[galleryProvider.category ?? 'default'] ??
               CupertinoColors.systemBackground,
-          context);
+          context,
+        );
 
-      // 获取图片高度
-      final coverHeight = kCoverRatio * constraints.maxWidth;
+        // 获取图片高度
+        final coverHeight = kCoverRatio * constraints.maxWidth;
 
-      final Widget container = Container(
-        decoration: BoxDecoration(
-          color: ehTheme.itemBackgroundColor,
-          borderRadius: BorderRadius.circular(kRadius), //圆角
-          boxShadow: ehTheme.isDarkMode
-              ? null
-              : [
-                  BoxShadow(
-                    color: CupertinoDynamicColor.resolve(
-                        CupertinoColors.systemGrey4, Get.context!),
-                    blurRadius: 10,
-                  )
-                ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            /// 画廊封面
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(kRadius),
-                topRight: Radius.circular(kRadius),
-              ),
-              child: Container(
-                foregroundDecoration: RotatedCornerDecoration.withColor(
-                  color: _colorCategory.withOpacity(0.8),
-                  // labelInsets: const LabelInsets(baselineShift: 0.2, start: 2),
-                  // geometry: const BadgeGeometry(
-                  //     width: kCategoryWidth, height: kCategoryHeight),
-                  spanBaselineShift: 0.2,
-                  spanHorizontalOffset: 2,
-                  badgeSize: const Size(kCategoryWidth, kCategoryHeight),
-                  textSpan: TextSpan(
-                    text: galleryProvider.translated ?? '',
-                    style: const TextStyle(
-                        fontSize: 8, fontWeight: FontWeight.bold),
-                  ),
+        final Widget container = Container(
+          decoration: BoxDecoration(
+            color: DesignTokens.surface(context),
+            borderRadius: BorderRadius.circular(kRadius), //圆角
+            boxShadow: ehTheme.isDarkMode
+                ? null
+                : [
+                    BoxShadow(
+                      color: CupertinoDynamicColor.resolve(
+                        CupertinoColors.systemGrey4,
+                        Get.context!,
+                      ),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              /// 画廊封面
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(kRadius),
+                  topRight: Radius.circular(kRadius),
                 ),
-                child: Stack(
-                  alignment: Alignment.topRight,
-                  children: <Widget>[
-                    HeroMode(
-                      enabled: !isLayoutLarge,
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: coverHeight,
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: _CoverImage(
-                                galleryProviderController:
-                                    galleryProviderController,
-                                tabTag: tabTag,
-                                coverImageHeight: coverHeight,
-                                coverImageWidth: constraints.maxWidth,
+                child: Container(
+                  foregroundDecoration: RotatedCornerDecoration.withColor(
+                    color: _colorCategory.withOpacity(0.8),
+                    // labelInsets: const LabelInsets(baselineShift: 0.2, start: 2),
+                    // geometry: const BadgeGeometry(
+                    //     width: kCategoryWidth, height: kCategoryHeight),
+                    spanBaselineShift: 0.2,
+                    spanHorizontalOffset: 2,
+                    badgeSize: const Size(kCategoryWidth, kCategoryHeight),
+                    textSpan: TextSpan(
+                      text: galleryProvider.translated ?? '',
+                      style: const TextStyle(
+                        fontSize: 8,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  child: Stack(
+                    alignment: Alignment.topRight,
+                    children: <Widget>[
+                      HeroMode(
+                        enabled: !isLayoutLarge,
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: coverHeight,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: _CoverImage(
+                                  galleryProviderController:
+                                      galleryProviderController,
+                                  tabTag: tabTag,
+                                  coverImageHeight: coverHeight,
+                                  coverImageWidth: constraints.maxWidth,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    // Positioned(bottom: 4, left: 4, child: _buildRating()),
-                    Positioned(
-                      bottom: 4,
-                      right: 4,
-                      child: Row(
-                        children: [
-                          _buildFavCatIcon(),
-                          _buildCount(),
-                        ],
+                      // Positioned(bottom: 4, left: 4, child: _buildRating()),
+                      Positioned(
+                        bottom: 4,
+                        right: 4,
+                        child: Row(
+                          children: [_buildFavCatIcon(), _buildCount()],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
 
-            /// 画廊信息等
-            Expanded(
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(child: _buildTitle()),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    PostTime(
-                      postTime:
-                          galleryProviderController.galleryProvider.postTime ??
-                              '',
-                      expunged:
-                          galleryProviderController.galleryProvider.expunged,
-                    ),
-                  ],
-                ).paddingSymmetric(horizontal: 4, vertical: 2),
+              /// 画廊信息等
+              Expanded(
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(children: [Expanded(child: _buildTitle())]),
+                      const SizedBox(height: 4),
+                      PostTime(
+                        postTime: galleryProviderController
+                                .galleryProvider.postTime ??
+                            '',
+                        expunged:
+                            galleryProviderController.galleryProvider.expunged,
+                      ),
+                    ],
+                  ).paddingSymmetric(
+                    horizontal: DesignTokens.spaceS,
+                    vertical: DesignTokens.spaceXS,
+                  ),
+                ),
               ),
-            ),
-          ],
-        ),
-      );
+            ],
+          ),
+        );
 
-      return GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        child: container,
-        onTap: () => galleryProviderController.onTap(tabTag),
-        onLongPress: galleryProviderController.onLongPress,
-      ).autoCompressKeyboard(context);
-    });
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          child: container,
+          onTap: () => galleryProviderController.onTap(tabTag),
+          onLongPress: galleryProviderController.onLongPress,
+        ).autoCompressKeyboard(context);
+      },
+    );
   }
 
   Widget _buildFavCatIcon({bool blur = false}) {
@@ -210,7 +214,9 @@ class GalleryItemGrid extends StatelessWidget {
                 galleryProviderController.galleryProvider.colorRating?.trim() ??
                     'ir'],
             colorDark: CupertinoDynamicColor.resolve(
-                CupertinoColors.systemGrey3, Get.context!),
+              CupertinoColors.systemGrey3,
+              Get.context!,
+            ),
           ),
         ),
       ],
@@ -302,9 +308,11 @@ class _CoverImage extends StatelessWidget {
     // 图片高宽比
     final ratio = (_provider.imgHeight ?? 0) / (_provider.imgWidth ?? 1);
 
-    logger.t('iRatio:$ratio\n'
-        'w:${_provider.imgWidth} h:${_provider.imgHeight}\n'
-        'cW:$coverImageWidth  cH:$coverImageHeight');
+    logger.t(
+      'iRatio:$ratio\n'
+      'w:${_provider.imgWidth} h:${_provider.imgHeight}\n'
+      'cW:$coverImageWidth  cH:$coverImageHeight',
+    );
 
     final containRatio = coverImageHeight / coverImageWidth;
 
@@ -356,7 +364,9 @@ class _CoverImage extends StatelessWidget {
           width: coverImageWidth,
           height: coverImageHeight,
           color: CupertinoDynamicColor.resolve(
-              CupertinoColors.systemGrey6, context),
+            CupertinoColors.systemGrey6,
+            context,
+          ),
         ),
         Center(
           child: Hero(

@@ -1,8 +1,11 @@
+import 'package:eros_fe/widget/glass/glass_container.dart';
+import 'package:eros_fe/widget/glass/glass_route_observer.dart';
+import 'package:eros_fe/const/design_tokens.dart';
+
 import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:archive_async/archive_async.dart';
-import 'package:blur/blur.dart';
 import 'package:eros_fe/common/controller/image_block_controller.dart';
 import 'package:eros_fe/common/service/ehsetting_service.dart';
 import 'package:eros_fe/component/exception/error.dart';
@@ -40,10 +43,7 @@ class ViewErr509 extends StatelessWidget {
           Container(
             height: 100,
             width: 100,
-            constraints: const BoxConstraints(
-              maxHeight: 100,
-              maxWidth: 100,
-            ),
+            constraints: const BoxConstraints(maxHeight: 100, maxWidth: 100),
             alignment: Alignment.center,
             child: Column(
               children: [
@@ -67,7 +67,8 @@ class ViewErr509 extends StatelessWidget {
           Text(
             '$ser',
             style: const TextStyle(
-                color: CupertinoColors.secondarySystemBackground),
+              color: CupertinoColors.secondarySystemBackground,
+            ),
           ),
         ],
       ),
@@ -89,10 +90,7 @@ class ViewErr429 extends StatelessWidget {
           Container(
             height: 100,
             width: 100,
-            constraints: const BoxConstraints(
-              maxHeight: 100,
-              maxWidth: 100,
-            ),
+            constraints: const BoxConstraints(maxHeight: 100, maxWidth: 100),
             alignment: Alignment.center,
             child: Column(
               children: [
@@ -116,7 +114,8 @@ class ViewErr429 extends StatelessWidget {
           Text(
             '$ser',
             style: const TextStyle(
-                color: CupertinoColors.secondarySystemBackground),
+              color: CupertinoColors.secondarySystemBackground,
+            ),
           ),
         ],
       ),
@@ -137,10 +136,7 @@ class ViewAD extends StatelessWidget {
         children: [
           Container(
             margin: const EdgeInsets.only(bottom: 8),
-            constraints: const BoxConstraints(
-              maxHeight: 100,
-              maxWidth: 100,
-            ),
+            constraints: const BoxConstraints(maxHeight: 100, maxWidth: 100),
             alignment: Alignment.center,
             child: Column(
               children: [
@@ -166,7 +162,8 @@ class ViewAD extends StatelessWidget {
           Text(
             '$ser',
             style: const TextStyle(
-                color: CupertinoColors.secondarySystemBackground),
+              color: CupertinoColors.secondarySystemBackground,
+            ),
           ),
         ],
       ),
@@ -183,27 +180,24 @@ class ViewError extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      constraints: BoxConstraints(
-        maxHeight: context.width * 0.8,
-      ),
+      constraints: BoxConstraints(maxHeight: context.width * 0.8),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
-            Icons.error,
-            size: 60,
-            color: Colors.red,
-          ),
+          const Icon(Icons.error, size: 60, color: Colors.red),
           Text(
             errInfo ?? '',
             maxLines: 20,
             style: const TextStyle(
-                fontSize: 12, color: CupertinoColors.secondarySystemBackground),
+              fontSize: 12,
+              color: CupertinoColors.secondarySystemBackground,
+            ),
           ),
           Text(
             '$ser',
             style: const TextStyle(
-                color: CupertinoColors.secondarySystemBackground),
+              color: CupertinoColors.secondarySystemBackground,
+            ),
           ),
         ],
       ),
@@ -244,14 +238,15 @@ class ViewLoading extends StatelessWidget {
       return loadWidget;
     } else {
       return FutureBuilder<void>(
-          future: Future.delayed(duration ?? const Duration(milliseconds: 100)),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return loadWidget;
-            } else {
-              return const SizedBox.shrink();
-            }
-          });
+        future: Future.delayed(duration ?? const Duration(milliseconds: 100)),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return loadWidget;
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      );
     }
   }
 }
@@ -353,43 +348,39 @@ class ImageExt extends GetView<ViewExtController> {
             if (reload) {
               Future.delayed(const Duration(milliseconds: 100))
                   .then((_) => reloadImage());
-              controller.vState.errCountMap
-                  .update(ser, (int value) => value + 1, ifAbsent: () => 1);
+              controller.vState.errCountMap.update(
+                ser,
+                (int value) => value + 1,
+                ifAbsent: () => 1,
+              );
               logger.d('$ser 重试 第 ${controller.vState.errCountMap[ser]} 次');
             }
 
             if (reload) {
               // return const SizedBox.shrink();
-              return _ViewLoading(
-                ser: ser,
-                label: 'Try reload ...',
-              );
+              return _ViewLoading(ser: ser, label: 'Try reload ...');
             } else {
               return Container(
                 alignment: Alignment.center,
-                constraints: BoxConstraints(
-                  maxHeight: context.width * 0.8,
-                ),
+                constraints: BoxConstraints(maxHeight: context.width * 0.8),
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(
-                        Icons.error,
-                        size: 50,
-                        color: Colors.red,
-                      ),
+                      const Icon(Icons.error, size: 50, color: Colors.red),
                       const Text(
                         'Load image failed',
                         style: TextStyle(
-                            fontSize: 10,
-                            color: CupertinoColors.secondarySystemBackground),
+                          fontSize: 10,
+                          color: CupertinoColors.secondarySystemBackground,
+                        ),
                       ),
                       Text(
                         '${ser + 1}',
                         style: const TextStyle(
-                            color: CupertinoColors.secondarySystemBackground),
+                          color: CupertinoColors.secondarySystemBackground,
+                        ),
                       ),
                     ],
                   ),
@@ -454,7 +445,8 @@ class ImageExtProvider extends GetView<ViewExtController> {
       onDoubleTap: onDoubleTap,
       loadStateChanged: (ExtendedImageState state) {
         logger.t(
-            'loadStateChanged ser:$ser, state:${state.extendedImageLoadState}, image:$image');
+          'loadStateChanged ser:$ser, state:${state.extendedImageLoadState}, image:$image',
+        );
         switch (state.extendedImageLoadState) {
           case LoadState.loading:
             fadeAnimationController.reset();
@@ -500,8 +492,11 @@ class ImageExtProvider extends GetView<ViewExtController> {
             if (reload) {
               Future.delayed(const Duration(milliseconds: 100))
                   .then((_) => reloadImage());
-              controller.vState.errCountMap
-                  .update(ser, (int value) => value + 1, ifAbsent: () => 1);
+              controller.vState.errCountMap.update(
+                ser,
+                (int value) => value + 1,
+                ifAbsent: () => 1,
+              );
               logger.d('$ser 重试 第 ${controller.vState.errCountMap[ser]} 次');
             }
 
@@ -511,29 +506,25 @@ class ImageExtProvider extends GetView<ViewExtController> {
             } else {
               return Container(
                 alignment: Alignment.center,
-                constraints: BoxConstraints(
-                  maxHeight: context.width * 0.8,
-                ),
+                constraints: BoxConstraints(maxHeight: context.width * 0.8),
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(
-                        Icons.error,
-                        size: 50,
-                        color: Colors.red,
-                      ),
+                      const Icon(Icons.error, size: 50, color: Colors.red),
                       const Text(
                         'Load image failed',
                         style: TextStyle(
-                            fontSize: 10,
-                            color: CupertinoColors.secondarySystemBackground),
+                          fontSize: 10,
+                          color: CupertinoColors.secondarySystemBackground,
+                        ),
                       ),
                       Text(
                         '${ser + 1}',
                         style: const TextStyle(
-                            color: CupertinoColors.secondarySystemBackground),
+                          color: CupertinoColors.secondarySystemBackground,
+                        ),
                       ),
                     ],
                   ),
@@ -600,33 +591,37 @@ class _ImageWithHideState extends State<ImageWithHide> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool?>(
-        future: _future,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.data ?? false) {
-              final GalleryImage? _tmpImage = vState.imageMap?[widget.ser];
-              if (_tmpImage != null) {
-                vState.galleryPageController?.uptImageBySer(
-                  ser: widget.ser,
-                  imageCallback: (image) => image.copyWith(hide: true.oN),
-                );
+      future: _future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.data ?? false) {
+            final GalleryImage? _tmpImage = vState.imageMap?[widget.ser];
+            if (_tmpImage != null) {
+              vState.galleryPageController?.uptImageBySer(
+                ser: widget.ser,
+                imageCallback: (image) => image.copyWith(hide: true.oN),
+              );
 
-                Future.delayed(const Duration(milliseconds: 100)).then(
-                    (value) => viewController.update(
-                        [idSlidePage, '$idImageListView${widget.ser}']));
-              }
-              return ViewAD(ser: widget.ser);
-            } else {
-              return widget.child;
+              Future.delayed(const Duration(milliseconds: 100)).then(
+                (value) => viewController.update([
+                  idSlidePage,
+                  '$idImageListView${widget.ser}',
+                ]),
+              );
             }
+            return ViewAD(ser: widget.ser);
           } else {
-            return ViewLoading(
-              ser: widget.ser,
-              progress: 1.0,
-              animationEnabled: false,
-            );
+            return widget.child;
           }
-        });
+        } else {
+          return ViewLoading(
+            ser: widget.ser,
+            progress: 1.0,
+            animationEnabled: false,
+          );
+        }
+      },
+    );
   }
 }
 
@@ -693,9 +688,7 @@ class _ViewLoadingLine extends StatelessWidget {
               height: 60,
               child: Row(
                 children: [
-                  const SizedBox(
-                    width: 50,
-                  ),
+                  const SizedBox(width: 50),
                   Expanded(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(4),
@@ -703,10 +696,14 @@ class _ViewLoadingLine extends StatelessWidget {
                         value: progress,
                         semanticsLabel: 'Loading',
                         backgroundColor: CupertinoDynamicColor.resolve(
-                            CupertinoColors.secondarySystemFill, context),
+                          CupertinoColors.secondarySystemFill,
+                          context,
+                        ),
                         valueColor: AlwaysStoppedAnimation<Color>(
                           CupertinoDynamicColor.resolve(
-                              CupertinoColors.systemGrey, context),
+                            CupertinoColors.systemGrey,
+                            context,
+                          ),
                         ),
                       ),
                     ),
@@ -805,9 +802,7 @@ class _ViewLoadingCupertino extends StatelessWidget {
                   maxHeight: 100,
                   maxWidth: 100,
                 ),
-                child: const CupertinoActivityIndicator(
-                  radius: 30,
-                ),
+                child: const CupertinoActivityIndicator(radius: 30),
               ),
               Text(
                 progress != null ? '${((progress ?? 0) * 100).round()}' : '',
@@ -816,7 +811,7 @@ class _ViewLoadingCupertino extends StatelessWidget {
                   height: 1,
                   fontSize: 10,
                 ),
-              )
+              ),
             ],
           ),
           Padding(
@@ -865,16 +860,15 @@ class _ViewLoadingOld extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            constraints: const BoxConstraints(
-              maxHeight: 100,
-              maxWidth: 100,
-            ),
+            constraints: const BoxConstraints(maxHeight: 100, maxWidth: 100),
             child: SleekCircularSlider(
               appearance: CircularSliderAppearance(
                 animationEnabled: animationEnabled,
                 infoProperties: InfoProperties(
-                    mainLabelStyle:
-                        const TextStyle(color: CupertinoColors.systemGrey6)),
+                  mainLabelStyle: const TextStyle(
+                    color: CupertinoColors.systemGrey6,
+                  ),
+                ),
                 customWidths: CustomSliderWidths(progressBarWidth: 10),
               ),
               min: 0,
@@ -888,11 +882,12 @@ class _ViewLoadingOld extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: progress == null
-                        ? const CupertinoActivityIndicator(radius: 8)
-                        : null),
+                  height: 20,
+                  width: 20,
+                  child: progress == null
+                      ? const CupertinoActivityIndicator(radius: 8)
+                      : null,
+                ),
                 Text(
                   '$ser',
                   style: const TextStyle(
@@ -914,136 +909,83 @@ class ViewTopBar extends GetView<ViewExtController> {
   const ViewTopBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: context.mediaQueryPadding.top + kTopBarHeight,
-      width: context.mediaQuery.size.width,
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: context.mediaQueryPadding.horizontal / 2),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Stack(
-              alignment: Alignment.center,
+  Widget build(BuildContext context) => SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spaceM),
+          child: SizedBox(
+            height: kTopBarHeight,
+            child: Row(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    MouseRegionClick(
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: SizedBox(
-                          width: 40,
-                          height: kTopBarButtonHeight,
-                          child: const FaIcon(
-                            FontAwesomeIcons.chevronLeft,
-                            color: CupertinoColors.systemGrey6,
-                            // size: 24,
-                          ),
-                        ),
+                SizedBox(
+                  width: DesignTokens.controlSize,
+                  height: DesignTokens.controlSize,
+                  child: GlassContainer(
+                    dark: true,
+                    items: [
+                      GlassItem(
+                        id: 'back',
+                        label:
+                            CupertinoLocalizations.of(context).backButtonLabel,
+                        symbol: 'chevron.left',
+                        onPressed: () => Get.back(),
                       ),
-                    ),
-                    // GetBuilder<ViewExtController>(
-                    //   id: idViewTopBar,
-                    //   builder: (logic) {
-                    //     return Container(
-                    //       alignment: Alignment.center,
-                    //       height: kTopBarButtonHeight,
-                    //       child: Text(
-                    //         '${logic.vState.currentItemIndex + 1}/${logic.vState.filecount}',
-                    //         style: const TextStyle(
-                    //           color: CupertinoColors.systemGrey6,
-                    //         ),
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (context.isTablet)
-                          ControllerButtonBar(
-                            controller: controller,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            showLable: false,
-                            // showLable: false,
-                          ),
-                        // 分享按钮
-                        MouseRegionClick(
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () {
-                              controller.tapShare(context);
-                            },
-                            child: const SizedBox(
-                              width: 40,
-                              height: kBottomBarButtonHeight,
-                              child: FaIcon(
-                                FontAwesomeIcons.share,
-                                color: CupertinoColors.systemGrey6,
-                                size: 22,
-                              ),
-                            ),
-                          ),
-                        ),
-                        // 菜单页面入口
-                        MouseRegionClick(
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () async {
-                              controller.cancelVolumeKeydownListen();
-                              await Get.toNamed(EHRoutes.readSetting);
-                              controller.addVolumeKeydownListen();
-                            },
-                            child: Container(
-                              width: 40,
-                              margin: const EdgeInsets.only(right: 8.0),
-                              height: kTopBarButtonHeight,
-                              child: const FaIcon(
-                                FontAwesomeIcons.ellipsis,
-                                color: CupertinoColors.systemGrey6,
-                                // size: 24,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                GetBuilder<ViewExtController>(
-                  id: idViewTopBar,
-                  builder: (logic) {
-                    return Container(
-                      alignment: Alignment.center,
-                      height: kTopBarButtonHeight,
+                Expanded(
+                  child: GetBuilder<ViewExtController>(
+                    id: idViewTopBar,
+                    builder: (logic) => Center(
                       child: Text(
                         '${logic.vState.currentItemIndex + 1}/${logic.vState.fileCount}',
-                        style: const TextStyle(
-                          color: CupertinoColors.systemGrey6,
+                        style: DesignTokens.body.copyWith(
+                          color: CupertinoColors.white,
                         ),
                       ),
-                    );
-                  },
+                    ),
+                  ),
+                ),
+                if (context.isTablet)
+                  ControllerButtonBar(
+                    controller: controller,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    showLable: false,
+                  ),
+                SizedBox(
+                  width: 104,
+                  height: DesignTokens.controlSize,
+                  child: GlassContainer(
+                    dark: true,
+                    items: [
+                      GlassItem(
+                        id: 'share',
+                        label: L10n.of(context).share_image,
+                        symbol: 'square.and.arrow.up',
+                        onPressed: () => controller.tapShare(context),
+                      ),
+                      GlassItem(
+                        id: 'settings',
+                        label: L10n.of(context).tab_setting,
+                        symbol: 'ellipsis',
+                        onPressed: () async {
+                          controller.cancelVolumeKeydownListen();
+                          try {
+                            await Get.toNamed(EHRoutes.readSetting);
+                          } finally {
+                            controller.addVolumeKeydownListen();
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ],
+          ),
         ),
-      ).frosted(
-        height: context.mediaQueryPadding.top + kTopBarHeight,
-        width: context.mediaQuery.size.width,
-        blur: 20,
-        frostColor: Colors.black,
-      ),
-    );
-  }
+      );
 }
 
 const _kBottomTextStyle = TextStyle(color: Colors.white, fontSize: 10);
@@ -1078,16 +1020,7 @@ class ViewBottomBar extends GetView<ViewExtController> {
               // 控制栏
               const BottomBarControlWidget(),
             ],
-          ).frosted(
-            height: context.mediaQueryPadding.bottom +
-                kBottomBarHeight +
-                kSliderBarHeight +
-                kThumbListViewHeight,
-            width: context.mediaQuery.size.width,
-            blur: 20,
-            // frostColor: Colors.grey[700]!,
-            frostColor: Colors.black,
-          ),
+          ).glass(dark: true, radius: DesignTokens.radiusL),
         );
       },
     );
@@ -1095,9 +1028,7 @@ class ViewBottomBar extends GetView<ViewExtController> {
 }
 
 class BottomBarControlWidget extends GetView<ViewExtController> {
-  const BottomBarControlWidget({
-    super.key,
-  });
+  const BottomBarControlWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -1106,7 +1037,8 @@ class BottomBarControlWidget extends GetView<ViewExtController> {
       builder: (logic) {
         return Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: context.mediaQueryPadding.horizontal / 2 + 10),
+            horizontal: context.mediaQueryPadding.horizontal / 2 + 10,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1124,8 +1056,10 @@ class BottomBarControlWidget extends GetView<ViewExtController> {
                       child: logic.vState.fileCount > 1
                           ? ViewPageSlider(
                               max: logic.vState.fileCount - 1.0,
-                              sliderValue: math.min(logic.vState.sliderValue,
-                                  logic.vState.fileCount - 1.0),
+                              sliderValue: math.min(
+                                logic.vState.sliderValue,
+                                logic.vState.fileCount - 1.0,
+                              ),
                               onChangedEnd: logic.handOnSliderChangedEnd,
                               onChanged: logic.handOnSliderChanged,
                               reverse:
@@ -1253,10 +1187,11 @@ class ControllerButtonBar extends StatelessWidget {
                         child: Text(
                           'Double',
                           style: _kBottomTextStyle.copyWith(
-                              color: controller.vState.viewMode ==
-                                      ViewMode.topToBottom
-                                  ? CupertinoColors.systemGrey
-                                  : null),
+                            color: controller.vState.viewMode ==
+                                    ViewMode.topToBottom
+                                ? CupertinoColors.systemGrey
+                                : null,
+                          ),
                         ),
                       ),
                     ),
@@ -1302,10 +1237,7 @@ class ControllerButtonBar extends StatelessWidget {
                       if (showLable)
                         const Expanded(
                           child: Center(
-                            child: Text(
-                              'Auto',
-                              style: _kBottomTextStyle,
-                            ),
+                            child: Text('Auto', style: _kBottomTextStyle),
                           ),
                         ),
                     ],
@@ -1352,10 +1284,7 @@ class ControllerButtonBar extends StatelessWidget {
                     if (showLable)
                       const Expanded(
                         child: Center(
-                          child: Text(
-                            'Thumb',
-                            style: _kBottomTextStyle,
-                          ),
+                          child: Text('Thumb', style: _kBottomTextStyle),
                         ),
                       ),
                   ],
@@ -1477,8 +1406,10 @@ class ThumbnailListView extends GetView<ViewExtController> {
                 child: Container(
                   width: 30,
                   height: 30,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 10,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.6),
                     borderRadius: const BorderRadius.all(Radius.circular(40.0)),
@@ -1503,10 +1434,7 @@ class ThumbnailListView extends GetView<ViewExtController> {
     return Container(
       decoration: BoxDecoration(
         border: isCurrent
-            ? Border.all(
-                color: CupertinoColors.systemTeal,
-                width: kBorderWidth,
-              )
+            ? Border.all(color: CupertinoColors.systemTeal, width: kBorderWidth)
             : null,
         borderRadius: BorderRadius.circular(kRadius + kBorderWidth),
       ),
@@ -1519,8 +1447,11 @@ class ThumbnailListView extends GetView<ViewExtController> {
 }
 
 class FutureThumblArchive extends StatefulWidget {
-  const FutureThumblArchive(
-      {super.key, required this.asyncArchiveFile, this.gid});
+  const FutureThumblArchive({
+    super.key,
+    required this.asyncArchiveFile,
+    this.gid,
+  });
   final AsyncArchiveFile asyncArchiveFile;
   final String? gid;
 
@@ -1545,25 +1476,26 @@ class _FutureThumblArchiveState extends State<FutureThumblArchive> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<File?>(
-        future: _future,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            final _data = snapshot.data;
-            logger.t('${_data.runtimeType}');
-            if (_data != null) {
-              return ExtendedImage.file(
-                _data,
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.medium,
-              );
-            } else {
-              logger.d('${snapshot.error} ${snapshot.stackTrace}');
-              return buildErrorWidget();
-            }
+      future: _future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          final _data = snapshot.data;
+          logger.t('${_data.runtimeType}');
+          if (_data != null) {
+            return ExtendedImage.file(
+              _data,
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.medium,
+            );
           } else {
-            return buildPlaceholder();
+            logger.d('${snapshot.error} ${snapshot.stackTrace}');
+            return buildErrorWidget();
           }
-        });
+        } else {
+          return buildPlaceholder();
+        }
+      },
+    );
   }
 
   Widget buildPlaceholder() {
@@ -1577,17 +1509,16 @@ class _FutureThumblArchiveState extends State<FutureThumblArchive> {
         _future = getFileData(widget.gid, widget.asyncArchiveFile);
         setState(() {});
       },
-      child: const FaIcon(FontAwesomeIcons.rotateRight,
-          color: CupertinoColors.destructiveRed),
+      child: const FaIcon(
+        FontAwesomeIcons.rotateRight,
+        color: CupertinoColors.destructiveRed,
+      ),
     );
   }
 }
 
 class FutureThumbl extends StatefulWidget {
-  const FutureThumbl({
-    super.key,
-    required this.itemSer,
-  });
+  const FutureThumbl({super.key, required this.itemSer});
 
   final int itemSer;
 
@@ -1608,38 +1539,43 @@ class _FutureThumblState extends State<FutureThumbl> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<GalleryImage?>(
-        future: _future,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasError) {
-              logger.e('${snapshot.error}\n${snapshot.stackTrace}');
-              return builderrorWidget();
-            }
+      future: _future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            logger.e('${snapshot.error}\n${snapshot.stackTrace}');
+            return builderrorWidget();
+          }
 
-            final image = snapshot.data;
-            if (image != null &&
-                image.thumbUrl != null &&
-                image.thumbUrl!.isNotEmpty) {
-              logger.t('${image.ser}  ${image.thumbUrl}');
+          final image = snapshot.data;
+          if (image != null &&
+              image.thumbUrl != null &&
+              image.thumbUrl!.isNotEmpty) {
+            logger.t('${image.ser}  ${image.thumbUrl}');
 
-              if (image.largeThumb ?? false) {
-                return EhNetworkImage(
-                  imageUrl: image.thumbUrl ?? '',
-                  placeholder: (_, __) {
-                    return buildPlaceholder();
-                  },
-                  errorWidget: (ctx, url, error) {
-                    return builderrorWidget();
-                  },
-                );
-              } else {
-                return LayoutBuilder(builder:
-                    (BuildContext context, BoxConstraints constraints) {
+            if (image.largeThumb ?? false) {
+              return EhNetworkImage(
+                imageUrl: image.thumbUrl ?? '',
+                placeholder: (_, __) {
+                  return buildPlaceholder();
+                },
+                errorWidget: (ctx, url, error) {
+                  return builderrorWidget();
+                },
+              );
+            } else {
+              return LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
                   final imageSize = Size(image.thumbWidth!, image.thumbHeight!);
-                  final size =
-                      Size(constraints.maxWidth, constraints.maxHeight);
-                  final FittedSizes fittedSizes =
-                      applyBoxFit(BoxFit.contain, imageSize, size);
+                  final size = Size(
+                    constraints.maxWidth,
+                    constraints.maxHeight,
+                  );
+                  final FittedSizes fittedSizes = applyBoxFit(
+                    BoxFit.contain,
+                    imageSize,
+                    size,
+                  );
 
                   // logger.d(
                   //     '${fittedSizes.source} ${fittedSizes.destination} $_subWidth $_subHeight');
@@ -1656,18 +1592,21 @@ class _FutureThumblState extends State<FutureThumbl> {
                     ),
                     onLoadComplete: () =>
                         logic.handOnLoadCompletExtendedImageRect(
-                            url: image.thumbUrl!),
+                      url: image.thumbUrl!,
+                    ),
                   );
-                });
-              }
-            } else {
-              logger.d('error ${image?.ser}');
-              return builderrorWidget();
+                },
+              );
             }
           } else {
-            return buildPlaceholder();
+            logger.d('error ${image?.ser}');
+            return builderrorWidget();
           }
-        });
+        } else {
+          return buildPlaceholder();
+        }
+      },
+    );
   }
 
   Widget buildPlaceholder() {
@@ -1681,8 +1620,10 @@ class _FutureThumblState extends State<FutureThumbl> {
         _future = logic.fetchThumb(widget.itemSer);
         setState(() {});
       },
-      child: const FaIcon(FontAwesomeIcons.redoAlt,
-          color: CupertinoColors.destructiveRed),
+      child: const FaIcon(
+        FontAwesomeIcons.redoAlt,
+        color: CupertinoColors.destructiveRed,
+      ),
     );
   }
 }
@@ -1781,104 +1722,108 @@ Future<void> showSaveActionSheet(
   bool isLocal = false,
 }) {
   return showCupertinoModalPopup<void>(
-      context: context,
-      builder: (BuildContext context) {
-        final CupertinoActionSheet dialog = CupertinoActionSheet(
-          title: Text(L10n.of(context).save_into_album),
-          cancelButton: CupertinoActionSheetAction(
-              onPressed: () {
-                Get.back();
-              },
-              child: Text(L10n.of(context).cancel)),
-          actions: <Widget>[
+    context: context,
+    builder: (BuildContext context) {
+      final CupertinoActionSheet dialog = CupertinoActionSheet(
+        title: Text(L10n.of(context).save_into_album),
+        cancelButton: CupertinoActionSheetAction(
+          onPressed: () {
+            Get.back();
+          },
+          child: Text(L10n.of(context).cancel),
+        ),
+        actions: <Widget>[
+          CupertinoActionSheetAction(
+            onPressed: () async {
+              logger.d('重采样图片');
+              Get.back();
+              if (filePath != null && filePath.isNotEmpty) {
+                logger.d('重采样图片 filePath: $filePath');
+                try {
+                  await Api.saveLocalImageToPhoto(
+                    filePath,
+                    context: context,
+                    gid: gid,
+                  );
+                  showToast(L10n.of(context).saved_successfully);
+                } on EhError catch (e) {
+                  logger.e('保存失败', error: e);
+                  showToast(e.message);
+                } catch (e) {
+                  logger.e('保存失败', error: e);
+                  showToast(e.toString());
+                }
+              } else if (imageUrl != null && imageUrl.isNotEmpty) {
+                logger.d('重采样图片 imageUrl: $imageUrl');
+                try {
+                  await Api.saveNetworkImageToPhoto(
+                    imageUrl,
+                    context: context,
+                    gid: gid,
+                    ser: ser,
+                    filename: filename,
+                  );
+                  showToast(L10n.of(context).saved_successfully);
+                } on EhError catch (e) {
+                  logger.e('保存失败', error: e);
+                  showToast(e.message);
+                } catch (e) {
+                  logger.e('保存失败', error: e);
+                  showToast(e.toString());
+                }
+              } else {
+                showToast('imageUrl is null or file is null');
+              }
+            },
+            child: Text(L10n.of(context).resample_image),
+          ),
+          if (!isLocal && origImageUrl != null && origImageUrl.isNotEmpty)
             CupertinoActionSheetAction(
               onPressed: () async {
-                logger.d('重采样图片');
+                logger.d('原图');
                 Get.back();
-                if (filePath != null && filePath.isNotEmpty) {
-                  logger.d('重采样图片 filePath: $filePath');
-                  try {
-                    await Api.saveLocalImageToPhoto(
-                      filePath,
-                      context: context,
-                      gid: gid,
-                    );
-                    showToast(L10n.of(context).saved_successfully);
-                  } on EhError catch (e) {
-                    logger.e('保存失败', error: e);
-                    showToast(e.message);
-                  } catch (e) {
-                    logger.e('保存失败', error: e);
-                    showToast(e.toString());
-                  }
-                } else if (imageUrl != null && imageUrl.isNotEmpty) {
-                  logger.d('重采样图片 imageUrl: $imageUrl');
-                  try {
-                    await Api.saveNetworkImageToPhoto(
-                      imageUrl,
-                      context: context,
-                      gid: gid,
-                      ser: ser,
-                      filename: filename,
-                    );
-                    showToast(L10n.of(context).saved_successfully);
-                  } on EhError catch (e) {
-                    logger.e('保存失败', error: e);
-                    showToast(e.message);
-                  } catch (e) {
-                    logger.e('保存失败', error: e);
-                    showToast(e.toString());
-                  }
-                } else {
-                  showToast('imageUrl is null or file is null');
+
+                if (origImageUrl.isEmpty) {
+                  showToast('origImageUrl is null');
+                  return;
+                }
+
+                final releaseGlass = GlassVisibility.coverOverlay();
+                SmartDialog.showLoading(
+                  onDismiss: releaseGlass,
+                  builder: (_) => _downloadIndicator(),
+                  backType: SmartBackType.normal,
+                );
+                try {
+                  await Api.saveNetworkImageToPhoto(
+                    origImageUrl,
+                    context: context,
+                    gid: gid,
+                    ser: ser,
+                    filename: filename,
+                    progressCallback: (int count, int total) {
+                      // logger.d('$count $total');
+                    },
+                  );
+                  logger.d('下载完成');
+                  showToast(L10n.current.saved_successfully);
+                } on EhError catch (e, stack) {
+                  logger.e('下载失败', error: e, stackTrace: stack);
+                  showToast(e.message);
+                } catch (e, stack) {
+                  logger.e('下载失败', error: e, stackTrace: stack);
+                  showToast(e.toString());
+                } finally {
+                  SmartDialog.dismiss();
                 }
               },
-              child: Text(L10n.of(context).resample_image),
+              child: Text(L10n.of(context).original_image),
             ),
-            if (!isLocal && origImageUrl != null && origImageUrl.isNotEmpty)
-              CupertinoActionSheetAction(
-                onPressed: () async {
-                  logger.d('原图');
-                  Get.back();
-
-                  if (origImageUrl.isEmpty) {
-                    showToast('origImageUrl is null');
-                    return;
-                  }
-
-                  SmartDialog.showLoading(
-                    builder: (_) => _downloadIndicator(),
-                    backType: SmartBackType.normal,
-                  );
-                  try {
-                    await Api.saveNetworkImageToPhoto(
-                      origImageUrl,
-                      context: context,
-                      gid: gid,
-                      ser: ser,
-                      filename: filename,
-                      progressCallback: (int count, int total) {
-                        // logger.d('$count $total');
-                      },
-                    );
-                    logger.d('下载完成');
-                    showToast(L10n.current.saved_successfully);
-                  } on EhError catch (e, stack) {
-                    logger.e('下载失败', error: e, stackTrace: stack);
-                    showToast(e.message);
-                  } catch (e, stack) {
-                    logger.e('下载失败', error: e, stackTrace: stack);
-                    showToast(e.toString());
-                  } finally {
-                    SmartDialog.dismiss();
-                  }
-                },
-                child: Text(L10n.of(context).original_image),
-              ),
-          ],
-        );
-        return EhDarkCupertinoTheme(child: dialog);
-      });
+        ],
+      );
+      return EhDarkCupertinoTheme(child: dialog);
+    },
+  );
 }
 
 Future<void> showShareActionSheet(
@@ -1893,84 +1838,84 @@ Future<void> showShareActionSheet(
   bool isLocal = false,
 }) {
   return showCupertinoModalPopup<void>(
-      context: context,
-      builder: (BuildContext context) {
-        final CupertinoActionSheet dialog = CupertinoActionSheet(
-          title: Text(L10n.of(context).share_image),
-          cancelButton: CupertinoActionSheetAction(
-              onPressed: () {
-                Get.back();
-              },
-              child: Text(L10n.of(context).cancel)),
-          actions: <Widget>[
+    context: context,
+    builder: (BuildContext context) {
+      final CupertinoActionSheet dialog = CupertinoActionSheet(
+        title: Text(L10n.of(context).share_image),
+        cancelButton: CupertinoActionSheetAction(
+          onPressed: () {
+            Get.back();
+          },
+          child: Text(L10n.of(context).cancel),
+        ),
+        actions: <Widget>[
+          CupertinoActionSheetAction(
+            onPressed: () async {
+              logger.t('重采样图片');
+              Get.back();
+              if (filePath != null && filePath.isNotEmpty) {
+                await Api.shareLocalImage(filePath, context: context, gid: gid);
+              } else if (imageUrl != null && imageUrl.isNotEmpty) {
+                await Api.shareNetworkImage(
+                  imageUrl,
+                  context: context,
+                  gid: gid,
+                  ser: ser,
+                  filename: filename,
+                );
+              } else {
+                showToast('imageUrl is null or file is null');
+              }
+            },
+            child: Text(L10n.of(context).resample_image),
+          ),
+          if (!isLocal && origImageUrl != null && origImageUrl.isNotEmpty)
             CupertinoActionSheetAction(
               onPressed: () async {
-                logger.t('重采样图片');
+                logger.t('原图');
                 Get.back();
-                if (filePath != null && filePath.isNotEmpty) {
-                  await Api.shareLocalImage(
-                    filePath,
-                    context: context,
-                    gid: gid,
-                  );
-                } else if (imageUrl != null && imageUrl.isNotEmpty) {
+
+                if (origImageUrl.isEmpty) {
+                  showToast('origImageUrl is null');
+                  return;
+                }
+
+                final releaseGlass = GlassVisibility.coverOverlay();
+                SmartDialog.showLoading(
+                  onDismiss: releaseGlass,
+                  builder: (_) => _downloadIndicator(),
+                  backType: SmartBackType.block,
+                );
+                try {
                   await Api.shareNetworkImage(
-                    imageUrl,
+                    origImageUrl,
                     context: context,
                     gid: gid,
                     ser: ser,
                     filename: filename,
+                    progressCallback: (int count, int total) {
+                      // logger.d('$count $total');
+                    },
                   );
-                } else {
-                  showToast('imageUrl is null or file is null');
+                  logger.d('下载完成');
+                  // showToast(L10n.current.saved_successfully);
+                } on EhError catch (e, stack) {
+                  logger.e('下载失败', error: e, stackTrace: stack);
+                  showToast(e.message);
+                } catch (e, stack) {
+                  logger.e('下载失败', error: e, stackTrace: stack);
+                  showToast(e.toString());
+                } finally {
+                  SmartDialog.dismiss();
                 }
               },
-              child: Text(L10n.of(context).resample_image),
+              child: Text(L10n.of(context).original_image),
             ),
-            if (!isLocal && origImageUrl != null && origImageUrl.isNotEmpty)
-              CupertinoActionSheetAction(
-                onPressed: () async {
-                  logger.t('原图');
-                  Get.back();
-
-                  if (origImageUrl.isEmpty) {
-                    showToast('origImageUrl is null');
-                    return;
-                  }
-
-                  SmartDialog.showLoading(
-                    builder: (_) => _downloadIndicator(),
-                    backType: SmartBackType.block,
-                  );
-                  try {
-                    await Api.shareNetworkImage(
-                      origImageUrl,
-                      context: context,
-                      gid: gid,
-                      ser: ser,
-                      filename: filename,
-                      progressCallback: (int count, int total) {
-                        // logger.d('$count $total');
-                      },
-                    );
-                    logger.d('下载完成');
-                    // showToast(L10n.current.saved_successfully);
-                  } on EhError catch (e, stack) {
-                    logger.e('下载失败', error: e, stackTrace: stack);
-                    showToast(e.message);
-                  } catch (e, stack) {
-                    logger.e('下载失败', error: e, stackTrace: stack);
-                    showToast(e.toString());
-                  } finally {
-                    SmartDialog.dismiss();
-                  }
-                },
-                child: Text(L10n.of(context).original_image),
-              ),
-          ],
-        );
-        return EhDarkCupertinoTheme(child: dialog);
-      });
+        ],
+      );
+      return EhDarkCupertinoTheme(child: dialog);
+    },
+  );
 }
 
 Future<void> showImageSheet(
@@ -1986,71 +1931,73 @@ Future<void> showImageSheet(
   bool isLocal = false,
 }) {
   return showCupertinoModalPopup<void>(
-      context: context,
-      builder: (BuildContext context) {
-        final CupertinoActionSheet dialog = CupertinoActionSheet(
-          title: title != null ? Text(title) : null,
-          cancelButton: CupertinoActionSheetAction(
-              onPressed: () {
-                Get.back();
-              },
-              child: Text(L10n.of(context).cancel)),
-          actions: <Widget>[
-            CupertinoActionSheetAction(
-                onPressed: () {
-                  reload();
-                  Get.back();
-                },
-                child: Text(L10n.of(context).reload_image)),
-            CupertinoActionSheetAction(
-                onPressed: () {
-                  Get.back();
-                  showSaveActionSheet(
-                    context,
-                    imageUrl: imageUrl,
-                    filePath: filePath,
-                    origImageUrl: origImageUrl,
-                    gid: gid,
-                    ser: ser,
-                    filename: filename,
-                    isLocal: isLocal,
-                  );
-                },
-                child: Text(L10n.of(context).save_into_album)),
-            CupertinoActionSheetAction(
-                onPressed: () {
-                  Get.back();
-                  showShareActionSheet(
-                    context,
-                    imageUrl: imageUrl,
-                    filePath: filePath,
-                    origImageUrl: origImageUrl,
-                    gid: gid,
-                    ser: ser,
-                    filename: filename,
-                    isLocal: isLocal,
-                  );
-                },
-                child: Text(L10n.of(context).share_image)),
-          ],
-        );
-        return EhDarkCupertinoTheme(child: dialog);
-      });
+    context: context,
+    builder: (BuildContext context) {
+      final CupertinoActionSheet dialog = CupertinoActionSheet(
+        title: title != null ? Text(title) : null,
+        cancelButton: CupertinoActionSheetAction(
+          onPressed: () {
+            Get.back();
+          },
+          child: Text(L10n.of(context).cancel),
+        ),
+        actions: <Widget>[
+          CupertinoActionSheetAction(
+            onPressed: () {
+              reload();
+              Get.back();
+            },
+            child: Text(L10n.of(context).reload_image),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Get.back();
+              showSaveActionSheet(
+                context,
+                imageUrl: imageUrl,
+                filePath: filePath,
+                origImageUrl: origImageUrl,
+                gid: gid,
+                ser: ser,
+                filename: filename,
+                isLocal: isLocal,
+              );
+            },
+            child: Text(L10n.of(context).save_into_album),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              Get.back();
+              showShareActionSheet(
+                context,
+                imageUrl: imageUrl,
+                filePath: filePath,
+                origImageUrl: origImageUrl,
+                gid: gid,
+                ser: ser,
+                filename: filename,
+                isLocal: isLocal,
+              );
+            },
+            child: Text(L10n.of(context).share_image),
+          ),
+        ],
+      );
+      return EhDarkCupertinoTheme(child: dialog);
+    },
+  );
 }
 
 Widget _downloadIndicator() => Center(
       child: CupertinoTheme(
-        data: const CupertinoThemeData(
-          brightness: Brightness.dark,
-        ),
+        data: const CupertinoThemeData(brightness: Brightness.dark),
         child: CupertinoPopupSurface(
           child: Container(
-              height: 80,
-              width: 80,
-              alignment: Alignment.center,
-              child: const CupertinoActivityIndicator(
-                radius: 20,
-              )),
+            height: 80,
+            width: 80,
+            alignment: Alignment.center,
+            child: const CupertinoActivityIndicator(radius: 20),
+          ),
         ),
       ),
     );

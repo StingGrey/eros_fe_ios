@@ -1,3 +1,5 @@
+import 'package:eros_fe/const/design_tokens.dart';
+
 import 'dart:math';
 
 import 'package:eros_fe/common/service/controller_tag_service.dart';
@@ -49,41 +51,39 @@ class GalleryHeaderSliver extends StatelessWidget {
                 ),
                 Expanded(
                   child: GetBuilder<GalleryPageController>(
-                      assignId: true,
-                      id: GetIds.PAGE_VIEW_HEADER,
-                      tag: pageCtrlTag,
-                      builder: (logic) {
-                        final _pageState = logic.gState;
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // 标题
-                            GalleryTitle(
-                              title: _pageState.mainTitle,
-                            ),
-                            // 上传用户
-                            GalleryUploader(
-                                uploader:
-                                    _pageState.galleryProvider?.uploader ?? ''),
-                            const SizedBox(
-                              height: 8,
-                            ),
+                    assignId: true,
+                    id: GetIds.PAGE_VIEW_HEADER,
+                    tag: pageCtrlTag,
+                    builder: (logic) {
+                      final _pageState = logic.gState;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // 标题
+                          GalleryTitle(title: _pageState.mainTitle),
+                          // 上传用户
+                          GalleryUploader(
+                            uploader:
+                                _pageState.galleryProvider?.uploader ?? '',
+                          ),
+                          const SizedBox(height: 8),
 
-                            const Spacer(),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                const Spacer(),
-                                // 收藏按钮
-                                const GalleryFavButton(),
-                                // 阅读按钮
-                                ReadButton(gid: initGalleryProvider.gid ?? '')
-                                    .paddingOnly(right: 6),
-                              ],
-                            ).marginOnly(top: 10),
-                          ],
-                        );
-                      }),
+                          const Spacer(),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              const Spacer(),
+                              // 收藏按钮
+                              const GalleryFavButton(),
+                              // 阅读按钮
+                              ReadButton(gid: initGalleryProvider.gid ?? '')
+                                  .paddingOnly(right: 6),
+                            ],
+                          ).marginOnly(top: 10),
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
@@ -150,7 +150,9 @@ class GalleryInfoBarSliver extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       color: CupertinoDynamicColor.resolve(
-                          CupertinoColors.secondaryLabel, context),
+                        CupertinoColors.secondaryLabel,
+                        context,
+                      ),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     margin: const EdgeInsets.only(right: 6),
@@ -184,14 +186,11 @@ class GalleryInfoBarSliver extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        Get.toNamed(
-          EHRoutes.galleryInfo,
-          id: isLayoutLarge ? 2 : null,
-        );
+        Get.toNamed(EHRoutes.galleryInfo, id: isLayoutLarge ? 2 : null);
       },
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(DesignTokens.radiusM),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
         margin: const EdgeInsets.symmetric(vertical: 4),
@@ -234,7 +233,8 @@ class GalleryInfoBarSliver extends StatelessWidget {
                       const Spacer(),
                       // 类型
                       GalleryCategory(
-                          category: _pageState.galleryProvider?.category ?? ''),
+                        category: _pageState.galleryProvider?.category ?? '',
+                      ),
                     ],
                   ),
                 ),
@@ -249,11 +249,7 @@ class GalleryInfoBarSliver extends StatelessWidget {
 }
 
 class _InfoWidget extends StatelessWidget {
-  const _InfoWidget({
-    Key? key,
-    this.icon,
-    this.text,
-  }) : super(key: key);
+  const _InfoWidget({Key? key, this.icon, this.text}) : super(key: key);
 
   final FaIconData? icon;
   final String? text;
@@ -273,13 +269,12 @@ class _InfoWidget extends StatelessWidget {
         FaIcon(
           icon,
           color: CupertinoDynamicColor.resolve(
-              CupertinoColors.secondaryLabel, context),
+            CupertinoColors.secondaryLabel,
+            context,
+          ),
           size: 12,
         ).paddingOnly(right: paddingRight),
-        Text(
-          text ?? '...',
-          style: _hearTextStyle,
-        ),
+        Text(text ?? '...', style: _hearTextStyle),
       ],
     );
   }
@@ -298,7 +293,9 @@ class GalleryInfoView extends StatelessWidget {
     final TextStyle _hearTextStyle = TextStyle(
       fontSize: 12,
       color: CupertinoDynamicColor.resolve(
-          CupertinoColors.secondaryLabel, context),
+        CupertinoColors.secondaryLabel,
+        context,
+      ),
     );
 
     Widget languageWidget() => Row(
@@ -307,7 +304,9 @@ class GalleryInfoView extends StatelessWidget {
             FaIcon(
               FontAwesomeIcons.language,
               color: CupertinoDynamicColor.resolve(
-                  CupertinoColors.secondaryLabel, context),
+                CupertinoColors.secondaryLabel,
+                context,
+              ),
               size: 12,
             ).paddingOnly(right: paddingRight),
             Text(
@@ -324,7 +323,9 @@ class GalleryInfoView extends StatelessWidget {
               FontAwesomeIcons.solidImages,
               size: 12,
               color: CupertinoDynamicColor.resolve(
-                  CupertinoColors.secondaryLabel, context),
+                CupertinoColors.secondaryLabel,
+                context,
+              ),
             ).paddingOnly(right: paddingRight),
             Text(
               _pageState.galleryProvider?.filecount ?? '...',
@@ -339,7 +340,9 @@ class GalleryInfoView extends StatelessWidget {
               FontAwesomeIcons.fileArrowDown,
               size: 12,
               color: CupertinoDynamicColor.resolve(
-                  CupertinoColors.secondaryLabel, context),
+                CupertinoColors.secondaryLabel,
+                context,
+              ),
             ).paddingOnly(right: paddingRight),
             Text(
               _pageState.galleryProvider?.filesizeText ?? '...',
@@ -354,11 +357,15 @@ class GalleryInfoView extends StatelessWidget {
               FontAwesomeIcons.solidHeart,
               // color: CupertinoColors.systemRed,
               color: CupertinoDynamicColor.resolve(
-                  CupertinoColors.secondaryLabel, context),
+                CupertinoColors.secondaryLabel,
+                context,
+              ),
               size: 12,
             ).paddingOnly(right: paddingRight),
-            Text(_pageState.galleryProvider?.favoritedCount ?? '...',
-                style: _hearTextStyle),
+            Text(
+              _pageState.galleryProvider?.favoritedCount ?? '...',
+              style: _hearTextStyle,
+            ),
           ],
         );
     Widget rateCountWidget() => Row(
@@ -367,11 +374,15 @@ class GalleryInfoView extends StatelessWidget {
             FaIcon(
               FontAwesomeIcons.solidStar,
               color: CupertinoDynamicColor.resolve(
-                  CupertinoColors.secondaryLabel, context),
+                CupertinoColors.secondaryLabel,
+                context,
+              ),
               size: 12,
             ).paddingOnly(right: paddingRight),
-            Text(_pageState.galleryProvider?.ratingCount ?? '...',
-                style: _hearTextStyle),
+            Text(
+              _pageState.galleryProvider?.ratingCount ?? '...',
+              style: _hearTextStyle,
+            ),
           ],
         );
     Widget potTimeWidget() => Row(
@@ -381,7 +392,9 @@ class GalleryInfoView extends StatelessWidget {
               FontAwesomeIcons.solidClock,
               size: 12,
               color: CupertinoDynamicColor.resolve(
-                  CupertinoColors.secondaryLabel, context),
+                CupertinoColors.secondaryLabel,
+                context,
+              ),
             ).paddingOnly(right: paddingRight),
             Text(
               _pageState.galleryProvider?.postTime ?? '...',
@@ -394,14 +407,14 @@ class GalleryInfoView extends StatelessWidget {
     Widget infoWidget() => Row(
           children: [
             Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2),
-              ),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(2)),
               padding: const EdgeInsets.only(right: 6),
               child: Container(
                 width: 2,
                 color: CupertinoDynamicColor.resolve(
-                    CupertinoColors.secondaryLabel, context),
+                  CupertinoColors.secondaryLabel,
+                  context,
+                ),
               ),
             ),
             Expanded(
@@ -426,10 +439,7 @@ class GalleryInfoView extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        Get.toNamed(
-          EHRoutes.galleryInfo,
-          id: isLayoutLarge ? 2 : null,
-        );
+        Get.toNamed(EHRoutes.galleryInfo, id: isLayoutLarge ? 2 : null);
       },
       child: infoWidget(),
     );

@@ -1,3 +1,4 @@
+import 'package:eros_fe/const/design_tokens.dart';
 import 'package:eros_fe/common/service/ehsetting_service.dart';
 import 'package:eros_fe/const/theme_colors.dart';
 import 'package:eros_fe/models/base/eh_models.dart';
@@ -14,7 +15,7 @@ import 'item_base.dart';
 
 const double kCoverImageWidth = 90.0;
 const double kItemHeight = 134.0;
-const double kPaddingLeft = 8.0;
+const double kPaddingLeft = DesignTokens.spaceM;
 
 /// 画廊列表项
 /// 简单模式 精简显示信息 固定高度
@@ -40,79 +41,81 @@ class GalleryItemSimpleWidget extends StatelessWidget {
         color: galleryProviderController.colorTap.value,
         height: showTag ? kItemHeight + 10 : kItemHeight,
         padding: const EdgeInsets.fromLTRB(kPaddingLeft, 10, 8, 10),
-        child: Row(children: <Widget>[
-          // 封面图片
-          _buildCoverImage(),
-          const SizedBox(width: 8),
-          // 右侧信息
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                // 标题
-                _buildTitle(),
-                const SizedBox(height: 4),
-                // 上传者
-                Text(
-                  galleryProvider.uploader ?? '',
-                  style: const TextStyle(
-                      fontSize: 12, color: CupertinoColors.systemGrey),
-                ),
-                // tag
-                const Spacer(),
-                if (showTag)
-                  // TagListViewBox(
-                  //   simpleTags:
-                  //       galleryProviderController.galleryProvider.simpleTags ?? [],
-                  // ),
-                  TagWaterfallFlowViewBox(
-                    simpleTags: galleryProvider.simpleTags ?? [],
-                    crossAxisCount: 1,
+        child: Row(
+          children: <Widget>[
+            // 封面图片
+            _buildCoverImage(),
+            const SizedBox(width: 8),
+            // 右侧信息
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  // 标题
+                  _buildTitle(),
+                  const SizedBox(height: 4),
+                  // 上传者
+                  Text(
+                    galleryProvider.uploader ?? '',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: CupertinoColors.systemGrey,
+                    ),
                   ),
-                const Spacer(),
-                // 评分行
-                GetBuilder(
-                  init: galleryProviderController,
-                  tag: galleryProviderController.galleryProvider.gid,
-                  builder: (_) => Row(
+                  // tag
+                  const Spacer(),
+                  if (showTag)
+                    // TagListViewBox(
+                    //   simpleTags:
+                    //       galleryProviderController.galleryProvider.simpleTags ?? [],
+                    // ),
+                    TagWaterfallFlowViewBox(
+                      simpleTags: galleryProvider.simpleTags ?? [],
+                      crossAxisCount: 1,
+                    ),
+                  const Spacer(),
+                  // 评分行
+                  GetBuilder(
+                    init: galleryProviderController,
+                    tag: galleryProviderController.galleryProvider.gid,
+                    builder: (_) => Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        // 评分
+                        _buildRating(),
+                        // 占位
+                        const Spacer(),
+                        // 收藏图标
+                        _buildFavcatIcon(),
+                        // 图片数量
+                        _buildFileCountWidget(),
+                      ],
+                    ),
+                  ),
+                  Container(height: 4),
+                  // 类型和时间
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      // 评分
-                      _buildRating(),
-                      // 占位
+                      // 类型
+                      _buildCategory(),
                       const Spacer(),
-                      // 收藏图标
-                      _buildFavcatIcon(),
-                      // 图片数量
-                      _buildFileCountWidget(),
+                      // 上传时间
+                      PostTime(
+                        postTime: galleryProviderController
+                                .galleryProvider.postTime ??
+                            '',
+                        expunged:
+                            galleryProviderController.galleryProvider.expunged,
+                        fontSize: 11,
+                      ),
                     ],
                   ),
-                ),
-                Container(
-                  height: 4,
-                ),
-                // 类型和时间
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    // 类型
-                    _buildCategory(),
-                    const Spacer(),
-                    // 上传时间
-                    PostTime(
-                      postTime:
-                          galleryProviderController.galleryProvider.postTime ??
-                              '',
-                      expunged:
-                          galleryProviderController.galleryProvider.expunged,
-                      fontSize: 11,
-                    ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ]),
+          ],
+        ),
       );
     });
 
@@ -124,7 +127,9 @@ class GalleryItemSimpleWidget extends StatelessWidget {
             height: 0.5,
             indent: kPaddingLeft,
             color: CupertinoDynamicColor.resolve(
-                CupertinoColors.systemGrey4, context),
+              CupertinoColors.systemGrey4,
+              context,
+            ),
           ),
         ],
       ),
@@ -168,7 +173,9 @@ class GalleryItemSimpleWidget extends StatelessWidget {
                 //阴影
                 BoxShadow(
                   color: CupertinoDynamicColor.resolve(
-                      CupertinoColors.systemGrey5, Get.context!),
+                    CupertinoColors.systemGrey5,
+                    Get.context!,
+                  ),
                   blurRadius: 10,
                 ),
               ],
@@ -177,10 +184,10 @@ class GalleryItemSimpleWidget extends StatelessWidget {
               // 圆角
               borderRadius: BorderRadius.circular(6),
               child: CoverImg(
-                  height: _item.imgHeight?.toDouble(),
-                  width: _item.imgWidth?.toDouble(),
-                  imgUrl:
-                      galleryProviderController.galleryProvider.imgUrl ?? ''),
+                height: _item.imgHeight?.toDouble(),
+                width: _item.imgWidth?.toDouble(),
+                imgUrl: galleryProviderController.galleryProvider.imgUrl ?? '',
+              ),
             ),
           ),
         ),
@@ -201,7 +208,9 @@ class GalleryItemSimpleWidget extends StatelessWidget {
                 galleryProviderController.galleryProvider.colorRating?.trim() ??
                     'ir'],
             colorDark: CupertinoDynamicColor.resolve(
-                CupertinoColors.systemGrey3, Get.context!),
+              CupertinoColors.systemGrey3,
+              Get.context!,
+            ),
           ),
         ),
         Text(
@@ -209,7 +218,9 @@ class GalleryItemSimpleWidget extends StatelessWidget {
           style: TextStyle(
             fontSize: 11,
             color: CupertinoDynamicColor.resolve(
-                CupertinoColors.systemGrey, Get.context!),
+              CupertinoColors.systemGrey,
+              Get.context!,
+            ),
           ),
         ),
       ],
@@ -224,20 +235,20 @@ class GalleryItemSimpleWidget extends StatelessWidget {
           child: Text(
             galleryProviderController.galleryProvider.translated ?? '',
             style: const TextStyle(
-                fontSize: 11, color: CupertinoColors.systemGrey),
+              fontSize: 11,
+              color: CupertinoColors.systemGrey,
+            ),
           ),
         ),
-        const Icon(
-          Icons.panorama,
-          size: 12,
-          color: CupertinoColors.systemGrey,
-        ),
+        const Icon(Icons.panorama, size: 12, color: CupertinoColors.systemGrey),
         Container(
           padding: const EdgeInsets.only(left: 2),
           child: Text(
             galleryProviderController.galleryProvider.filecount ?? '',
             style: const TextStyle(
-                fontSize: 11, color: CupertinoColors.systemGrey),
+              fontSize: 11,
+              color: CupertinoColors.systemGrey,
+            ),
           ),
         ),
       ],
@@ -270,11 +281,11 @@ class GalleryItemSimpleWidget extends StatelessWidget {
 
   Widget _buildCategory() {
     final Color _colorCategory = CupertinoDynamicColor.resolve(
-        ThemeColors.catColor[
-                galleryProviderController.galleryProvider.category ??
-                    'default'] ??
-            CupertinoColors.systemBackground,
-        Get.context!);
+      ThemeColors.catColor[galleryProviderController.galleryProvider.category ??
+              'default'] ??
+          CupertinoColors.systemBackground,
+      Get.context!,
+    );
 
     return Container(
       decoration: BoxDecoration(
@@ -296,12 +307,8 @@ class GalleryItemSimpleWidget extends StatelessWidget {
 
 /// 封面图片Widget
 class CoverImg extends StatelessWidget {
-  const CoverImg({
-    Key? key,
-    required this.imgUrl,
-    this.height,
-    this.width,
-  }) : super(key: key);
+  const CoverImg({Key? key, required this.imgUrl, this.height, this.width})
+      : super(key: key);
 
   final String imgUrl;
   final double? height;
@@ -323,7 +330,9 @@ class CoverImg extends StatelessWidget {
                   return Container(
                     alignment: Alignment.center,
                     color: CupertinoDynamicColor.resolve(
-                        CupertinoColors.systemGrey5, context),
+                      CupertinoColors.systemGrey5,
+                      context,
+                    ),
                     child: const CupertinoActivityIndicator(),
                   );
                 },
