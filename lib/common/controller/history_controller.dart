@@ -102,6 +102,7 @@ class HistoryController extends GetxController {
     final hisViewController = Get.find<HistoryViewController>();
 
     final index = histories.indexWhere((element) => element.gid == gid);
+    if (index < 0) return;
     final item = histories[index];
     histories.removeAt(index);
     if (isListView) {
@@ -161,6 +162,7 @@ class HistoryController extends GetxController {
     await historyMigration();
     final histories = await isarHelper.getAllHistory();
     _histories.addAll(histories);
+    update();
   }
 
   Future<void> historyMigration() async {

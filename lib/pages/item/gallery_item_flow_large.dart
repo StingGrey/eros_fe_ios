@@ -1,7 +1,5 @@
 import 'package:eros_fe/const/design_tokens.dart';
 
-import 'dart:math';
-
 import 'package:blur/blur.dart';
 import 'package:eros_fe/common/service/theme_service.dart';
 import 'package:eros_fe/const/theme_colors.dart';
@@ -15,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:rotated_corner_decoration/rotated_corner_decoration.dart';
 
 import 'gallery_item.dart';
+import 'gallery_cover_layout.dart';
 import 'item_base.dart';
 
 const int kTitleMaxLines = 3;
@@ -198,7 +197,7 @@ class _CoverWidget extends StatelessWidget {
     return Hero(
       tag: '${gid}_cover_$tabTag',
       child: AspectRatio(
-        aspectRatio: max(imgWidth / imgHeight, 1 / 2),
+        aspectRatio: galleryCoverAspectRatio(imgWidth, imgHeight),
         child: ClipRRect(
           borderRadius: _borderRadius,
           child: Container(

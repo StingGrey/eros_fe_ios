@@ -76,10 +76,14 @@ void main() {
       upscaleNeedScale: Optional.of(1.5),
       upscaleCacheGB: Optional.of(8),
       upscaleDenoise: Optional.of(1),
+      upscaleStrength: Optional.of(35),
+      upscaleModel: Optional.of('metalfx-spatial-v1'),
     );
     expect(DownloadConfig.fromJson(edited.toJson()), edited);
     expect(edited.clone(), edited);
     expect(edited.preloadImage, 2);
+    expect(edited.upscaleStrength, 35);
+    expect(edited.upscaleModel, 'metalfx-spatial-v1');
   });
 
   test(
@@ -110,6 +114,8 @@ void main() {
         await cache.lookup(first, const UpscaleOptions(denoise: 1)),
         isNull,
       );
+      expect(await cache.lookup(first, const UpscaleOptions(strength: 25)), isNull);
+      expect(await cache.lookup(first, const UpscaleOptions(model: 'metalfx-spatial-v1')), isNull);
     },
   );
 
@@ -121,6 +127,8 @@ void main() {
       final pending = <String, Completer<String>>{};
       final cancelled = <String>[];
       messenger.setMockMethodCallHandler(channel, (call) async {
+        if (call.method == 'capabilities')
+          return {'models': UpscaleModel.all.map((m) => m.id).toList()};
         final args = call.arguments as Map;
         if (call.method == 'probe')
           return {'width': 700, 'height': 1000, 'frames': 1};
@@ -147,6 +155,8 @@ void main() {
       }
       await until(() => calls.length == 2);
       expect(calls, hasLength(2));
+      expect(service.statusFor('page1').phase, UpscalePhase.processing);
+      expect(service.statusFor('page3').phase, UpscalePhase.queued);
       service.enqueueWindow({'page20'});
       await until(() => cancelled.length == 2);
       await service.cachedOrSchedule('page20', source, 2400);
@@ -159,6 +169,8 @@ void main() {
       await File(finalCall['output'] as String).writeAsBytes([9, 9, 9]);
       pending[finalCall['taskId']]!.complete(finalCall['output'] as String);
       await until(() => changes.contains('page20'));
+      expect(service.statusFor('page20').phase, UpscalePhase.ready);
+      expect(service.statusFor('page1').phase, UpscalePhase.waiting);
       expect(changes, ['page20']);
       final cached = await service.cachedOrSchedule('page20', source, 2400);
       expect(await cached!.readAsBytes(), [9, 9, 9]);
@@ -179,6 +191,8 @@ void main() {
       final source = await File('${root.path}/source').writeAsBytes([1]);
       var calls = 0;
       messenger.setMockMethodCallHandler(channel, (call) async {
+        if (call.method == 'capabilities')
+          return {'models': UpscaleModel.all.map((m) => m.id).toList()};
         if (call.method == 'probe')
           return {'width': 700, 'height': 1000, 'frames': 1};
         if (call.method == 'upscale') {
@@ -199,6 +213,8 @@ void main() {
       await Future<void>.delayed(const Duration(milliseconds: 20));
       expect(await service.cachedOrSchedule('page', source, 2400), isNull);
       expect(calls, 1);
+      expect(service.statusFor('page').phase, UpscalePhase.original);
+      expect(service.statusFor('page').reason, 'missing-model');
       service.onClose();
     },
   );
@@ -208,6 +224,8 @@ void main() {
       final source = await File('${root.path}/source').writeAsBytes([1, 2, 3]);
       var calls = 0;
       messenger.setMockMethodCallHandler(channel, (call) async {
+        if (call.method == 'capabilities')
+          return {'models': UpscaleModel.all.map((m) => m.id).toList()};
         if (call.method == 'probe')
           return {'width': 700, 'height': 1000, 'frames': 1};
         if (call.method == 'upscale') {
@@ -239,8 +257,68 @@ void main() {
       );
       reopened.enqueueWindow({'page'});
       expect(await reopened.cachedOrSchedule('page', source, 2400), isNull);
+      expect(reopened.statusFor('page').reason, 'quality');
       expect(calls, 1);
       reopened.onClose();
     },
   );
+
+  test('model and strength changes cancel old jobs and forward actual parameters', () async {
+    final source = await File('${root.path}/source').writeAsBytes([1, 2, 3]);
+    var options = const UpscaleOptions();
+    final calls = <Map<dynamic, dynamic>>[];
+    final pending = <Completer<String>>[];
+    var cancellations = 0;
+    messenger.setMockMethodCallHandler(channel, (call) async {
+      if (call.method == 'capabilities') return {'models': UpscaleModel.all.map((m) => m.id).toList()};
+      if (call.method == 'probe') return {'width': 700, 'height': 1000, 'frames': 1};
+      if (call.method == 'cancel') { cancellations++; return null; }
+      calls.add(call.arguments as Map);
+      pending.add(Completer<String>());
+      return pending.last.future;
+    });
+    final service = UpscaleService(directory: Directory('${root.path}/cache'),
+      options: () => options, supported: true, channel: channel);
+    final changes = <String>[];
+    final subscription = service.changes.listen(changes.add);
+    service.enqueueWindow({'page'});
+    await service.cachedOrSchedule('page', source, 2400);
+    await until(() => calls.length == 1);
+    options = const UpscaleOptions(model: 'metalfx-spatial-v1', strength: 35, denoise: 1);
+    service.refreshSettings();
+    await service.cachedOrSchedule('page', source, 2400);
+    await until(() => calls.length == 2 && cancellations == 1);
+    expect(calls.last['model'], 'metalfx-spatial-v1');
+    expect(calls.last['strength'], 35);
+    expect(calls.last['denoise'], 0);
+    for (var i = 0; i < calls.length; i++) {
+      await File(calls[i]['output'] as String).writeAsBytes([i + 1]);
+      pending[i].complete(calls[i]['output'] as String);
+    }
+    await until(() => service.statusFor('page').phase == UpscalePhase.ready);
+    expect(await service.cache.lookup(source, const UpscaleOptions()), isNull);
+    expect(await (await service.cache.lookup(source, options))!.readAsBytes(), [2]);
+    options = const UpscaleOptions(strength: 0);
+    service.refreshSettings();
+    expect(await service.cachedOrSchedule('page', source, 2400), isNull);
+    expect(service.statusFor('page').reason, 'strength');
+    expect(calls.length, 2);
+    service.onClose();
+    await subscription.cancel();
+  });
+
+  test('unsupported MetalFX keeps the original without starting another algorithm', () async {
+    final source = await File('${root.path}/source').writeAsBytes([1]);
+    messenger.setMockMethodCallHandler(channel, (call) async {
+      if (call.method == 'capabilities') return {'models': ['real-cugan-v1']};
+      fail('Unsupported MetalFX must not probe or infer: ${call.method}');
+    });
+    final service = UpscaleService(directory: Directory('${root.path}/cache'),
+      options: () => const UpscaleOptions(model: 'metalfx-spatial-v1'),
+      supported: true, channel: channel);
+    service.enqueueWindow({'page'});
+    expect(await service.cachedOrSchedule('page', source, 2400), isNull);
+    expect(service.statusFor('page').reason, 'unsupported');
+    service.onClose();
+  });
 }

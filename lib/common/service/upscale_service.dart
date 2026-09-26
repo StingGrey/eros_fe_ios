@@ -9,6 +9,11 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
 
+import 'upscale_status.dart';
+import 'upscale_models.dart';
+export 'upscale_status.dart';
+export 'upscale_models.dart';
+
 class UpscaleOptions {
   const UpscaleOptions({
     this.enabled = true,
@@ -17,13 +22,18 @@ class UpscaleOptions {
     this.needScale = 1.3,
     this.model = 'real-cugan-v1',
     this.denoise = 0,
+    this.strength = 100,
     this.cacheGB = 4,
   });
   final bool enabled, always;
-  final int skipHeight, denoise, cacheGB;
+  final int skipHeight, denoise, strength, cacheGB;
   final double needScale;
   final String model;
-  String get modelKey => '${model}_2x_d$denoise';
+  int get effectiveDenoise =>
+      UpscaleModel.find(model)?.denoise == true ? denoise.clamp(0, 1) : 0;
+  int get effectiveStrength => strength.clamp(0, 100);
+  String get modelKey =>
+      '${model}_2x_d${effectiveDenoise}_s${effectiveStrength}_r2';
   String get signature => '$enabled/$always/$skipHeight/$needScale/$modelKey';
 
   String? skipReason({
@@ -34,6 +44,7 @@ class UpscaleOptions {
     bool thumbnail = false,
   }) {
     if (!enabled) return 'disabled';
+    if (effectiveStrength == 0) return 'strength';
     if (frames != 1) return 'animated';
     if (thumbnail || width < 256 || height < 256) return 'thumbnail';
     if (!always && height >= skipHeight) return 'height';
@@ -140,8 +151,33 @@ class UpscaleService extends GetxService {
   final MethodChannel channel;
   final bool supported;
   final lastError = ''.obs;
+  final availableModels = Rxn<Set<String>>();
+  Future<void>? _capabilities;
+
+  Future<void> ensureCapabilities() => _capabilities ??= () async {
+    if (!supported) {
+      availableModels.value = <String>{};
+      return;
+    }
+    try {
+      final result = await channel.invokeMapMethod<String, dynamic>(
+        'capabilities',
+      );
+      if (result != null && !_closed) {
+        availableModels.value = (result['models'] as List)
+            .cast<String>()
+            .toSet();
+      }
+    } catch (_) {
+      // The inference channel still reports failures for older plugin versions.
+      if (!_closed) availableModels.value = <String>{};
+    }
+  }();
   final _changes = StreamController<String>.broadcast();
   Stream<String> get changes => _changes.stream;
+  final _statusChanges = StreamController<String>.broadcast();
+  Stream<String> get statusChanges => _statusChanges.stream;
+  final Map<String, UpscalePageStatus> _statuses = {};
   final Map<String, _UpscaleJob> _jobs = {};
   final Queue<_UpscaleJob> _queue = Queue();
   final Map<String, Set<Object>> _imageKeys = {};
@@ -151,6 +187,72 @@ class UpscaleService extends GetxService {
   int _running = 0, _nextTask = 0;
   bool _closed = false;
   int revision(String id) => _revisions[id] ?? 0;
+
+  UpscalePageStatus statusFor(String id) {
+    if (!supported)
+      return const UpscalePageStatus(
+        phase: UpscalePhase.original,
+        reason: 'unsupported',
+      );
+    if (!options().enabled)
+      return const UpscalePageStatus(
+        phase: UpscalePhase.original,
+        reason: 'disabled',
+      );
+    if (options().effectiveStrength == 0) {
+      return const UpscalePageStatus(
+        phase: UpscalePhase.original,
+        reason: 'strength',
+      );
+    }
+    return _statuses[id] ?? const UpscalePageStatus();
+  }
+
+  void _setStatus(
+    String id,
+    UpscalePhase phase, {
+    String? reason,
+    int? width,
+    int? height,
+    int? outputWidth,
+    int? outputHeight,
+  }) {
+    if (_closed || !_window.contains(id)) return;
+    final previous = _statuses[id];
+    final status = UpscalePageStatus(
+      phase: phase,
+      reason: reason,
+      sourceWidth: width ?? previous?.sourceWidth,
+      sourceHeight: height ?? previous?.sourceHeight,
+      outputWidth: outputWidth,
+      outputHeight: outputHeight,
+    );
+    if (previous == status) return;
+    _statuses[id] = status;
+    _statusChanges.add(id);
+  }
+
+  /// A completed job is only "enhanced" after the reader decodes its output.
+  /// Ignore frames from a provider invalidated by a settings change or new job.
+  void reportDisplayed(
+    String id, {
+    required String signature,
+    required int revision,
+    required bool enhanced,
+    required int width,
+    required int height,
+  }) {
+    if (signature != options().signature || revision != this.revision(id))
+      return;
+    if (enhanced) {
+      _setStatus(
+        id,
+        UpscalePhase.enhanced,
+        outputWidth: width,
+        outputHeight: height,
+      );
+    }
+  }
 
   void trackImageKey(String id, Object key) {
     if (_window.contains(id)) (_imageKeys[id] ??= {}).add(key);
@@ -162,6 +264,7 @@ class UpscaleService extends GetxService {
       if (!ids.contains(job.id)) _cancel(job);
     }
     _finished.removeWhere((id, _) => !ids.contains(id));
+    _statuses.removeWhere((id, _) => !ids.contains(id));
     _revisions.removeWhere((id, _) => !ids.contains(id));
     _imageKeys.removeWhere((id, keys) {
       if (ids.contains(id)) return false;
@@ -187,6 +290,7 @@ class UpscaleService extends GetxService {
   @override
   void onInit() {
     super.onInit();
+    unawaited(ensureCapabilities());
     unawaited(
       cache
           .trim(options().cacheGB.clamp(1, 16) * 1024 * 1024 * 1024)
@@ -203,7 +307,9 @@ class UpscaleService extends GetxService {
       _cancel(job);
     }
     _finished.clear();
+    _statuses.clear();
     for (final id in _window) {
+      _statusChanges.add(id);
       _changed(id);
     }
     unawaited(
@@ -232,7 +338,11 @@ class UpscaleService extends GetxService {
     int? sourceHeight,
   }) async {
     final config = options();
-    if (!supported || !config.enabled || _closed) return null;
+    if (!supported ||
+        !config.enabled ||
+        config.effectiveStrength == 0 ||
+        _closed)
+      return null;
     if (sourceWidth != null &&
         sourceHeight != null &&
         sourceWidth > 0 &&
@@ -243,17 +353,37 @@ class UpscaleService extends GetxService {
         physicalHeight: physicalHeight,
       );
       if (reason != null) {
+        _setStatus(
+          id,
+          UpscalePhase.original,
+          reason: reason,
+          width: sourceWidth,
+          height: sourceHeight,
+        );
         debugPrint('upscale[$id]: skip=$reason (metadata)');
         return null;
       }
     }
     try {
+      await ensureCapabilities();
+      if (_closed || options().signature != config.signature) return null;
+      if (UpscaleModel.find(config.model) == null ||
+          availableModels.value?.contains(config.model) == false) {
+        _setStatus(id, UpscalePhase.original, reason: 'unsupported');
+        return null;
+      }
       if (!await source.exists()) return null;
       // Probe only metadata; it also detects animated WebP/APNG despite suffixes.
       final info = await channel.invokeMapMethod<String, dynamic>('probe', {
         'path': source.path,
       });
-      if (info == null) return null;
+      if (_closed || options().signature != config.signature) return null;
+      if (info == null) {
+        _setStatus(id, UpscalePhase.original, reason: 'probe');
+        return null;
+      }
+      final width = info['width'] as int;
+      final height = info['height'] as int;
       final reason = config.skipReason(
         width: info['width'] as int,
         height: info['height'] as int,
@@ -261,6 +391,13 @@ class UpscaleService extends GetxService {
         physicalHeight: physicalHeight,
       );
       if (reason != null) {
+        _setStatus(
+          id,
+          UpscalePhase.original,
+          reason: reason,
+          width: width,
+          height: height,
+        );
         debugPrint('upscale[$id]: skip=$reason');
         if (_window.contains(id))
           _finished[id] = '${config.signature}/${source.path}';
@@ -270,11 +407,23 @@ class UpscaleService extends GetxService {
       final rejected = File('${cache.file(digest, config).path}.rejected');
       if (await rejected.exists()) {
         await rejected.setLastModified(DateTime.now());
+        if (options().signature == config.signature) {
+          _setStatus(
+            id,
+            UpscalePhase.original,
+            reason: 'quality',
+            width: width,
+            height: height,
+          );
+        }
         return null;
       }
       final cached = await cache.lookup(source, config);
       if (_closed || options().signature != config.signature) return null;
       if (cached != null) {
+        if (statusFor(id).phase != UpscalePhase.enhanced) {
+          _setStatus(id, UpscalePhase.ready, width: width, height: height);
+        }
         debugPrint('upscale[$id]: cache hit');
         return cached;
       }
@@ -296,9 +445,13 @@ class UpscaleService extends GetxService {
         signature,
       );
       _jobs[id] = job;
+      _setStatus(id, UpscalePhase.queued, width: width, height: height);
       _queue.add(job);
       _pump();
     } catch (error) {
+      if (!_closed && options().signature == config.signature) {
+        _setStatus(id, UpscalePhase.original, reason: 'failed');
+      }
       lastError.value = error is PlatformException
           ? (error.message ?? error.code)
           : error.toString();
@@ -312,6 +465,7 @@ class UpscaleService extends GetxService {
       if (job.cancelled || !_window.contains(job.id)) continue;
       _running++;
       job.running = true;
+      _setStatus(job.id, UpscalePhase.processing);
       unawaited(_run(job));
     }
   }
@@ -333,14 +487,20 @@ class UpscaleService extends GetxService {
         'output': temporary.path,
         'model': job.options.model,
         'scale': 2,
-        'denoise': job.options.denoise,
+        'denoise': job.options.effectiveDenoise,
+        'strength': job.options.effectiveStrength,
       });
       if (job.cancelled || !_window.contains(job.id)) return;
       if (!await temporary.exists() || await temporary.length() == 0)
-        throw StateError('Core ML returned no image');
+        throw StateError('Upscaler returned no image');
       await temporary.rename(destination.path);
       await destination.setLastModified(DateTime.now());
+      if (job.cancelled ||
+          _closed ||
+          options().signature != job.options.signature)
+        return;
       lastError.value = '';
+      _setStatus(job.id, UpscalePhase.ready);
       _changed(job.id);
       await cache.trim(
         job.options.cacheGB.clamp(1, 16) * 1024 * 1024 * 1024,
@@ -348,6 +508,11 @@ class UpscaleService extends GetxService {
       );
     } catch (error) {
       if (!job.cancelled) {
+        _setStatus(
+          job.id,
+          UpscalePhase.original,
+          reason: error is PlatformException ? error.code : 'failed',
+        );
         lastError.value = error is PlatformException
             ? (error.message ?? error.code)
             : error.toString();
@@ -383,6 +548,7 @@ class UpscaleService extends GetxService {
     enqueueWindow({});
     _queue.clear();
     unawaited(_changes.close());
+    unawaited(_statusChanges.close());
     super.onClose();
   }
 }

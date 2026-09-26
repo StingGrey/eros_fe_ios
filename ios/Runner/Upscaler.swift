@@ -31,6 +31,18 @@ final class Upscaler: NSObject, FlutterPlugin {
 
     func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         let args = call.arguments as? [String: Any] ?? [:]
+        if call.method == "capabilities" {
+            DispatchQueue.global(qos: .utility).async {
+                var models: [String] = []
+                if #available(iOS 16.0, *) {
+                    models = ["real-cugan-v1", "waifu2x-cunet-v1", "realesrgan-anime-v1"]
+                    if MetalFXUpscaleTile.supported { models.append("metalfx-spatial-v1") }
+                }
+                let supported = models
+                DispatchQueue.main.async { result(["models": supported]) }
+            }
+            return
+        }
         if call.method == "cancel", let id = args["taskId"] as? String {
             tasks[id]?.cancel(); result(nil); return
         }
@@ -49,7 +61,7 @@ final class Upscaler: NSObject, FlutterPlugin {
         guard call.method == "upscale" else { result(FlutterMethodNotImplemented); return }
         guard let id = args["taskId"] as? String, let output = args["output"] as? String,
               let model = args["model"] as? String, let scale = args["scale"] as? Int,
-              let denoise = args["denoise"] as? Int, tasks[id] == nil else {
+              let denoise = args["denoise"] as? Int, let strength = args["strength"] as? Int, tasks[id] == nil else {
             result(FlutterError(code: "arguments", message: "Invalid upscale request.", details: nil)); return
         }
         let cancellation = UpscaleCancellation(); tasks[id] = cancellation
@@ -58,7 +70,7 @@ final class Upscaler: NSObject, FlutterPlugin {
                 try autoreleasepool {
                 guard #available(iOS 16.0, *) else { throw UpscaleFailure.missingModel }
                 try engine.upscale(path: path, output: output, modelName: model, scale: scale,
-                                   denoise: denoise, cancellation: cancellation)
+                                   denoise: denoise, strength: strength, cancellation: cancellation)
                 }
                 DispatchQueue.main.async { self.tasks.removeValue(forKey: id); result(output) }
             } catch {
@@ -66,7 +78,7 @@ final class Upscaler: NSObject, FlutterPlugin {
                 DispatchQueue.main.async {
                     self.tasks.removeValue(forKey: id)
                     let failure = error as? UpscaleFailure
-                    let code = failure == .cancelled ? "cancelled" : (failure == .unstableOutput ? "quality" : "upscale")
+                    let code = failure == .cancelled ? "cancelled" : (failure == .unstableOutput ? "quality" : (failure == .unsupported ? "unsupported" : "upscale"))
                     result(FlutterError(code: code,
                                         message: error.localizedDescription, details: nil))
                 }

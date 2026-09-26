@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		065CEFE56302778BD94A94A8 /* RealCUGAN2x_conservative.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 559477B7FD06EDB1BE91EBA6 /* RealCUGAN2x_conservative.mlpackage */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
+		184DF20213D27D745329C98A /* Waifu2xCUNet2x_noise1.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 2896A269D9592E46C3B530B1 /* Waifu2xCUNet2x_noise1.mlpackage */; };
 		252CCB6AC4FF211C0D125EEA /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E484F12FF97E4360040832A /* Pods_Runner.framework */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		4B07CEE6D1ED7B97A670F3F6 /* RealCUGAN2x_denoise1x.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = FEB820CB30E14AA043E550EF /* RealCUGAN2x_denoise1x.mlpackage */; };
@@ -16,12 +17,15 @@
 		58D51A3433F5F27888C4BF9B /* NativeGlassPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168831A0189ACA2567C5BC4C /* NativeGlassPlugin.swift */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		78A318202AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 78A3181F2AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage */; };
+		9451856CBADD97CC544A0172 /* Waifu2xCUNet2x_scale.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 9C0F1344EC579F7F80B1F23B /* Waifu2xCUNet2x_scale.mlpackage */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		ADEA8DB53F5A43C37155B1D1 /* RealESRGANAnime2x.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 28A668AD7B7C53E81E1D42C0 /* RealESRGANAnime2x.mlpackage */; };
 		BA373B2925D2A11600C042FA /* SecurityBlurEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA373B2825D2A11600C042FA /* SecurityBlurEffect.swift */; };
 		BAABB8182AF59F36009C2DA3 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BA1D4D5225B3FC6E00264936 /* libsqlite3.tbd */; };
 		BAABB81B2AF5A144009C2DA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BAABB81D2AF5A144009C2DA3 /* InfoPlist.strings */; };
+		BD8380E393108279A6C4C2BD /* MetalFXUpscaleTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FC6E63D3E18B8877DD408E /* MetalFXUpscaleTile.swift */; };
 		BFED4257903270F2E29ACBB6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76AED4914C4C6C44220F53A2 /* GoogleService-Info.plist */; };
 		D42AE08AC9AB84CA99353BB7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA731183147B361A213D82DD /* SceneDelegate.swift */; };
 		F8617074F670C84C5995D56A /* Upscaler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EF6015BFE77BB6AB804308 /* Upscaler.swift */; };
@@ -57,8 +61,11 @@
 		15DE11FDFA3012CB8424319C /* UpscaleEngine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UpscaleEngine.swift; sourceTree = "<group>"; };
 		168831A0189ACA2567C5BC4C /* NativeGlassPlugin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NativeGlassPlugin.swift; sourceTree = "<group>"; };
 		1E6826EFC96EC029C5283C49 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
+		2896A269D9592E46C3B530B1 /* Waifu2xCUNet2x_noise1.mlpackage */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.mlpackage; path = Waifu2xCUNet2x_noise1.mlpackage; sourceTree = "<group>"; };
+		28A668AD7B7C53E81E1D42C0 /* RealESRGANAnime2x.mlpackage */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.mlpackage; path = RealESRGANAnime2x.mlpackage; sourceTree = "<group>"; };
 		2E484F12FF97E4360040832A /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
+		43FC6E63D3E18B8877DD408E /* MetalFXUpscaleTile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MetalFXUpscaleTile.swift; sourceTree = "<group>"; };
 		559477B7FD06EDB1BE91EBA6 /* RealCUGAN2x_conservative.mlpackage */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.mlpackage; path = RealCUGAN2x_conservative.mlpackage; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +79,7 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9C0F1344EC579F7F80B1F23B /* Waifu2xCUNet2x_scale.mlpackage */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.mlpackage; path = Waifu2xCUNet2x_scale.mlpackage; sourceTree = "<group>"; };
 		BA04988D254FF9E3008DE488 /* fehviewer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = fehviewer.entitlements; sourceTree = "<group>"; };
 		BA1799952754843200F43DC1 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		BA1799982754843200F43DC1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -121,6 +129,9 @@
 			children = (
 				559477B7FD06EDB1BE91EBA6 /* RealCUGAN2x_conservative.mlpackage */,
 				FEB820CB30E14AA043E550EF /* RealCUGAN2x_denoise1x.mlpackage */,
+				9C0F1344EC579F7F80B1F23B /* Waifu2xCUNet2x_scale.mlpackage */,
+				2896A269D9592E46C3B530B1 /* Waifu2xCUNet2x_noise1.mlpackage */,
+				28A668AD7B7C53E81E1D42C0 /* RealESRGANAnime2x.mlpackage */,
 			);
 			name = Models;
 			path = Models;
@@ -189,6 +200,7 @@
 				15DE11FDFA3012CB8424319C /* UpscaleEngine.swift */,
 				33353C7C6860357C2C99C974 /* Models */,
 				DA731183147B361A213D82DD /* SceneDelegate.swift */,
+				43FC6E63D3E18B8877DD408E /* MetalFXUpscaleTile.swift */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -405,6 +417,10 @@
 				065CEFE56302778BD94A94A8 /* RealCUGAN2x_conservative.mlpackage in Sources */,
 				4B07CEE6D1ED7B97A670F3F6 /* RealCUGAN2x_denoise1x.mlpackage in Sources */,
 				D42AE08AC9AB84CA99353BB7 /* SceneDelegate.swift in Sources */,
+				BD8380E393108279A6C4C2BD /* MetalFXUpscaleTile.swift in Sources */,
+				9451856CBADD97CC544A0172 /* Waifu2xCUNet2x_scale.mlpackage in Sources */,
+				184DF20213D27D745329C98A /* Waifu2xCUNet2x_noise1.mlpackage in Sources */,
+				ADEA8DB53F5A43C37155B1D1 /* RealESRGANAnime2x.mlpackage in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

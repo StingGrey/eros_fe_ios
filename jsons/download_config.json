@@ -12,5 +12,6 @@
   "upscaleNeedScale?": 1.3,
   "upscaleModel?": "real-cugan-v1",
   "upscaleDenoise?": 0,
+  "upscaleStrength?": 100,
   "upscaleCacheGB?": 4
 }

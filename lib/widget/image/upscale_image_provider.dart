@@ -33,12 +33,16 @@ class UpscaleImageProvider extends ImageProvider<UpscaleImageKey> {
     } catch (_) {
       /* Missing source/cache always falls back to the original. */
     }
+    if (signature != service.options().signature || revision != service.revision(id)) {
+      enhanced = null;
+    }
     final ImageProvider provider = enhanced == null
         ? original
         : FileImage(enhanced);
     final key = UpscaleImageKey(
       provider,
       await provider.obtainKey(configuration),
+      enhanced: enhanced != null,
     );
     service.trackImageKey(id, key);
     return key;
@@ -49,6 +53,35 @@ class UpscaleImageProvider extends ImageProvider<UpscaleImageKey> {
     UpscaleImageKey key,
     ImageDecoderCallback decode,
   ) => key.provider.loadImage(key.key, decode);
+
+  @override
+  void resolveStreamForKey(
+    ImageConfiguration configuration,
+    ImageStream stream,
+    UpscaleImageKey key,
+    ImageErrorListener handleError,
+  ) {
+    super.resolveStreamForKey(configuration, stream, key, handleError);
+    late ImageStreamListener listener;
+    listener = ImageStreamListener(
+      (info, synchronousCall) {
+        service.reportDisplayed(
+          id,
+          signature: signature,
+          revision: revision,
+          enhanced: key.enhanced,
+          width: info.image.width,
+          height: info.image.height,
+        );
+        info.dispose();
+        stream.removeListener(listener);
+      },
+      onError: (Object error, StackTrace? stack) {
+        stream.removeListener(listener);
+      },
+    );
+    stream.addListener(listener);
+  }
 
   @override
   bool operator ==(Object other) =>
@@ -65,9 +98,10 @@ class UpscaleImageProvider extends ImageProvider<UpscaleImageKey> {
 
 @immutable
 class UpscaleImageKey {
-  const UpscaleImageKey(this.provider, this.key);
+  const UpscaleImageKey(this.provider, this.key, {this.enhanced = false});
   final ImageProvider provider;
   final dynamic key;
+  final bool enhanced;
   @override
   bool operator ==(Object other) =>
       other is UpscaleImageKey && key == other.key;

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:rotated_corner_decoration/rotated_corner_decoration.dart';
 
 import 'gallery_item.dart';
+import 'gallery_cover_layout.dart';
 
 const double kRadius = 6.0;
 const double kCategoryWidth = 28.0;
@@ -53,17 +54,6 @@ class GalleryItemFlow extends StatelessWidget {
               CupertinoColors.systemBackground,
           context);
 
-      // 获取图片高度
-      int? _getHeight() {
-        if ((galleryProvider.imgWidth ?? 0) >= constraints.maxWidth) {
-          return (galleryProvider.imgHeight ?? 0) *
-              constraints.maxWidth ~/
-              (galleryProvider.imgWidth ?? 0);
-        } else {
-          return galleryProvider.imgHeight;
-        }
-      }
-
       final Widget container = Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,9 +91,8 @@ class GalleryItemFlow extends StatelessWidget {
                       ),
                     ),
                     alignment: Alignment.center,
-                    height: galleryProvider.imgWidth != null
-                        ? _getHeight()?.toDouble()
-                        : null,
+                    height: constraints.maxWidth / galleryCoverAspectRatio(
+                      galleryProvider.imgWidth, galleryProvider.imgHeight),
                     child: CoverImg(imgUrl: galleryProvider.imgUrl!),
                   ),
                 ),

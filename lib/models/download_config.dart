@@ -13,6 +13,7 @@ class DownloadConfig {
     this.upscaleNeedScale,
     this.upscaleModel,
     this.upscaleDenoise,
+    this.upscaleStrength,
     this.upscaleCacheGB,
     this.preloadImage,
     this.multiDownload,
@@ -29,6 +30,7 @@ class DownloadConfig {
   final double? upscaleNeedScale;
   final String? upscaleModel;
   final int? upscaleDenoise;
+  final int? upscaleStrength;
   final int? upscaleCacheGB;
   final int? preloadImage;
   final int? multiDownload;
@@ -45,6 +47,7 @@ class DownloadConfig {
     upscaleNeedScale: json['upscaleNeedScale'] == null ? null : double.tryParse('${json['upscaleNeedScale']}'),
     upscaleModel: json['upscaleModel']?.toString(),
     upscaleDenoise: json['upscaleDenoise'] == null ? null : int.tryParse('${json['upscaleDenoise']}'),
+    upscaleStrength: json['upscaleStrength'] == null ? null : int.tryParse('${json['upscaleStrength']}'),
     upscaleCacheGB: json['upscaleCacheGB'] == null ? null : int.tryParse('${json['upscaleCacheGB']}'),
     preloadImage: json['preloadImage'] != null ? int.tryParse('${json['preloadImage']}') ?? 0 : null,
     multiDownload: json['multiDownload'] != null ? int.tryParse('${json['multiDownload']}') ?? 0 : null,
@@ -62,6 +65,7 @@ class DownloadConfig {
     'upscaleNeedScale': upscaleNeedScale,
     'upscaleModel': upscaleModel,
     'upscaleDenoise': upscaleDenoise,
+    'upscaleStrength': upscaleStrength,
     'upscaleCacheGB': upscaleCacheGB,
     'preloadImage': preloadImage,
     'multiDownload': multiDownload,
@@ -79,6 +83,7 @@ class DownloadConfig {
     upscaleNeedScale: upscaleNeedScale,
     upscaleModel: upscaleModel,
     upscaleDenoise: upscaleDenoise,
+    upscaleStrength: upscaleStrength,
     upscaleCacheGB: upscaleCacheGB,
     preloadImage: preloadImage,
     multiDownload: multiDownload,
@@ -97,6 +102,7 @@ class DownloadConfig {
     Optional<double?>? upscaleNeedScale,
     Optional<String?>? upscaleModel,
     Optional<int?>? upscaleDenoise,
+    Optional<int?>? upscaleStrength,
     Optional<int?>? upscaleCacheGB,
     Optional<int?>? preloadImage,
     Optional<int?>? multiDownload,
@@ -112,6 +118,7 @@ class DownloadConfig {
     upscaleNeedScale: checkOptional(upscaleNeedScale, () => this.upscaleNeedScale),
     upscaleModel: checkOptional(upscaleModel, () => this.upscaleModel),
     upscaleDenoise: checkOptional(upscaleDenoise, () => this.upscaleDenoise),
+    upscaleStrength: checkOptional(upscaleStrength, () => this.upscaleStrength),
     upscaleCacheGB: checkOptional(upscaleCacheGB, () => this.upscaleCacheGB),
     preloadImage: checkOptional(preloadImage, () => this.preloadImage),
     multiDownload: checkOptional(multiDownload, () => this.multiDownload),
@@ -124,8 +131,8 @@ class DownloadConfig {
 
   @override
   bool operator ==(Object other) => identical(this, other)
-    || other is DownloadConfig && upscaleEnabled == other.upscaleEnabled && upscaleAlways == other.upscaleAlways && upscaleSkipHeight == other.upscaleSkipHeight && upscaleNeedScale == other.upscaleNeedScale && upscaleModel == other.upscaleModel && upscaleDenoise == other.upscaleDenoise && upscaleCacheGB == other.upscaleCacheGB &&  preloadImage == other.preloadImage && multiDownload == other.multiDownload && downloadLocation == other.downloadLocation && downloadOrigImage == other.downloadOrigImage && downloadOrigImageType == other.downloadOrigImageType && allowMediaScan == other.allowMediaScan && concurrentGalleries == other.concurrentGalleries;
+    || other is DownloadConfig && upscaleEnabled == other.upscaleEnabled && upscaleAlways == other.upscaleAlways && upscaleSkipHeight == other.upscaleSkipHeight && upscaleNeedScale == other.upscaleNeedScale && upscaleModel == other.upscaleModel && upscaleDenoise == other.upscaleDenoise && upscaleStrength == other.upscaleStrength && upscaleCacheGB == other.upscaleCacheGB &&  preloadImage == other.preloadImage && multiDownload == other.multiDownload && downloadLocation == other.downloadLocation && downloadOrigImage == other.downloadOrigImage && downloadOrigImageType == other.downloadOrigImageType && allowMediaScan == other.allowMediaScan && concurrentGalleries == other.concurrentGalleries;
 
   @override
-  int get hashCode => upscaleEnabled.hashCode ^ upscaleAlways.hashCode ^ upscaleSkipHeight.hashCode ^ upscaleNeedScale.hashCode ^ upscaleModel.hashCode ^ upscaleDenoise.hashCode ^ upscaleCacheGB.hashCode ^ preloadImage.hashCode ^ multiDownload.hashCode ^ downloadLocation.hashCode ^ downloadOrigImage.hashCode ^ downloadOrigImageType.hashCode ^ allowMediaScan.hashCode ^ concurrentGalleries.hashCode;
+  int get hashCode => upscaleEnabled.hashCode ^ upscaleAlways.hashCode ^ upscaleSkipHeight.hashCode ^ upscaleNeedScale.hashCode ^ upscaleModel.hashCode ^ upscaleDenoise.hashCode ^ upscaleStrength.hashCode ^ upscaleCacheGB.hashCode ^ preloadImage.hashCode ^ multiDownload.hashCode ^ downloadLocation.hashCode ^ downloadOrigImage.hashCode ^ downloadOrigImageType.hashCode ^ allowMediaScan.hashCode ^ concurrentGalleries.hashCode;
 }

@@ -11,7 +11,6 @@ import 'package:eros_fe/widget/refresh.dart';
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:keframe/keframe.dart';
 
 import '../comm.dart';
 
@@ -133,11 +132,9 @@ class _HistoryTabState extends State<HistoryTab> {
     );
 
     return CupertinoPageScaffold(
-      child: SizeCacheWidget(
-        child: TabScrollPositionKeeper(
-          storageKey: 'history_tab',
-          child: customScrollView,
-        ),
+      child: TabScrollPositionKeeper(
+        storageKey: 'history_tab',
+        child: customScrollView,
       ),
     );
   }

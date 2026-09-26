@@ -53,6 +53,8 @@ void main() {
       supported: true,
     );
     messenger.setMockMethodCallHandler(channel, (call) async {
+      if (call.method == 'capabilities')
+        return {'models': UpscaleModel.all.map((m) => m.id).toList()};
       if (call.method == 'probe')
         return {'width': 700, 'height': 1000, 'frames': 1};
       throw StateError('No inference should run outside the active window');
@@ -79,6 +81,7 @@ void main() {
       await service.cache
           .file(await service.cache.fingerprint(file), options)
           .writeAsBytes(await png(14, 20));
+      service.enqueueWindow({'page'});
       for (final original in originals) {
         final provider = UpscaleImageProvider(
           original: original,
@@ -88,8 +91,14 @@ void main() {
           physicalHeight: 2400,
         );
         expect(await decodeSize(provider), const Size(14, 20));
+        expect(service.statusFor('page').phase, UpscalePhase.enhanced);
+        expect(service.statusFor('page').sourceHeight, 1000);
+        expect(service.statusFor('page').outputWidth, 14);
+        expect(service.statusFor('page').outputHeight, 20);
       }
       options = const UpscaleOptions(enabled: false);
+      service.refreshSettings();
+      expect(service.statusFor('page').reason, 'disabled');
       expect(
         await decodeSize(
           UpscaleImageProvider(

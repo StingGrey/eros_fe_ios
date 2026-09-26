@@ -92,6 +92,7 @@ class EhSettingService extends ProfileService {
   Rx<double> upscaleNeedScale = 1.3.obs;
   Rx<String> upscaleModel = "real-cugan-v1".obs;
   Rx<int> upscaleDenoise = 0.obs;
+  Rx<int> upscaleStrength = 100.obs;
   Rx<int> upscaleCacheGB = 4.obs;
 
 
@@ -834,6 +835,10 @@ class EhSettingService extends ProfileService {
     upscaleDenoise.value = downloadConfig.upscaleDenoise ?? upscaleDenoise.value;
     everProfile<int>(upscaleDenoise, (value) {
       downloadConfig = downloadConfig.copyWith(upscaleDenoise: value.oN);
+    });
+    upscaleStrength.value = (downloadConfig.upscaleStrength ?? 100).clamp(0, 100);
+    everProfile<int>(upscaleStrength, (value) {
+      downloadConfig = downloadConfig.copyWith(upscaleStrength: value.oN);
     });
     upscaleCacheGB.value = downloadConfig.upscaleCacheGB ?? upscaleCacheGB.value;
     everProfile<int>(upscaleCacheGB, (value) {

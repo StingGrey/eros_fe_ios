@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'dart:io';
 import 'common/global.dart';
 import 'common/service/upscale_service.dart';
@@ -44,6 +46,11 @@ import 'pages/tab/controller/toplist_controller.dart';
 import 'pages/tab/controller/unlock_page_controller.dart';
 
 void getinit() {
+  LicenseRegistry.addLicense(() async* {
+    for (final name in ['real-cugan', 'waifu2x', 'realesrgan']) {
+      yield LicenseEntryWithLineBreaks([name], await rootBundle.loadString('assets/LICENSE.$name.txt'));
+    }
+  });
   Get.lazyPut(() => EhSettingService(), fenix: true);
   Get.lazyPut(() => UpscaleService(
     directory: Directory('${Global.appSupportPath}/upscale'),
@@ -55,6 +62,7 @@ void getinit() {
         needScale: settings.upscaleNeedScale.value,
         model: settings.upscaleModel.value,
         denoise: settings.upscaleDenoise.value,
+        strength: settings.upscaleStrength.value,
         cacheGB: settings.upscaleCacheGB.value);
     }), fenix: true);
   Get.lazyPut(() => LocaleService(), fenix: true);

@@ -8,13 +8,14 @@ import UniformTypeIdentifiers
 
 /// No Flutter/UIKit dependency: the exact device engine can be exercised on macOS.
 enum UpscaleFailure: LocalizedError {
-    case invalidImage, animated, cancelled, missingModel, invalidModel, memoryLimit, encoding, unstableOutput
+    case invalidImage, animated, cancelled, missingModel, invalidModel, memoryLimit, encoding, unstableOutput, unsupported
     var errorDescription: String? {
         switch self {
         case .invalidImage: return "Cannot read the source image."
         case .animated: return "Animated images are not upscaled."
         case .cancelled: return "Upscaling cancelled."
-        case .missingModel: return "The bundled Real-CUGAN model is unavailable."
+        case .missingModel: return "The selected bundled model is unavailable."
+        case .unsupported: return "This device does not support the selected upscaler."
         case .invalidModel: return "Unsupported model, scale or denoise setting."
         case .memoryLimit: return "Image exceeds the local upscaler's memory budget."
         case .encoding: return "Could not write the enhanced image."
@@ -96,21 +97,30 @@ final class UpscaleEngine {
     }
 
     @available(iOS 16.0, macOS 13.0, *)
-    func upscale(path: String, output: String, modelName: String, scale: Int, denoise: Int,
+    func upscale(path: String, output: String, modelName: String, scale: Int, denoise: Int, strength: Int = 100,
                  cancellation: UpscaleCancellation) throws {
-        guard modelName == "real-cugan-v1", scale == 2, (0...1).contains(denoise) else { throw UpscaleFailure.invalidModel }
+        guard scale == 2, (1...100).contains(strength) else { throw UpscaleFailure.invalidModel }
+        let name: String?
+        switch (modelName, denoise) {
+        case ("real-cugan-v1", 0): name = "RealCUGAN2x_conservative"
+        case ("real-cugan-v1", 1): name = "RealCUGAN2x_denoise1x"
+        case ("waifu2x-cunet-v1", 0): name = "Waifu2xCUNet2x_scale"
+        case ("waifu2x-cunet-v1", 1): name = "Waifu2xCUNet2x_noise1"
+        case ("realesrgan-anime-v1", 0): name = "RealESRGANAnime2x"
+        case ("metalfx-spatial-v1", 0): name = nil
+        default: throw UpscaleFailure.invalidModel
+        }
         let info = try Self.probe(path)
         guard info.frames == 1, !info.gif else { throw UpscaleFailure.animated }
         // Even Always mode cannot allocate arbitrarily large decoded images.
         guard info.width > 0, info.height > 0, info.width <= 8192,
               info.width * info.height <= 8_000_000 else { throw UpscaleFailure.memoryLimit }
         try cancellation.check()
-        let name = "RealCUGAN2x_\(denoise == 0 ? "conservative" : "denoise1x")"
         // Reuse at most two model instances; each prediction owns a slot so an
         // MLModel never receives concurrent calls and compiled graphs stay bounded.
-        let slot = try acquireModel(name, cancellation: cancellation)
-        defer { releaseModel(slot) }
-        let model = slot.model
+        let slot = try name.map { try acquireModel($0, cancellation: cancellation) }
+        defer { if let slot { releaseModel(slot) } }
+        let metalFX = try name == nil ? MetalFXUpscaleTile(size: Self.tile) : nil
         guard let source = CIImage(contentsOf: URL(fileURLWithPath: path),
                                     options: [.applyOrientationProperty: true]) else { throw UpscaleFailure.invalidImage }
         let image = source.transformed(by: CGAffineTransform(translationX: -source.extent.minX,
@@ -118,6 +128,8 @@ final class UpscaleEngine {
         let color = CGColorSpace(name: CGColorSpace.sRGB)!
         let context = CIContext(options: [.cacheIntermediates: false])
         defer { context.clearCaches() }
+        let baseline = strength < 100 ? image.applyingFilter("CILanczosScaleTransform",
+            parameters: [kCIInputScaleKey: 2.0, kCIInputAspectRatioKey: 1.0]) : nil
         let w = info.width * 2, h = info.height * 2, tileOut = Self.tile * 2
         // Only one horizontal strip accumulates float weights. Completed rows
         // become RGBA8 immediately instead of retaining a full float output page.
@@ -132,11 +144,18 @@ final class UpscaleEngine {
                     let rect = CGRect(x: x, y: info.height - y - Self.tile, width: Self.tile, height: Self.tile)
                     guard let crop = context.createCGImage(image, from: rect, format: .RGBA8, colorSpace: color) else { throw UpscaleFailure.invalidImage }
                     let input = try Self.pixelBuffer(crop)
-                    let features = try MLDictionaryFeatureProvider(dictionary: ["image": MLFeatureValue(pixelBuffer: input)])
-                    let prediction = try model.prediction(from: features)
+                    let buffer: CVPixelBuffer
+                    if let metalFX {
+                        buffer = try metalFX.predict(input, cancellation: cancellation)
+                    } else {
+                        let features = try MLDictionaryFeatureProvider(dictionary: ["image": MLFeatureValue(pixelBuffer: input)])
+                        let prediction = try slot!.model.prediction(from: features)
+                        guard let predicted = prediction.featureValue(for: "upscaled")?.imageBufferValue
+                        else { throw UpscaleFailure.invalidImage }
+                        buffer = predicted
+                    }
                     try cancellation.check()
-                    guard let buffer = prediction.featureValue(for: "upscaled")?.imageBufferValue,
-                          CVPixelBufferGetWidth(buffer) == tileOut,
+                    guard CVPixelBufferGetWidth(buffer) == tileOut,
                           CVPixelBufferGetHeight(buffer) == tileOut,
                           CVPixelBufferGetPixelFormatType(buffer) == kCVPixelFormatType_32BGRA else { throw UpscaleFailure.invalidImage }
                     CVPixelBufferLockBaseAddress(buffer, .readOnly)
@@ -170,11 +189,31 @@ final class UpscaleEngine {
                 }
             }
             let rows = rowIndex == ys.count - 1 ? h - y * 2 : Self.stride * 2
+            // Blend only after raw model quality checks, using a continuous
+            // Lanczos baseline so strength cannot conceal invalid model tiles.
+            var basePixels = [UInt8]()
+            if let baseline {
+                basePixels = [UInt8](repeating: 255, count: w * rows * 4)
+                let rect = CGRect(x: 0, y: h - y * 2 - rows, width: w, height: rows)
+                guard let crop = context.createCGImage(baseline, from: rect, format: .RGBA8, colorSpace: color)
+                else { throw UpscaleFailure.invalidImage }
+                try basePixels.withUnsafeMutableBytes { bytes in
+                    guard let ctx = CGContext(data: bytes.baseAddress, width: w, height: rows, bitsPerComponent: 8,
+                        bytesPerRow: w * 4, space: color,
+                        bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue) else { throw UpscaleFailure.memoryLimit }
+                    ctx.draw(crop, in: CGRect(x: 0, y: 0, width: w, height: rows))
+                }
+            }
+            let amount = Float(strength) / 100
             for row in 0..<rows {
                 for col in 0..<w {
                     let src = (row * w + col) * 4, dst = ((y * 2 + row) * w + col) * 4
                     let weight = max(strip[src + 3], Float.leastNormalMagnitude)
-                    for c in 0..<3 { pixels[dst + c] = UInt8(clamping: Int((strip[src + c] / weight).rounded())) }
+                    for c in 0..<3 {
+                        let enhanced = strip[src + c] / weight
+                        let value = baseline == nil ? enhanced : enhanced * amount + Float(basePixels[src + c]) * (1 - amount)
+                        pixels[dst + c] = UInt8(clamping: Int(value.rounded()))
+                    }
                 }
             }
             let remaining = tileOut - rows

@@ -26,6 +26,7 @@ import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 import '../common.dart';
 import '../controller/view_controller.dart';
+import 'upscale_status_indicator.dart';
 
 const double kPageViewPadding = 4.0;
 
@@ -938,17 +939,20 @@ class ViewTopBar extends GetView<ViewExtController> {
                 child: GetBuilder<ViewExtController>(
                   id: idViewTopBar,
                   builder: (logic) => SizedBox(
-                    width: 108,
+                    width: 160,
                     height: 40,
                     child: GlassContainer(
                       dark: true,
-                      child: Center(
-                        child: Text(
-                          '${logic.vState.currentItemIndex + 1} / ${logic.vState.fileCount}',
-                          style: DesignTokens.body.copyWith(
-                            color: CupertinoColors.white,
-                          ),
-                        ),
+                      child: UpscaleStatusIndicator(
+                        service: logic.upscaleService,
+                        ids: [
+                          logic.upscaleId(logic.vState.currentItemIndex + 1),
+                          if (logic.vState.columnMode != ViewColumnMode.single &&
+                              logic.vState.currentItemIndex + 2 <= logic.vState.fileCount)
+                            logic.upscaleId(logic.vState.currentItemIndex + 2),
+                        ],
+                        firstPage: logic.vState.currentItemIndex + 1,
+                        totalPages: logic.vState.fileCount,
                       ),
                     ),
                   ),

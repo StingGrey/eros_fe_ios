@@ -1,13 +1,10 @@
 import 'package:eros_fe/common/service/ehsetting_service.dart';
-import 'package:eros_fe/common/service/theme_service.dart';
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/item/controller/galleryitem_controller.dart';
 import 'package:eros_fe/pages/item/gallery_item_flow.dart';
 import 'package:eros_fe/pages/item/gallery_item_flow_large.dart';
-import 'package:eros_fe/pages/item/item_base.dart';
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
-import 'package:keframe/keframe.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 class EhWaterfallFlow extends StatelessWidget {
@@ -34,6 +31,12 @@ class EhWaterfallFlow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final indices = {
+      for (var i = 0; i < galleryProviders.length; i++)
+        ValueKey(galleryProviders[i].gid): i,
+      if (centerKey != null && lastTopItemIndex != null)
+        centerKey!: lastTopItemIndex!,
+    };
     final double _padding = large
         ? EHConst.waterfallFlowLargeCrossAxisSpacing
         : EHConst.waterfallFlowCrossAxisSpacing;
@@ -56,8 +59,8 @@ class EhWaterfallFlow extends StatelessWidget {
           mainAxisSpacing: mainAxisSpacing,
           lastChildLayoutTypeBuilder: (int index) =>
               index == galleryProviders.length
-                  ? LastChildLayoutType.foot
-                  : LastChildLayoutType.none,
+              ? LastChildLayoutType.foot
+              : LastChildLayoutType.none,
         ),
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
@@ -74,31 +77,21 @@ class EhWaterfallFlow extends StatelessWidget {
             final GalleryProvider _provider = galleryProviders[index];
             Get.lazyReplace(() => _provider, tag: _provider.gid, fenix: true);
             Get.lazyReplace(
-                () => GalleryItemController(
-                    galleryProvider: Get.find(tag: _provider.gid)),
-                tag: _provider.gid,
-                fenix: true);
+              () => GalleryItemController(
+                galleryProvider: Get.find(tag: _provider.gid),
+              ),
+              tag: _provider.gid,
+              fenix: true,
+            );
 
             if (large) {
-              Widget item = GalleryItemFlowLarge(
+              return GalleryItemFlowLarge(
                 key: index == lastTopItemIndex
                     ? centerKey
                     : ValueKey(_provider.gid),
                 galleryProvider: _provider,
                 tabTag: tabTag,
               );
-
-              item = FrameSeparateWidget(
-                index: index,
-                child: item,
-                placeHolder: _WaterfallFlowPlaceHolder(
-                  aspectRatio:
-                      (_provider.imgWidth ?? 300) / (_provider.imgWidth ?? 400),
-                  large: large,
-                ),
-              );
-
-              return item;
             } else {
               return GalleryItemFlow(
                 key: index == lastTopItemIndex
@@ -110,6 +103,9 @@ class EhWaterfallFlow extends StatelessWidget {
             }
           },
           childCount: galleryProviders.length,
+          // History moves an opened gallery to the front. Preserve each card's
+          // element by gallery ID, including while the iPad pane changes width.
+          findChildIndexCallback: (key) => indices[key],
         ),
       ),
     );
@@ -117,8 +113,9 @@ class EhWaterfallFlow extends StatelessWidget {
 
   double getMaxCrossAxisExtent() {
     if (large) {
-      final itemConfig =
-          _ehSettingService.getItemConfig(ListModeEnum.waterfallLarge);
+      final itemConfig = _ehSettingService.getItemConfig(
+        ListModeEnum.waterfallLarge,
+      );
       const defaultMaxCrossAxisExtent =
           EHConst.waterfallFlowLargeMaxCrossAxisExtent;
       if (itemConfig?.enableCustomWidth ?? false) {
@@ -127,8 +124,9 @@ class EhWaterfallFlow extends StatelessWidget {
         return defaultMaxCrossAxisExtent;
       }
     } else {
-      final itemConfig =
-          _ehSettingService.getItemConfig(ListModeEnum.waterfall);
+      final itemConfig = _ehSettingService.getItemConfig(
+        ListModeEnum.waterfall,
+      );
       final defaultMaxCrossAxisExtent = Get.context!.isPhone
           ? EHConst.waterfallFlowMaxCrossAxisExtent
           : EHConst.waterfallFlowMaxCrossAxisExtentTablet;
@@ -138,50 +136,5 @@ class EhWaterfallFlow extends StatelessWidget {
         return defaultMaxCrossAxisExtent;
       }
     }
-  }
-}
-
-class _WaterfallFlowPlaceHolder extends StatelessWidget {
-  const _WaterfallFlowPlaceHolder({
-    Key? key,
-    required this.aspectRatio,
-    required this.large,
-  }) : super(key: key);
-  final double aspectRatio;
-  final bool large;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AspectRatio(
-            aspectRatio: aspectRatio,
-            child: Container(
-              color: CupertinoDynamicColor.resolve(
-                  CupertinoColors.systemGrey4, context),
-            ),
-          ),
-          if (large)
-            Container(
-              height: 80,
-              color: CupertinoDynamicColor.resolve(
-                  ehTheme.itemBackgroundColor!, context),
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-              child: const Column(
-                children: [
-                  PlaceHolderLine(),
-                  PlaceHolderLine(),
-                ],
-              ),
-            ),
-        ],
-      ),
-    );
   }
 }

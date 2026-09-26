@@ -298,6 +298,7 @@ class ViewExtController extends GetxController {
       _ehSettingService.upscaleEnabled, _ehSettingService.upscaleAlways,
       _ehSettingService.upscaleSkipHeight, _ehSettingService.upscaleNeedScale,
       _ehSettingService.upscaleModel, _ehSettingService.upscaleDenoise,
+      _ehSettingService.upscaleStrength,
       _ehSettingService.upscaleCacheGB, _ehSettingService.preloadImage,
     ], (_) {
       upscaleService.refreshSettings();
