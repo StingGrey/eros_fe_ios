@@ -1,6 +1,6 @@
 export scripts_path=`pwd`
 export release_bundle_identifier='cn.honjow.fehv'
-export dev_bundle_identifier='dev2.cn.honjow.fehv'
+export dev_bundle_identifier="${release_bundle_identifier}"
 
 export pub_output_path="$HOME/Public/fehv";
 
@@ -17,4 +17,3 @@ export apk_build_path="${scripts_path}/../build/app/outputs/apk/release/";
 export apk_build_path_universal="${scripts_path}/../build/app/outputs/apk/releaseUniversal/";
 
 export version=`perl version.pl`
-

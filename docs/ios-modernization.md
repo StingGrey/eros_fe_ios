@@ -2,6 +2,10 @@
 
 Baseline: `fix` at `ae900b3a`; local recovery tag: `backup/fix-before-upgrade-20260926`.
 
+## Application identity
+
+Use `cn.honjow.fehv` for all iOS builds, including Debug, Profile, Release and self-signed packages. The Xcode project and local build scripts share this identifier. GitHub's release workflow verifies the built app's identifier before packaging, without rewriting it during the build. Keep future iOS changes on this identifier unless explicitly requested otherwise.
+
 ## Toolchain
 
 Use Flutter 3.47.5 / Dart 3.13.4. The local build uses Xcode 27.0, Ruby 3.4.5 and CocoaPods 1.17.0. CI uses macOS 26 and its default Xcode 26.6 (the UIKit glass APIs require the iOS 26 SDK or newer).
@@ -44,7 +48,7 @@ The iPad uses a centered glass navigation bar at the bottom. Gallery browsing fi
 
 Gallery covers use a 200-point maximum grid extent on wide layouts, and category selectors size to their labels. Removing deferred skeleton wrappers prevents cards from remaining blank after resizing. Toolbar buttons use centered content without the legacy navigation-bar padding. Reader controls use shared native glass groups; both sides of their positioned bars are constrained.
 
-The updated full app built and launched on the iPad Pro 13-inch iOS 27 simulator. Screenshots confirm the smaller gallery grid, bottom glass navigation and corrected history-button alignment. Four widget tests pass, covering account/menu visibility and taps, scrolling to the last settings row in a short window, modal coverage, tab selection and theme compatibility. Dart analysis reports zero errors; existing warnings remain. Automated simulator input was unavailable, so the new settings screen and reader still need interactive review. The simulator remains open for that review. The six ML Kit binaries used for the simulator build were restored and verified against their original SHA-256 hashes. This UI revision has not yet been packaged as a new device IPA.
+The updated full app built and launched on the iPad Pro 13-inch iOS 27 simulator. Screenshots confirm the smaller gallery grid, bottom glass navigation and corrected history-button alignment. Four widget tests pass, covering account/menu visibility and taps, scrolling to the last settings row in a short window, modal coverage, tab selection and theme compatibility. Dart analysis reports zero errors; existing warnings remain. Automated simulator input was unavailable; the user reviewed the simulator and requested packaging. The six ML Kit binaries used for the simulator build were restored and verified against their original SHA-256 hashes. A Release device IPA was subsequently built, with its archive integrity, iPhoneOS arm64 executables, scene manifest and bundled Core ML models verified. Physical-device signing and installation remain separate from these checks.
 
 ## iOS 27 launch crash correction
 
