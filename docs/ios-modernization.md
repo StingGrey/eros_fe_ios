@@ -38,6 +38,16 @@ All root/nested navigators install a glass observer. Non-opaque routes hide nati
 
 Phase B checks: Dart analyzer reported zero errors; all three widget tests passed; the unsigned device build passed (70.2 MB). Modal compositing and the pre-iOS-26 fallback still require runtime checks on a device. Google ML Kit dependencies currently exclude arm64 simulators, so simulator availability alone does not validate this app.
 
+## iOS 27 launch crash correction
+
+The first unsigned package built successfully but crashed immediately on iPadOS 27. The same app reproduced `EXC_BREAKPOINT / SIGTRAP` in an iOS 27 simulator, with `___UIApplicationEvaluateRuntimeIssueForNoSceneLifecycleAdoption_block_invoke` at the top of the stack. The custom app delegate had prevented Flutter's automatic UIScene migration.
+
+The app now declares its scene manifest and uses `FlutterSceneDelegate`. Plugin registration runs in `didInitializeImplicitFlutterEngine`, after the implicit engine exists; the downloader's background registration callback remains installed at application launch. Privacy blur follows the scene lifecycle, uses that scene's optional window, and does not force-unwrap the deprecated application key window.
+
+The corrected full app launched and loaded the home list on iPhone 17 and iPad Pro 13-inch simulators running iOS 27. On the iPad simulator, three further cold launches and three background/foreground cycles passed; foreground returns preserved the process ID. An unsigned Release device build also passed. These checks do not validate third-party signing or the user's physical iPad.
+
+For this local simulator check only, the `google_mlkit_commons` bundled `patch_arm64_simulator.py` helper relabeled the six vendored ML Kit binaries for arm64 simulator linking. Xcode command-line overrides selected arm64 and cleared simulator exclusions. Before the Release device build, the helper restored the iOS platform labels and SHA-256 checks confirmed all six binaries matched their original bytes. The Podfile and release dependencies were not changed by this workaround.
+
 ## Phase C: local reader upscaling
 
 The app bundles verified Real-CUGAN conservative/light-denoise 2× Core ML models. The native engine uses 512-pixel tiles with 32-pixel overlap, JPEG q95 output, a two-instance model pool and cancellation between tiles. The Dart service reuses the existing preload count, supports local/archive/network-cache sources through one provider decorator, and persists a 4 GiB content-addressed LRU under Application Support. Reading settings persist through the existing Rx/profile mechanism.

@@ -3,59 +3,30 @@ import Flutter
 import flutter_downloader
 
 @main
-@objc class AppDelegate: FlutterAppDelegate {
+@objc class AppDelegate: FlutterAppDelegate, FlutterImplicitEngineDelegate {
     override func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        
-        GeneratedPluginRegistrant.register(with: self)
-        Upscaler.register(with: registrar(forPlugin: "Upscaler")!)
-        NativeGlassPlugin.register(with: registrar(forPlugin: "NativeGlassPlugin")!)
         FlutterDownloaderPlugin.setPluginRegistrantCallback(registerPlugins)
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
-    
-    @objc func step(displaylink: CADisplayLink) {
-        // Will be called once a frame has been built while matching desired frame rate
-    }
-    
-    override func applicationDidEnterBackground(_ application: UIApplication) {
-        print("applicationDidEnterBackground")
-        addBlurEffect()
-    }
 
-//    override func applicationWillResignActive(_ application: UIApplication) {
-//        print("applicationWillResignActive")
-//        addBlurEffect()
-//    }
-
-    override func applicationDidBecomeActive(_ application: UIApplication) {
-        print("applicationDidBecomeActive")
-        SecurityBlurEffect.removeBlurEffect()
-    }
-    
-    override func applicationWillEnterForeground(_ application: UIApplication) {
-        print("applicationWillEnterForeground")
-        SecurityBlurEffect.removeBlurEffect()
-    }
-
-    func addBlurEffect() {
-        let BLURRED_IN_RECENT_TASK = "flutter.blurredInRecentTasks"
-
-        let isBlurredInRecentTasks = UserDefaults.standard.bool(forKey: BLURRED_IN_RECENT_TASK)
-
-        print("isBlurredInRecentTasks :", isBlurredInRecentTasks)
-        if isBlurredInRecentTasks {
-            SecurityBlurEffect.addBlurEffect()
+    func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
+        let registry = engineBridge.pluginRegistry
+        GeneratedPluginRegistrant.register(with: registry)
+        if let registrar = registry.registrar(forPlugin: "Upscaler") {
+            Upscaler.register(with: registrar)
+        }
+        if let registrar = registry.registrar(forPlugin: "NativeGlassPlugin") {
+            NativeGlassPlugin.register(with: registrar)
         }
     }
 }
 
 private func registerPlugins(registry: FlutterPluginRegistry) {
-    if (!registry.hasPlugin("FlutterDownloaderPlugin")) {
-        FlutterDownloaderPlugin.register(with: registry.registrar(forPlugin: "FlutterDownloaderPlugin")!)
+    if !registry.hasPlugin("FlutterDownloaderPlugin"),
+       let registrar = registry.registrar(forPlugin: "FlutterDownloaderPlugin") {
+        FlutterDownloaderPlugin.register(with: registrar)
     }
 }
-
-

@@ -23,6 +23,7 @@
 		BAABB8182AF59F36009C2DA3 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BA1D4D5225B3FC6E00264936 /* libsqlite3.tbd */; };
 		BAABB81B2AF5A144009C2DA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BAABB81D2AF5A144009C2DA3 /* InfoPlist.strings */; };
 		BFED4257903270F2E29ACBB6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76AED4914C4C6C44220F53A2 /* GoogleService-Info.plist */; };
+		D42AE08AC9AB84CA99353BB7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA731183147B361A213D82DD /* SceneDelegate.swift */; };
 		F8617074F670C84C5995D56A /* Upscaler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EF6015BFE77BB6AB804308 /* Upscaler.swift */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +97,7 @@
 		BAFF47DE2AFC7152008C4C27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		BAFF47DF2AFC7152008C4C27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		BAFF47E02AFC7152008C4C27 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DA731183147B361A213D82DD /* SceneDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F41D3CF3E08C82EC7233BE93 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		FEB820CB30E14AA043E550EF /* RealCUGAN2x_denoise1x.mlpackage */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.mlpackage; path = RealCUGAN2x_denoise1x.mlpackage; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -186,6 +188,7 @@
 				79EF6015BFE77BB6AB804308 /* Upscaler.swift */,
 				15DE11FDFA3012CB8424319C /* UpscaleEngine.swift */,
 				33353C7C6860357C2C99C974 /* Models */,
+				DA731183147B361A213D82DD /* SceneDelegate.swift */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -401,6 +404,7 @@
 				512863FE140997C3376C2485 /* UpscaleEngine.swift in Sources */,
 				065CEFE56302778BD94A94A8 /* RealCUGAN2x_conservative.mlpackage in Sources */,
 				4B07CEE6D1ED7B97A670F3F6 /* RealCUGAN2x_denoise1x.mlpackage in Sources */,
+				D42AE08AC9AB84CA99353BB7 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
