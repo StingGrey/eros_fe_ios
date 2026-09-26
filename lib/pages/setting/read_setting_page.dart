@@ -1,3 +1,4 @@
+import 'package:eros_fe/pages/setting/setting_items/upscale_settings.dart';
 import 'dart:math';
 
 import 'package:enum_to_string/enum_to_string.dart';
@@ -60,6 +61,7 @@ class ReadSettingList extends StatelessWidget {
     final bool hideOrientationItem = GetPlatform.isIOS && context.isTablet;
 
     return MultiSliver(children: [
+      if (GetPlatform.isIOS) const UpscaleSettings(),
       SliverCupertinoListSection.listInsetGrouped(
         children: [
           _buildViewModeItem(context),

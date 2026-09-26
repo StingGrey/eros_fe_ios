@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'common/global.dart';
+import 'common/service/upscale_service.dart';
 import 'package:eros_fe/common/controller/block_controller.dart';
 import 'package:eros_fe/common/controller/image_block_controller.dart';
 import 'package:eros_fe/common/controller/mysql_controller.dart';
@@ -42,6 +45,18 @@ import 'pages/tab/controller/unlock_page_controller.dart';
 
 void getinit() {
   Get.lazyPut(() => EhSettingService(), fenix: true);
+  Get.lazyPut(() => UpscaleService(
+    directory: Directory('${Global.appSupportPath}/upscale'),
+    options: () {
+      final settings = Get.find<EhSettingService>();
+      return UpscaleOptions(enabled: settings.upscaleEnabled.value,
+        always: settings.upscaleAlways.value,
+        skipHeight: settings.upscaleSkipHeight.value,
+        needScale: settings.upscaleNeedScale.value,
+        model: settings.upscaleModel.value,
+        denoise: settings.upscaleDenoise.value,
+        cacheGB: settings.upscaleCacheGB.value);
+    }), fenix: true);
   Get.lazyPut(() => LocaleService(), fenix: true);
   Get.lazyPut(() => ThemeService(), fenix: true);
   Get.put(DnsService(), permanent: true);

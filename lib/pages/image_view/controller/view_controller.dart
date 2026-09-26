@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:archive_async/archive_async.dart';
 import 'package:collection/collection.dart';
@@ -7,6 +8,7 @@ import 'package:eros_fe/common/controller/archiver_download_controller.dart';
 import 'package:eros_fe/common/controller/download_controller.dart';
 import 'package:eros_fe/common/controller/gallerycache_controller.dart';
 import 'package:eros_fe/common/service/ehsetting_service.dart';
+import 'package:eros_fe/common/service/upscale_service.dart';
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/network/request.dart';
 import 'package:eros_fe/pages/gallery/controller/gallery_page_controller.dart';
@@ -146,6 +148,63 @@ class ViewExtController extends GetxController {
   StreamSubscription? _volumeKeyDownSubscription;
   StreamSubscription? _scaleStateSubscription;
   StreamSubscription? _precacheSubscription;
+  Worker? _upscaleSettingsWorker;
+  final UpscaleService upscaleService = Get.find();
+  String upscaleId(int ser) => '${vState.loadFrom.name}:${vState.gid}:$ser';
+  double get upscalePhysicalHeight => Get.context == null ? 0 :
+      MediaQuery.sizeOf(Get.context!).height * MediaQuery.devicePixelRatioOf(Get.context!);
+
+  String? _lastPrecacheWindow;
+
+  void enqueueUpscaleWindow() {
+    if (isClosed) return;
+    final start = vState.currentItemIndex + 1;
+    final visible = vState.columnMode == ViewColumnMode.single ? 1 : 2;
+    final end = math.min(vState.fileCount, start + visible - 1 + _ehSettingService.preloadImage.value);
+    upscaleService.enqueueWindow({for (var ser = start; ser <= end; ser++) upscaleId(ser)});
+    final window = '$start:$end:${vState.pageState?.galleryProvider?.showKey}';
+    if (vState.loadFrom == LoadFrom.gallery && window != _lastPrecacheWindow) {
+      _lastPrecacheWindow = window;
+      _precacheSubscription?.cancel();
+      _precacheSubscription = GalleryPara.instance.ehPrecacheImages(
+        imageMap: vState.imageMap, itemSer: start + visible - 1,
+        max: _ehSettingService.preloadImage.value,
+        showKey: vState.pageState?.galleryProvider?.showKey,
+      ).listen((image) {
+        if (image == null || isClosed) return;
+        _galleryPageController?.uptImageBySer(ser: image.ser, imageCallback: (_) => image);
+        unawaited(_prepareUpscale(image.ser, readyImage: image));
+      });
+    }
+    for (var ser = start; ser <= end; ser++) {
+      unawaited(_prepareUpscale(ser));
+    }
+  }
+
+  Future<void> _prepareUpscale(int ser, {GalleryImage? readyImage}) async {
+    try {
+      File? file;
+      if (vState.loadFrom == LoadFrom.download) {
+        if (ser <= vState.imagePathList.length) file = File(vState.imagePathList[ser - 1]);
+      } else if (vState.loadFrom == LoadFrom.archiver) {
+        if (!imageArchiveFutureMap.containsKey(ser)) await initArchiveFuture(ser);
+        file = await imageArchiveFutureMap[ser];
+      } else {
+        final image = readyImage ?? vState.imageMap?[ser];
+        if (image?.filePath?.isNotEmpty ?? false) {
+          file = File(image!.filePath!);
+        } else if (image?.imageUrl?.isNotEmpty ?? false) {
+          file = await getCachedImageFile(image!.imageUrl!, cacheKey: image.cacheKey);
+        }
+      }
+      if (file != null && !isClosed) {
+        await upscaleService.cachedOrSchedule(upscaleId(ser), file, upscalePhysicalHeight,
+          sourceWidth: (readyImage ?? vState.imageMap?[ser])?.imageWidth?.toInt(),
+          sourceHeight: (readyImage ?? vState.imageMap?[ser])?.imageHeight?.toInt());
+      }
+    } catch (error) { logger.d('Upscale source unavailable: $error'); }
+  }
+
 
   late final VoidCallback _itemPositionsCallback;
   late final VoidCallback _thumbPositionsCallback;
@@ -235,27 +294,17 @@ class ViewExtController extends GetxController {
     super.onReady();
 
     logger.t('Read onReady');
-
-    /// 初始预载
-    /// 后续的预载触发放在翻页事件中
-    if (vState.loadFrom == LoadFrom.gallery) {
-      // 预载
-      logger.t('初始预载');
-
-      _precacheSubscription = GalleryPara.instance
-          .ehPrecacheImages(
-        imageMap: vState.imageMap,
-        itemSer: vState.currentItemIndex,
-        max: _ehSettingService.preloadImage.value,
-        showKey: vState.pageState?.galleryProvider?.showKey,
-      )
-          .listen((GalleryImage? event) {
-        if (event != null) {
-          _galleryPageController?.uptImageBySer(
-              ser: event.ser, imageCallback: (image) => event);
-        }
-      });
-    }
+    _upscaleSettingsWorker = everAll([
+      _ehSettingService.upscaleEnabled, _ehSettingService.upscaleAlways,
+      _ehSettingService.upscaleSkipHeight, _ehSettingService.upscaleNeedScale,
+      _ehSettingService.upscaleModel, _ehSettingService.upscaleDenoise,
+      _ehSettingService.upscaleCacheGB, _ehSettingService.preloadImage,
+    ], (_) {
+      upscaleService.refreshSettings();
+      enqueueUpscaleWindow();
+      update([idSlidePage]);
+    });
+    enqueueUpscaleWindow();
 
     logger.t('旋转设置');
     final ReadOrientation? orientation = _ehSettingService.orientation.value;
@@ -285,6 +334,8 @@ class ViewExtController extends GetxController {
     thumbPositionsListener.itemPositions.removeListener(_thumbPositionsCallback);
     _scaleStateSubscription?.cancel();
     _precacheSubscription?.cancel();
+    _upscaleSettingsWorker?.dispose();
+    upscaleService.enqueueWindow({});
 
     vState.speedTimer?.cancel();
     Get.find<GalleryCacheController>().saveAll();
@@ -394,23 +445,7 @@ class ViewExtController extends GetxController {
         break;
     }
 
-    if (vState.loadFrom == LoadFrom.gallery) {
-      // 预载图片
-      // logger.t('页码切换时的回调 预载图片');
-      GalleryPara.instance
-          .ehPrecacheImages(
-        imageMap: _galleryPageStat?.imageMap,
-        itemSer: vState.currentItemIndex,
-        max: _ehSettingService.preloadImage.value,
-        showKey: vState.pageState?.galleryProvider?.showKey,
-      )
-          .listen((GalleryImage? event) {
-        if (event != null) {
-          _galleryPageController?.uptImageBySer(
-              ser: event.ser, imageCallback: (val) => event);
-        }
-      });
-    }
+    enqueueUpscaleWindow();
 
     // if (vState.currentItemIndex >= vState.fileCount - 1) {
     //   vState.sliderValue = (vState.fileCount - 1).toDouble();
@@ -615,19 +650,7 @@ class ViewExtController extends GetxController {
         );
       }
 
-      GalleryPara.instance
-          .ehPrecacheImages(
-        imageMap: _galleryPageStat?.imageMap,
-        itemSer: itemSer,
-        max: _ehSettingService.preloadImage.value,
-        showKey: vState.pageState?.galleryProvider?.showKey,
-      )
-          .listen((GalleryImage? event) {
-        if (event != null) {
-          _galleryPageController?.uptImageBySer(
-              ser: event.ser, imageCallback: (val) => val = event);
-        }
-      });
+      enqueueUpscaleWindow();
 
       if (!needShowKey) {
         // ehPrecacheImages() then fetchAndParserImageInfo()
@@ -973,6 +996,7 @@ class ViewExtController extends GetxController {
 
   void jumpToPage(int index) {
     vState.currentItemIndex = index;
+    enqueueUpscaleWindow();
     if (vState.viewMode != ViewMode.topToBottom) {
       // pageControllerCallBack(() => pageController.jumpToPage(vState.pageIndex),
       //     () => extendedPageController.jumpToPage(vState.pageIndex));
@@ -1160,6 +1184,7 @@ class ViewExtController extends GetxController {
   }
 
   Future<void> onLoadCompleted(int ser) async {
+    enqueueUpscaleWindow();
     vState.loadCompleMap[ser] = true;
     await Future.delayed(const Duration(milliseconds: 100));
 
@@ -1202,7 +1227,9 @@ class ViewExtController extends GetxController {
         // logger.d('${vState.tempIndex} ${vState.currentItemIndex}');
         Future.delayed(const Duration(milliseconds: 200)).then((value) {
           // logger.d('tempIndex ${vState.tempIndex}');
+          if (isClosed) return;
           vState.currentItemIndex = vState.tempIndex;
+          enqueueUpscaleWindow();
           vState.sliderValue = vState.currentItemIndex / 1.0;
           update([idViewTopBar, idViewPageSlider]);
           if (vState.syncThumbList) {

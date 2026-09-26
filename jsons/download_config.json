@@ -1,9 +1,16 @@
 {
   "preloadImage?": 5,
   "multiDownload?": 3,
-  "downloadLocation?" : "",
+  "downloadLocation?": "",
   "downloadOrigImage?": false,
   "downloadOrigImageType?": "",
   "allowMediaScan?": false,
-  "concurrentGalleries?": 1
+  "concurrentGalleries?": 1,
+  "upscaleEnabled?": true,
+  "upscaleAlways?": false,
+  "upscaleSkipHeight?": 2000,
+  "upscaleNeedScale?": 1.3,
+  "upscaleModel?": "real-cugan-v1",
+  "upscaleDenoise?": 0,
+  "upscaleCacheGB?": 4
 }

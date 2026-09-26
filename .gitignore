@@ -70,3 +70,7 @@ fonts/NotoColorEmoji.ttf
 fonts/OpenMoji-Color.ttf
 
 .cursor
+
+# Local model conversion scratch
+/tools/upscale/**/__pycache__/
+/tools/upscale/*.pth

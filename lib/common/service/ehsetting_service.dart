@@ -86,6 +86,14 @@ class EhSettingService extends ProfileService {
 
   /// 预载图片数量
   RxInt preloadImage = 2.obs;
+  Rx<bool> upscaleEnabled = true.obs;
+  Rx<bool> upscaleAlways = false.obs;
+  Rx<int> upscaleSkipHeight = 2000.obs;
+  Rx<double> upscaleNeedScale = 1.3.obs;
+  Rx<String> upscaleModel = "real-cugan-v1".obs;
+  Rx<int> upscaleDenoise = 0.obs;
+  Rx<int> upscaleCacheGB = 4.obs;
+
 
   /// 下载线程数
   final RxInt _multiDownload = 1.obs;
@@ -803,6 +811,35 @@ class EhSettingService extends ProfileService {
 
   ///
   void _initDownloadConfig() {
+    upscaleEnabled.value = downloadConfig.upscaleEnabled ?? upscaleEnabled.value;
+    everProfile<bool>(upscaleEnabled, (value) {
+      downloadConfig = downloadConfig.copyWith(upscaleEnabled: value.oN);
+    });
+    upscaleAlways.value = downloadConfig.upscaleAlways ?? upscaleAlways.value;
+    everProfile<bool>(upscaleAlways, (value) {
+      downloadConfig = downloadConfig.copyWith(upscaleAlways: value.oN);
+    });
+    upscaleSkipHeight.value = downloadConfig.upscaleSkipHeight ?? upscaleSkipHeight.value;
+    everProfile<int>(upscaleSkipHeight, (value) {
+      downloadConfig = downloadConfig.copyWith(upscaleSkipHeight: value.oN);
+    });
+    upscaleNeedScale.value = downloadConfig.upscaleNeedScale ?? upscaleNeedScale.value;
+    everProfile<double>(upscaleNeedScale, (value) {
+      downloadConfig = downloadConfig.copyWith(upscaleNeedScale: value.oN);
+    });
+    upscaleModel.value = downloadConfig.upscaleModel ?? upscaleModel.value;
+    everProfile<String>(upscaleModel, (value) {
+      downloadConfig = downloadConfig.copyWith(upscaleModel: value.oN);
+    });
+    upscaleDenoise.value = downloadConfig.upscaleDenoise ?? upscaleDenoise.value;
+    everProfile<int>(upscaleDenoise, (value) {
+      downloadConfig = downloadConfig.copyWith(upscaleDenoise: value.oN);
+    });
+    upscaleCacheGB.value = downloadConfig.upscaleCacheGB ?? upscaleCacheGB.value;
+    everProfile<int>(upscaleCacheGB, (value) {
+      downloadConfig = downloadConfig.copyWith(upscaleCacheGB: value.oN);
+    });
+
     /// downloadConfig
     /// 预载图片数量
     preloadImage.value = downloadConfig.preloadImage ?? preloadImage.value;

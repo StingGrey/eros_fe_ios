@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:eros_fe/widget/image/upscale_image_provider.dart';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -54,6 +56,7 @@ class _ViewImageState extends State<ViewImage> with TickerProviderStateMixin {
   late DoubleClickAnimationListener _doubleClickAnimationListener;
 
   late AnimationController _fadeAnimationController;
+  StreamSubscription<String>? _upscaleChanges;
 
   ViewExtState get vState => controller.vState;
 
@@ -63,6 +66,9 @@ class _ViewImageState extends State<ViewImage> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    _upscaleChanges = controller.upscaleService.changes.listen((id) {
+      if (mounted && id == controller.upscaleId(widget.imageSer)) setState(() {});
+    });
     _doubleClickAnimationController = AnimationController(
         duration: const Duration(milliseconds: 300), vsync: this);
 
@@ -90,6 +96,7 @@ class _ViewImageState extends State<ViewImage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    _upscaleChanges?.cancel();
     _doubleClickAnimationController.dispose();
     _fadeAnimationController.dispose();
     super.dispose();
@@ -221,7 +228,8 @@ class _ViewImageState extends State<ViewImage> with TickerProviderStateMixin {
 
         controller.onLoadCompleted(widget.imageSer);
 
-        return controller.vState.viewMode != ViewMode.topToBottom
+        _fadeAnimationController.forward();
+        final completed = controller.vState.viewMode != ViewMode.topToBottom
             ? Hero(
                 tag: '${widget.imageSer}',
                 child: state.completedWidget,
@@ -229,7 +237,9 @@ class _ViewImageState extends State<ViewImage> with TickerProviderStateMixin {
                     MaterialRectCenterArcTween(begin: begin, end: end),
               )
             : state.completedWidget;
+        return FadeTransition(opacity: _fadeAnimationController, child: completed);
       } else if (state.extendedImageLoadState == LoadState.loading) {
+        _fadeAnimationController.reset();
         // 显示加载中
         final ImageChunkEvent? loadingProgress = state.loadingProgress;
         final double? progress = loadingProgress?.expectedTotalBytes != null
@@ -263,7 +273,10 @@ class _ViewImageState extends State<ViewImage> with TickerProviderStateMixin {
             loadStateChanged: loadStateChanged,
           )
         : ExtendedImage(
-            image: ExtendedFileImageProvider(File(path)),
+            image: UpscaleImageProvider(
+              original: ExtendedFileImageProvider(File(path)),
+              source: () async => File(path), id: controller.upscaleId(widget.imageSer),
+              service: controller.upscaleService, physicalHeight: controller.upscalePhysicalHeight),
             fit: BoxFit.contain,
             clearMemoryCacheWhenDispose: true,
             filterQuality: FilterQuality.medium,
@@ -571,20 +584,14 @@ class _ViewImageState extends State<ViewImage> with TickerProviderStateMixin {
 
               logger.t('ImageExtProvider, imageUrl: ${imageData?.imageUrl}');
               Widget image = ImageExtProvider(
-                image: ExtendedResizeImage.resizeIfNeeded(
-                  provider: ExtendedNetworkImageProvider(
-                    imageData?.imageUrl ?? '',
-                    timeLimit: const Duration(seconds: 5),
-                    cache: true,
-                    retries: 2,
-                    timeRetry: const Duration(seconds: 2),
-                    printError: true,
-                    cacheKey: imageData?.cacheKey,
-                  ),
-                  // provider: getEhImageProvider(
-                  //   imageData?.imageUrl ?? '',
-                  //   ser: widget.imageSer,
-                  // ),
+                image: UpscaleImageProvider(
+                  original: ExtendedNetworkImageProvider(
+                    imageData?.imageUrl ?? '', timeLimit: const Duration(seconds: 5),
+                    cache: true, retries: 2, timeRetry: const Duration(seconds: 2),
+                    printError: true, cacheKey: imageData?.cacheKey),
+                  source: () => getCachedImageFile(imageData?.imageUrl ?? '', cacheKey: imageData?.cacheKey),
+                  id: controller.upscaleId(widget.imageSer), service: controller.upscaleService,
+                  physicalHeight: controller.upscalePhysicalHeight,
                 ),
                 // image: getEhImageProvider(
                 //   imageData?.imageUrl ?? '',

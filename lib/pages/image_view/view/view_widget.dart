@@ -439,6 +439,7 @@ class ImageExtProvider extends GetView<ViewExtController> {
       fit: BoxFit.contain,
       handleLoadingProgress: true,
       clearMemoryCacheIfFailed: true,
+      clearMemoryCacheWhenDispose: true,
       enableSlideOutPage: enableSlideOutPage,
       mode: mode,
       initGestureConfigHandler: initGestureConfigHandler,
