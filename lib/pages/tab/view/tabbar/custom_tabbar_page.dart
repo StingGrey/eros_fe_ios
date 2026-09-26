@@ -1,15 +1,11 @@
 import 'package:eros_fe/widget/glass/glass_container.dart';
-import 'package:english_words/english_words.dart';
 import 'package:eros_fe/common/service/ehsetting_service.dart';
-import 'package:eros_fe/common/service/theme_service.dart';
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/tab/controller/group/custom_sublist_controller.dart';
 import 'package:eros_fe/pages/tab/controller/group/custom_tabbar_controller.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:cupertino_ui/cupertino_ui.dart' hide CupertinoTabBar;
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:keframe/keframe.dart';
 
 import '../../comm.dart';
 import '../constants.dart';
@@ -44,7 +40,7 @@ class _CustomTabbarListState extends State<CustomTabbarList> {
         hideTopBarOnScroll,
       );
 
-      return CupertinoPageScaffold(child: SizeCacheWidget(child: scrollView));
+      return CupertinoPageScaffold(child: scrollView);
 
       // return CupertinoPageScaffold(child: scrollView);
     });
@@ -131,7 +127,8 @@ class _CustomTabbarListState extends State<CustomTabbarList> {
     // final navBarHeight = maxExtentCallBackValue -
     //     kTopTabbarHeight -
     //     context.mediaQueryPadding.top;
-    final navBarOpacity = 1.0 -
+    final navBarOpacity =
+        1.0 -
         (offset / (kMinInteractiveDimensionCupertino - 1)).clamp(0.0, 1.0);
     // customBarOpacity 为 navBarOpacity 缩放
     // final customBarOpacity = navBarOpacity * 0.9 + 0.1;
@@ -169,89 +166,67 @@ class _CustomTabbarListState extends State<CustomTabbarList> {
     );
   }
 
-  CupertinoNavigationBar getNavigationBar(
-    BuildContext context, {
-    double? opacity,
-  }) {
-    return CupertinoNavigationBar(
-      transitionBetweenRoutes: false,
-      backgroundColor: kEnableImpeller
-          ? CupertinoTheme.of(context).barBackgroundColor.withOpacity(1)
-          : null,
-      border: null,
-      // border: Border(
-      //   bottom: BorderSide(
-      //     color: CupertinoTheme.of(context).barBackgroundColor.withOpacity(0.2),
-      //     width: 0.1, // 0.0 means one physical pixel
-      //   ),
-      // ),
-      padding: const EdgeInsetsDirectional.only(end: 4),
-      middle: Opacity(
-        opacity: opacity ?? 1.0,
-        child: GestureDetector(
-          onTap: () => controller.scrollToTop(context),
+  Widget getNavigationBar(BuildContext context, {double? opacity}) {
+    return SafeArea(
+      bottom: false,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: SizedBox(
+          height: 44,
           child: Row(
-            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(L10n.of(context).tab_gallery),
-              Obx(() {
-                if (controller.isBackgroundRefresh) {
-                  return const CupertinoActivityIndicator(radius: 10)
-                      .paddingSymmetric(horizontal: 8);
-                } else {
-                  return const SizedBox();
-                }
-              }),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => controller.scrollToTop(context),
+                  child: Text(
+                    L10n.of(context).tab_gallery,
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.6,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 44,
+                height: 40,
+                child: GlassContainer(
+                  child: controller.getLeading(context, compact: true),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Obx(
+                () => SizedBox(
+                  width: controller.afterJump ? 132 : 88,
+                  height: 40,
+                  child: GlassContainer(
+                    items: [
+                      GlassItem(
+                        id: 'search',
+                        label: L10n.of(context).search,
+                        symbol: 'magnifyingglass',
+                        onPressed: () => NavigatorUtil.goSearchPage(),
+                      ),
+                      if (controller.afterJump)
+                        GlassItem(
+                          id: 'top',
+                          label: '回到顶部',
+                          symbol: 'arrow.up.to.line',
+                          onPressed: controller.jumpToTop,
+                        ),
+                      GlassItem(
+                        id: 'jump',
+                        label: '跳转页码',
+                        symbol: 'arrow.turn.down.right',
+                        onPressed: () => controller.showJumpDialog(context),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
-        ),
-      ),
-      leading: Opacity(
-        opacity: opacity ?? 1.0,
-        child: controller.getLeading(context),
-      ),
-      trailing: Opacity(
-        opacity: opacity ?? 1.0,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            CupertinoButton(
-              minSize: 40,
-              padding: const EdgeInsets.all(0),
-              child: const Icon(CupertinoIcons.search, size: 28),
-              onPressed: () {
-                NavigatorUtil.goSearchPage();
-              },
-            ),
-            // 页码跳转按钮
-            // JumpButton(controller: controller),
-            Obx(() {
-              if (controller.afterJump) {
-                return CupertinoButton(
-                  minSize: 40,
-                  padding: const EdgeInsets.all(0),
-                  child: const Icon(CupertinoIcons.arrow_up_circle, size: 28),
-                  onPressed: () {
-                    controller.jumpToTop();
-                  },
-                );
-              } else {
-                return const SizedBox();
-              }
-            }),
-            CupertinoButton(
-              minSize: 40,
-              padding: const EdgeInsets.all(0),
-              child: const Icon(
-                CupertinoIcons.arrow_uturn_down_circle,
-                size: 28,
-              ),
-              onPressed: () {
-                controller.showJumpDialog(context);
-              },
-            ),
-          ],
         ),
       ),
     );
@@ -314,191 +289,35 @@ class CustomTabBar extends StatelessWidget {
   final double opacity;
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(
-      // fit: StackFit.expand,
-      alignment: Alignment.topCenter,
-      children: [
-        Obx(() {
-          // 不要删除这行
-          ehTheme.isDarkMode;
-          return GlassContainer(
-            dark: ehTheme.isDarkMode,
-            radius: 0,
-            child: const SizedBox(
-              height: kTopTabbarHeight,
-              width: double.infinity,
-            ),
-          );
-        }),
-        Container(
-          decoration: const BoxDecoration(border: kDefaultNavBarBorder),
-          padding: EdgeInsets.only(
-            left: context.mediaQueryPadding.left,
-            right: context.mediaQueryPadding.right,
-          ),
-          child: SizedBox(
-            height: kTopTabbarHeight,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Obx(() {
-                    return LinkScrollBar(
-                      key: ValueKey(
-                        controller.profiles
-                            .map((e) => '${e.uuid}${e.name}')
-                            .join(),
-                      ),
-                      controller: controller.linkScrollBarController,
-                      pageController: controller.pageController,
-                      items: controller.profiles.isNotEmpty
-                          ? controller.profiles
-                              .map(
-                                (e) => LinkTabItem(
-                                  title: e.name,
-                                  actinos: [
-                                    LinkTabItemAction(
-                                      actinoText: '编辑分组',
-                                      icon: FontAwesomeIcons.penToSquare.data,
-                                      onTap: () {
-                                        controller.toEditPage(uuid: e.uuid);
-                                      },
-                                    ),
-                                    LinkTabItemAction(
-                                      actinoText: '删除分组',
-                                      icon: FontAwesomeIcons.trashCan.data,
-                                      color: CupertinoDynamicColor.resolve(
-                                        CupertinoColors.destructiveRed,
-                                        context,
-                                      ),
-                                      onTap: () {
-                                        controller
-                                            .showDeleteGroupModalBottomSheet(
-                                          e.uuid,
-                                          context,
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              )
-                              .toList()
-                          : [LinkTabItem(title: '+++')],
-                      initIndex: controller.index,
-                      onItemChange: (index) =>
-                          controller.pageController.animateToPage(
-                        index,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.ease,
-                      ),
-                    );
-                  }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // 刷新按钮
-                      if (GetPlatform.isDesktop)
-                        Builder(
-                          builder: (context) {
-                            bool isRefresh = false;
-                            return StatefulBuilder(
-                              builder: (context, setState) {
-                                return CupertinoButton(
-                                  minSize: 40,
-                                  padding: const EdgeInsets.all(0),
-                                  child: isRefresh
-                                      ? const CupertinoActivityIndicator(
-                                          radius: 10,
-                                        )
-                                      : const FaIcon(
-                                          FontAwesomeIcons.rotateRight,
-                                          size: 20,
-                                        ),
-                                  onPressed: () async {
-                                    setState(() {
-                                      isRefresh = true;
-                                    });
-                                    try {
-                                      await controller.reloadData();
-                                    } finally {
-                                      setState(() {
-                                        isRefresh = false;
-                                      });
-                                    }
-                                  },
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      CupertinoButton(
-                        minSize: 40,
-                        padding: const EdgeInsets.all(0),
-                        onPressed: controller.pressedBar,
-                        child: const FaIcon(FontAwesomeIcons.bars, size: 20),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.fromLTRB(16, 4, 16, 6),
+    child: SizedBox(
+      height: kTopTabbarHeight - 10,
+      child: Obx(
+        () => GlassSegmentedBar(
+          items: List.generate(controller.profilesShow.length, (index) {
+            final profile = controller.profilesShow[index];
+            return GlassItem(
+              id: profile.uuid,
+              label: profile.name,
+              symbol: '',
+              selected: index == controller.index,
+              onPressed: () => controller.pageController.animateToPage(
+                index,
+                duration: const Duration(milliseconds: 280),
+                curve: Curves.easeOutCubic,
+              ),
+              onLongPress: () => controller.toEditPage(uuid: profile.uuid),
+            );
+          }),
+          action: GlassItem(
+            id: 'groups',
+            label: '管理分组',
+            symbol: 'line.3.horizontal.decrease',
+            onPressed: controller.pressedBar,
           ),
         ),
-      ],
-    );
-  }
-}
-
-class EnglishWordList extends StatefulWidget {
-  const EnglishWordList({super.key});
-
-  @override
-  State<EnglishWordList> createState() => _EnglishWordListState();
-}
-
-class _EnglishWordListState extends State<EnglishWordList>
-    with AutomaticKeepAliveClientMixin {
-  final CustomTabbarController controller = Get.find();
-  final List<WordPair> wordList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    wordList.addAll(generateWordPairs().take(100).toList());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return CustomScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      slivers: [
-        SliverPadding(
-          padding: EdgeInsets.only(
-            top: context.mediaQueryPadding.top + kTopTabbarHeight,
-          ),
-          sliver: EhCupertinoSliverRefreshControl(
-            onRefresh: () async {
-              await 1.seconds.delay();
-              wordList.clear();
-              wordList.addAll(generateWordPairs().take(100).toList());
-              setState(() {});
-            },
-          ),
-        ),
-        SliverFixedExtentList(
-          delegate: SliverChildBuilderDelegate((context, index) {
-            return Text(wordList[index].asString);
-          }, childCount: wordList.length),
-          itemExtent: 50.0,
-        ),
-      ],
-    );
-  }
-
-  @override
-  bool get wantKeepAlive => true;
+      ),
+    ),
+  );
 }

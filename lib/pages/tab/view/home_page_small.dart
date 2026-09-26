@@ -6,7 +6,8 @@ import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 
 class TabHomeSmall extends GetView<TabHomeController> {
-  const TabHomeSmall({super.key});
+  const TabHomeSmall({super.key, this.hideTabBar = false});
+  final bool hideTabBar;
   @override
   Widget build(BuildContext context) {
     controller.init(inContext: context);
@@ -15,6 +16,8 @@ class TabHomeSmall extends GetView<TabHomeController> {
       () => CupertinoTabScaffold(
         controller: controller.tabController,
         tabBar: GlassTabBar(
+          hidden: hideTabBar,
+          height: hideTabBar ? 0 : 76,
           routes: List.generate(
             controller.listBottomNavigationBarItem.length,
             controller.routeAtIndex,

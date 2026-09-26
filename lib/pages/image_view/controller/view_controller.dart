@@ -502,7 +502,7 @@ class ViewExtController extends GetxController {
     }
 
     logger.d('_toIndex $toIndex  ');
-    update([idViewColumnModeIcon, idSlidePage]);
+    update([idViewColumnModeIcon, idSlidePage, idIconBar]);
     await Future.delayed(const Duration(milliseconds: 50));
 
     // resetPageController();
@@ -522,7 +522,7 @@ class ViewExtController extends GetxController {
       vState.showThumbList = true;
     }
 
-    update([idShowThumbListIcon, idViewBottomBar, idThumbnailListView]);
+    update([idShowThumbListIcon, idViewBottomBar, idThumbnailListView, idIconBar]);
   }
 
   final Map<int, Future<void>?> _mapFetchGalleryPriviewPage = {};
@@ -1075,7 +1075,7 @@ class ViewExtController extends GetxController {
 
     if (!vState.autoRead) {
       await _setAutoReadInv(context, setInv: setInv);
-      update([idAutoReadIcon]);
+      update([idAutoReadIcon, idIconBar]);
       _startAutoRead();
     } else {
       cancelAutoRead();
@@ -1170,7 +1170,7 @@ class ViewExtController extends GetxController {
     vState.autoRead = false;
     vState.lastAutoNextSer = null;
     autoNextTimer?.cancel();
-    update([idAutoReadIcon]);
+    update([idAutoReadIcon, idIconBar]);
   }
 
   final debNextPage = Debouncing(duration: const Duration(seconds: 1));

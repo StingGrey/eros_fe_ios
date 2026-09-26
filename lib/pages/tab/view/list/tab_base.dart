@@ -33,49 +33,47 @@ SliverPadding buildDebugSimple(
   return SliverPadding(
     padding: const EdgeInsets.all(EHConst.gridCrossAxisSpacing),
     sliver: SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          if (galleryProviders.length - 1 < index) {
-            return const SizedBox.shrink();
-          }
+      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+        if (galleryProviders.length - 1 < index) {
+          return const SizedBox.shrink();
+        }
 
-          if (index == galleryProviders.length - 1 &&
-              (next?.isNotEmpty ?? false)) {
-            // 加载完成最后一项的回调
-            lastComplete?.call();
-          }
+        if (index == galleryProviders.length - 1 &&
+            (next?.isNotEmpty ?? false)) {
+          // 加载完成最后一项的回调
+          lastComplete?.call();
+        }
 
-          final GalleryProvider _provider = galleryProviders[index];
-          Get.lazyReplace(() => _provider, tag: _provider.gid, fenix: true);
-          Get.lazyReplace(
-              () => GalleryItemController(
-                  galleryProvider: Get.find(tag: _provider.gid)),
-              tag: _provider.gid,
-              fenix: true);
+        final GalleryProvider _provider = galleryProviders[index];
+        Get.lazyReplace(() => _provider, tag: _provider.gid, fenix: true);
+        Get.lazyReplace(
+          () => GalleryItemController(
+            galleryProvider: Get.find(tag: _provider.gid),
+          ),
+          tag: _provider.gid,
+          fenix: true,
+        );
 
-          return GalleryItemDebugSimple(
-            key:
-                index == lastTopItemIndex ? centerKey : ValueKey(_provider.gid),
-            galleryProvider: _provider,
-            tabTag: tabTag,
-          );
+        return GalleryItemDebugSimple(
+          key: index == lastTopItemIndex ? centerKey : ValueKey(_provider.gid),
+          galleryProvider: _provider,
+          tabTag: tabTag,
+        );
 
-          // return FrameSeparateWidget(
-          //   index: index,
-          //   placeHolder: Container(
-          //     width: 60,
-          //   ),
-          //   child: GalleryItemDebugSimple(
-          //     key: index == lastTopitemIndex
-          //         ? centerKey
-          //         : ValueKey(_provider.gid),
-          //     galleryProvider: _provider,
-          //     tabTag: tabTag,
-          //   ),
-          // );
-        },
-        childCount: galleryProviders.length,
-      ),
+        // return FrameSeparateWidget(
+        //   index: index,
+        //   placeHolder: Container(
+        //     width: 60,
+        //   ),
+        //   child: GalleryItemDebugSimple(
+        //     key: index == lastTopitemIndex
+        //         ? centerKey
+        //         : ValueKey(_provider.gid),
+        //     galleryProvider: _provider,
+        //     tabTag: tabTag,
+        //   ),
+        // );
+      }, childCount: galleryProviders.length),
     ),
   );
 }
@@ -89,7 +87,8 @@ Widget _listItemWidget(
   switch (listMode) {
     case ListModeEnum.list:
       return GalleryItemWidget(
-        key: centerKey ??
+        key:
+            centerKey ??
             ValueKey('${_provider.gid}_${_provider.ratingFallBack}'),
         galleryProvider: _provider,
         tabTag: tabTag,
@@ -124,15 +123,20 @@ Widget _buildDelSliverAnimatedListItem(
 }) {
   return FadeTransition(
     opacity: _animation.drive(
-        CurveTween(curve: const Interval(0.0, 1.0, curve: Curves.easeOut))),
+      CurveTween(curve: const Interval(0.0, 1.0, curve: Curves.easeOut)),
+    ),
     child: SizeTransition(
       sizeFactor: _animation.drive(
-          CurveTween(curve: const Interval(0.0, 1.0, curve: Curves.easeOut))),
+        CurveTween(curve: const Interval(0.0, 1.0, curve: Curves.easeOut)),
+      ),
       child: SlideTransition(
         position: Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero)
-            .animate(CurvedAnimation(
+            .animate(
+              CurvedAnimation(
                 parent: _animation,
-                curve: const Interval(0.4, 1.0, curve: Curves.easeOut))),
+                curve: const Interval(0.4, 1.0, curve: Curves.easeOut),
+              ),
+            ),
         child: child,
       ),
     ),
@@ -187,49 +191,51 @@ Widget buildAnimatedGallerySliverListView(
     initialItemCount: galleryProviders.length,
     itemBuilder:
         (BuildContext context, int index, Animation<double> animation) {
-      if (galleryProviders.length - 1 < index) {
-        return const SizedBox.shrink();
-      }
+          if (galleryProviders.length - 1 < index) {
+            return const SizedBox.shrink();
+          }
 
-      if (index == galleryProviders.length - 1 && (next?.isNotEmpty ?? false)) {
-        // 加载完成最后一项的回调
-        lastComplete?.call();
-      }
+          if (index == galleryProviders.length - 1 &&
+              (next?.isNotEmpty ?? false)) {
+            // 加载完成最后一项的回调
+            lastComplete?.call();
+          }
 
-      final GalleryProvider _itemInfo = galleryProviders[index];
-      Get.lazyReplace(() => _itemInfo, tag: _itemInfo.gid, fenix: true);
-      Get.lazyReplace(
-        () => GalleryItemController(
-            galleryProvider: Get.find(tag: _itemInfo.gid)),
-        tag: _itemInfo.gid,
-        fenix: true,
-      );
+          final GalleryProvider _itemInfo = galleryProviders[index];
+          Get.lazyReplace(() => _itemInfo, tag: _itemInfo.gid, fenix: true);
+          Get.lazyReplace(
+            () => GalleryItemController(
+              galleryProvider: Get.find(tag: _itemInfo.gid),
+            ),
+            tag: _itemInfo.gid,
+            fenix: true,
+          );
 
-      final itemWidget = buildGallerySliverListItem(
-        _itemInfo,
-        index,
-        animation,
-        tabTag: tabTag,
-        centerKey: centerKey,
-        oriFirstIndex: lastTopitemIndex,
-        listMode: ListModeEnum.list,
-      );
+          final itemWidget = buildGallerySliverListItem(
+            _itemInfo,
+            index,
+            animation,
+            tabTag: tabTag,
+            centerKey: centerKey,
+            oriFirstIndex: lastTopitemIndex,
+            listMode: ListModeEnum.list,
+          );
 
-      // if (index < 2) {
-      //   return const GalleryItemPlaceHolder();
-      // }
+          // if (index < 2) {
+          //   return const GalleryItemPlaceHolder();
+          // }
 
-      if (tabTag == EHRoutes.history) {
-        return itemWidget;
-      } else {
-        // return itemWidget;
-        return FrameSeparateWidget(
-          index: index,
-          placeHolder: const GalleryItemPlaceHolder(),
-          child: itemWidget,
-        );
-      }
-    },
+          if (tabTag == EHRoutes.history) {
+            return itemWidget;
+          } else {
+            // return itemWidget;
+            return FrameSeparateWidget(
+              index: index,
+              placeHolder: const GalleryItemPlaceHolder(),
+              child: itemWidget,
+            );
+          }
+        },
   );
 }
 
@@ -249,35 +255,38 @@ Widget buildAnimatedGallerySliverListSimpleView(
     initialItemCount: galleryProviders.length,
     itemBuilder:
         (BuildContext context, int index, Animation<double> animation) {
-      if (galleryProviders.length - 1 < index) {
-        return const SizedBox.shrink();
-      }
+          if (galleryProviders.length - 1 < index) {
+            return const SizedBox.shrink();
+          }
 
-      if (index == galleryProviders.length - 1 && (next?.isNotEmpty ?? false)) {
-        // 加载完成最后一项的回调
-        lastComplete?.call();
-      }
+          if (index == galleryProviders.length - 1 &&
+              (next?.isNotEmpty ?? false)) {
+            // 加载完成最后一项的回调
+            lastComplete?.call();
+          }
 
-      final GalleryProvider _provider = galleryProviders[index];
-      Get.lazyReplace(() => _provider, tag: _provider.gid, fenix: true);
-      Get.lazyReplace(
-          () => GalleryItemController(
-              galleryProvider: Get.find(tag: _provider.gid)),
-          tag: _provider.gid,
-          fenix: true);
-      return FrameSeparateWidget(
-        placeHolder: const GalleryItemSimplePlaceHolder(),
-        child: buildGallerySliverListItem(
-          _provider,
-          index,
-          animation,
-          tabTag: tabTag,
-          centerKey: centerKey,
-          oriFirstIndex: lastTopitemIndex,
-          listMode: ListModeEnum.simpleList,
-        ),
-      );
-    },
+          final GalleryProvider _provider = galleryProviders[index];
+          Get.lazyReplace(() => _provider, tag: _provider.gid, fenix: true);
+          Get.lazyReplace(
+            () => GalleryItemController(
+              galleryProvider: Get.find(tag: _provider.gid),
+            ),
+            tag: _provider.gid,
+            fenix: true,
+          );
+          return FrameSeparateWidget(
+            placeHolder: const GalleryItemSimplePlaceHolder(),
+            child: buildGallerySliverListItem(
+              _provider,
+              index,
+              animation,
+              tabTag: tabTag,
+              centerKey: centerKey,
+              oriFirstIndex: lastTopitemIndex,
+              listMode: ListModeEnum.simpleList,
+            ),
+          );
+        },
   );
 }
 
@@ -303,15 +312,17 @@ Widget buildGallerySliverListSimpleView(
         if (index == galleryProviders.length - 1 &&
             (next?.isNotEmpty ?? false)) {
           // 加载完成最后一项的回调
-          SchedulerBinding.instance
-              .addPostFrameCallback((_) => lastComplete?.call());
+          SchedulerBinding.instance.addPostFrameCallback(
+            (_) => lastComplete?.call(),
+          );
         }
 
         final GalleryProvider _provider = galleryProviders[index];
         Get.lazyReplace(() => _provider, tag: _provider.gid, fenix: true);
         Get.lazyReplace(
           () => GalleryItemController(
-              galleryProvider: Get.find(tag: _provider.gid)),
+            galleryProvider: Get.find(tag: _provider.gid),
+          ),
           tag: _provider.gid,
           fenix: true,
         );
@@ -373,14 +384,29 @@ Widget getGallerySliverList(
 
     switch (mod) {
       case ListModeEnum.list:
-        return EhSliverList(
-          galleryProviders ?? [],
-          tabTag,
-          next: next,
-          lastComplete: lastComplete,
-          centerKey: centerKey,
-          lastTopItemIndex: lastTopItemIndex,
-          keepPosition: keepPosition,
+        return SliverLayoutBuilder(
+          builder: (context, constraints) {
+            if (constraints.crossAxisExtent >= 640) {
+              return EhGridView(
+                galleryProviders ?? [],
+                tabTag,
+                next: next,
+                lastComplete: lastComplete,
+                large: true,
+                centerKey: centerKey,
+                lastTopItemIndex: lastTopItemIndex,
+              );
+            }
+            return EhSliverList(
+              galleryProviders ?? [],
+              tabTag,
+              next: next,
+              lastComplete: lastComplete,
+              centerKey: centerKey,
+              lastTopItemIndex: lastTopItemIndex,
+              keepPosition: keepPosition,
+            );
+          },
         );
       case ListModeEnum.waterfall:
         return EhWaterfallFlow(
@@ -430,9 +456,7 @@ Widget getGallerySliverList(
           lastTopItemIndex: lastTopItemIndex,
         );
       case ListModeEnum.global:
-        return const SliverFillRemaining(
-          child: SizedBox(),
-        );
+        return const SliverFillRemaining(child: SizedBox());
     }
   });
 }
@@ -451,7 +475,7 @@ class SearchRepository {
 
 class EndIndicator extends StatelessWidget {
   const EndIndicator({Key? key, required this.pageState, this.loadDataMore})
-      : super(key: key);
+    : super(key: key);
 
   final PageState pageState;
   final VoidCallback? loadDataMore;
@@ -461,42 +485,40 @@ class EndIndicator extends StatelessWidget {
     return SliverToBoxAdapter(
       // key: centerKey,
       child: Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.only(
-                  top: 50, bottom: 100.0 + context.mediaQueryPadding.bottom),
-              child: () {
-                switch (pageState) {
-                  case PageState.None:
-                    return Container();
-                  case PageState.LoadingMore:
-                    return const CupertinoActivityIndicator(
-                      radius: 14,
-                    );
-                  case PageState.LoadingException:
-                  case PageState.LoadingError:
-                    return GestureDetector(
-                      onTap: loadDataMore,
-                      child: Column(
-                        children: <Widget>[
-                          const Icon(
-                            Icons.error,
-                            size: 40,
-                            color: CupertinoColors.systemRed,
-                          ),
-                          Text(
-                            L10n.of(Get.context!).list_load_more_fail,
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  default:
-                    return Container();
-                }
-              }())
-          .autoCompressKeyboard(context),
+        alignment: Alignment.center,
+        padding: EdgeInsets.only(
+          top: 50,
+          bottom: 100.0 + context.mediaQueryPadding.bottom,
+        ),
+        child: () {
+          switch (pageState) {
+            case PageState.None:
+              return Container();
+            case PageState.LoadingMore:
+              return const CupertinoActivityIndicator(radius: 14);
+            case PageState.LoadingException:
+            case PageState.LoadingError:
+              return GestureDetector(
+                onTap: loadDataMore,
+                child: Column(
+                  children: <Widget>[
+                    const Icon(
+                      Icons.error,
+                      size: 40,
+                      color: CupertinoColors.systemRed,
+                    ),
+                    Text(
+                      L10n.of(Get.context!).list_load_more_fail,
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ],
+                ),
+              );
+            default:
+              return Container();
+          }
+        }(),
+      ).autoCompressKeyboard(context),
     );
   }
 }

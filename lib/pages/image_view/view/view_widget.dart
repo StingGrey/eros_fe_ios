@@ -308,7 +308,7 @@ class ImageExt extends GetView<ViewExtController> {
             final ImageChunkEvent? loadingProgress = state.loadingProgress;
             final double? progress = loadingProgress?.expectedTotalBytes != null
                 ? (loadingProgress?.cumulativeBytesLoaded ?? 0) /
-                    (loadingProgress?.expectedTotalBytes ?? 1)
+                      (loadingProgress?.expectedTotalBytes ?? 1)
                 : null;
 
             return _ViewLoading(progress: progress, ser: ser);
@@ -454,7 +454,7 @@ class ImageExtProvider extends GetView<ViewExtController> {
             final ImageChunkEvent? loadingProgress = state.loadingProgress;
             final double? progress = loadingProgress?.expectedTotalBytes != null
                 ? (loadingProgress?.cumulativeBytesLoaded ?? 0) /
-                    (loadingProgress?.expectedTotalBytes ?? 1)
+                      (loadingProgress?.expectedTotalBytes ?? 1)
                 : null;
 
             return _ViewLoading(
@@ -911,82 +911,90 @@ class ViewTopBar extends GetView<ViewExtController> {
 
   @override
   Widget build(BuildContext context) => SafeArea(
-        bottom: false,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spaceM),
-          child: SizedBox(
-            height: kTopBarHeight,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: DesignTokens.controlSize,
-                  height: DesignTokens.controlSize,
-                  child: GlassContainer(
-                    dark: true,
-                    items: [
-                      GlassItem(
-                        id: 'back',
-                        label:
-                            CupertinoLocalizations.of(context).backButtonLabel,
-                        symbol: 'chevron.left',
-                        onPressed: () => Get.back(),
-                      ),
-                    ],
+    bottom: false,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spaceM),
+      child: SizedBox(
+        height: kTopBarHeight,
+        child: Row(
+          children: [
+            SizedBox(
+              width: DesignTokens.controlSize,
+              height: DesignTokens.controlSize,
+              child: GlassContainer(
+                dark: true,
+                items: [
+                  GlassItem(
+                    id: 'back',
+                    label: CupertinoLocalizations.of(context).backButtonLabel,
+                    symbol: 'chevron.left',
+                    onPressed: () => Get.back(),
                   ),
-                ),
-                Expanded(
-                  child: GetBuilder<ViewExtController>(
-                    id: idViewTopBar,
-                    builder: (logic) => Center(
-                      child: Text(
-                        '${logic.vState.currentItemIndex + 1}/${logic.vState.fileCount}',
-                        style: DesignTokens.body.copyWith(
-                          color: CupertinoColors.white,
+                ],
+              ),
+            ),
+            Expanded(
+              child: Center(
+                child: GetBuilder<ViewExtController>(
+                  id: idViewTopBar,
+                  builder: (logic) => SizedBox(
+                    width: 108,
+                    height: 40,
+                    child: GlassContainer(
+                      dark: true,
+                      child: Center(
+                        child: Text(
+                          '${logic.vState.currentItemIndex + 1} / ${logic.vState.fileCount}',
+                          style: DesignTokens.body.copyWith(
+                            color: CupertinoColors.white,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-                if (context.isTablet)
-                  ControllerButtonBar(
-                    controller: controller,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    showLable: false,
-                  ),
-                SizedBox(
-                  width: 104,
-                  height: DesignTokens.controlSize,
-                  child: GlassContainer(
-                    dark: true,
-                    items: [
-                      GlassItem(
-                        id: 'share',
-                        label: L10n.of(context).share_image,
-                        symbol: 'square.and.arrow.up',
-                        onPressed: () => controller.tapShare(context),
-                      ),
-                      GlassItem(
-                        id: 'settings',
-                        label: L10n.of(context).tab_setting,
-                        symbol: 'ellipsis',
-                        onPressed: () async {
-                          controller.cancelVolumeKeydownListen();
-                          try {
-                            await Get.toNamed(EHRoutes.readSetting);
-                          } finally {
-                            controller.addVolumeKeydownListen();
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+            if (context.isTablet)
+              ControllerButtonBar(
+                controller: controller,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                showLable: false,
+              ).paddingOnly(right: 12),
+            SizedBox(
+              width: 104,
+              height: DesignTokens.controlSize,
+              child: GlassContainer(
+                dark: true,
+                items: [
+                  GlassItem(
+                    id: 'share',
+                    label: L10n.of(context).share_image,
+                    symbol: 'square.and.arrow.up',
+                    onPressed: () => controller.tapShare(context),
+                  ),
+                  GlassItem(
+                    id: 'settings',
+                    label: L10n.of(context).tab_setting,
+                    symbol: 'ellipsis',
+                    onPressed: () async {
+                      controller.cancelVolumeKeydownListen();
+                      try {
+                        await Get.toNamed(EHRoutes.readSetting);
+                      } finally {
+                        controller.addVolumeKeydownListen();
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }
 
 const _kBottomTextStyle = TextStyle(color: Colors.white, fontSize: 10);
@@ -999,29 +1007,49 @@ class ViewBottomBar extends GetView<ViewExtController> {
     return GetBuilder<ViewExtController>(
       id: idViewBottomBar,
       builder: (logic) {
-        logic.vState.bottomBarHeight = context.mediaQueryPadding.bottom +
+        logic.vState.bottomBarHeight =
+            context.mediaQueryPadding.bottom +
             (!context.isTablet ? kBottomBarHeight : 0) +
             kSliderBarHeight +
             (logic.vState.showThumbList ? kThumbListViewHeight : 0);
 
-        return AnimatedContainer(
-          height: controller.vState.bottomBarHeight,
-          width: context.mediaQuery.size.width,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-          child: Column(
-            children: [
-              // 缩略图栏
-              AnimatedContainer(
-                height: logic.vState.showThumbList ? kThumbListViewHeight : 0,
+        return Align(
+          alignment: Alignment.bottomCenter,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 760),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: AnimatedContainer(
+                height: controller.vState.bottomBarHeight,
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeOut,
-                child: const ThumbnailListView(),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: GlassContainer(
+                        dark: true,
+                        radius: 28,
+                        child: Column(
+                          children: [
+                            AnimatedContainer(
+                              height: logic.vState.showThumbList
+                                  ? kThumbListViewHeight
+                                  : 0,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeOut,
+                              child: const ThumbnailListView(),
+                            ),
+                            const BottomBarControlWidget(),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: context.mediaQueryPadding.bottom),
+                  ],
+                ),
               ),
-              // 控制栏
-              const BottomBarControlWidget(),
-            ],
-          ).glass(dark: true, radius: DesignTokens.radiusL),
+            ),
+          ),
         );
       },
     );
@@ -1104,198 +1132,49 @@ class ControllerButtonBar extends StatelessWidget {
   static const buttonWidth = 44.0;
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: mainAxisAlignment,
-      mainAxisSize: mainAxisSize,
-      children: <Widget>[
-        // 保存按钮
-        MouseRegionClick(
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              controller.tapSave(context);
-            },
-            child: SizedBox(
-              width: buttonWidth,
-              height: kBottomBarButtonHeight,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const FaIcon(
-                    FontAwesomeIcons.solidFloppyDisk,
-                    color: CupertinoColors.systemGrey6,
-                    size: 22,
-                  ),
-                  // const Spacer(),
-                  if (showLable)
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          L10n.of(context).save,
-                          style: _kBottomTextStyle,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
+  Widget build(BuildContext context) => GetBuilder<ViewExtController>(
+    id: idIconBar,
+    builder: (logic) => SizedBox(
+      width: showLable ? 260 : 192,
+      height: showLable ? 56 : 44,
+      child: GlassContainer(
+        dark: true,
+        showLabels: showLable,
+        items: [
+          GlassItem(
+            id: 'save',
+            label: L10n.of(context).save,
+            symbol: 'square.and.arrow.down',
+            onPressed: () => controller.tapSave(context),
           ),
-        ),
-
-        // 双页切换按钮
-        MouseRegionClick(
-          disable: controller.vState.viewMode == ViewMode.topToBottom,
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              if (controller.vState.viewMode != ViewMode.topToBottom) {
-                controller.switchColumnMode();
-              }
-            },
-            child: SizedBox(
-              width: buttonWidth,
-              height: kBottomBarButtonHeight,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GetBuilder<ViewExtController>(
-                    id: idViewColumnModeIcon,
-                    builder: (logic) {
-                      return FaIcon(
-                        FontAwesomeIcons.bookOpen,
-                        size: 22,
-                        color: () {
-                          if (logic.vState.viewMode == ViewMode.topToBottom) {
-                            return CupertinoColors.systemGrey;
-                          }
-
-                          switch (logic.vState.columnMode) {
-                            case ViewColumnMode.single:
-                              return CupertinoColors.systemGrey6;
-                            case ViewColumnMode.oddLeft:
-                              return CupertinoColors.activeBlue;
-                            case ViewColumnMode.evenLeft:
-                              return CupertinoColors.activeOrange;
-                          }
-                        }(),
-                      );
-                    },
-                  ),
-                  if (showLable)
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          'Double',
-                          style: _kBottomTextStyle.copyWith(
-                            color: controller.vState.viewMode ==
-                                    ViewMode.topToBottom
-                                ? CupertinoColors.systemGrey
-                                : null,
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
+          GlassItem(
+            id: 'spread',
+            label: '双页',
+            symbol: 'book.pages',
+            selected: logic.vState.columnMode != ViewColumnMode.single,
+            enabled: logic.vState.viewMode != ViewMode.topToBottom,
+            onPressed: controller.switchColumnMode,
           ),
-        ),
-
-        // 自动阅读按钮
-        MouseRegionClick(
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              controller.tapAutoRead(context);
-            },
-            onLongPress: () {
-              controller.longTapAutoRead(context);
-            },
-            child: GetBuilder<ViewExtController>(
-              id: idAutoReadIcon,
-              builder: (logic) {
-                return SizedBox(
-                  width: buttonWidth,
-                  height: kBottomBarButtonHeight,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.hourglassHalf,
-                        size: 22,
-                        color: () {
-                          // if (logic.vState.viewMode ==
-                          //     ViewMode.topToBottom) {
-                          //   return CupertinoColors.systemGrey;
-                          // }
-
-                          return logic.vState.autoRead
-                              ? CupertinoColors.activeBlue
-                              : CupertinoColors.systemGrey6;
-                        }(),
-                      ),
-                      if (showLable)
-                        const Expanded(
-                          child: Center(
-                            child: Text('Auto', style: _kBottomTextStyle),
-                          ),
-                        ),
-                    ],
-                  ),
-                );
-              },
-            ),
+          GlassItem(
+            id: 'auto',
+            label: '自动',
+            symbol: 'play',
+            selected: logic.vState.autoRead,
+            onPressed: () => controller.tapAutoRead(context),
+            onLongPress: () => controller.longTapAutoRead(context),
           ),
-        ),
-        // else
-        //   const SizedBox(width: 40),
-
-        // 缩略图预览按钮
-        if (true)
-          MouseRegionClick(
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                controller.switchShowThumbList();
-              },
-              onLongPress: () {
-                vibrateUtil.light();
-                controller.thumbScrollTo();
-              },
-              child: SizedBox(
-                width: buttonWidth,
-                height: kBottomBarButtonHeight,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GetBuilder<ViewExtController>(
-                      id: idShowThumbListIcon,
-                      builder: (logic) {
-                        return FaIcon(
-                          FontAwesomeIcons.solidImages,
-                          size: 22,
-                          color: logic.vState.showThumbList
-                              ? CupertinoColors.activeBlue
-                              : CupertinoColors.systemGrey6,
-                          // color: CupertinoColors.systemGrey6,
-                        );
-                      },
-                    ),
-                    if (showLable)
-                      const Expanded(
-                        child: Center(
-                          child: Text('Thumb', style: _kBottomTextStyle),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
+          GlassItem(
+            id: 'thumbnails',
+            label: '缩略图',
+            symbol: 'square.grid.2x2',
+            selected: logic.vState.showThumbList,
+            onPressed: controller.switchShowThumbList,
+            onLongPress: controller.thumbScrollTo,
           ),
-      ],
-    );
-  }
+        ],
+      ),
+    ),
+  );
 }
 
 class ThumbnailListView extends GetView<ViewExtController> {
@@ -1593,8 +1472,8 @@ class _FutureThumblState extends State<FutureThumbl> {
                     ),
                     onLoadComplete: () =>
                         logic.handOnLoadCompletExtendedImageRect(
-                      url: image.thumbUrl!,
-                    ),
+                          url: image.thumbUrl!,
+                        ),
                   );
                 },
               );
@@ -1990,15 +1869,15 @@ Future<void> showImageSheet(
 }
 
 Widget _downloadIndicator() => Center(
-      child: CupertinoTheme(
-        data: const CupertinoThemeData(brightness: Brightness.dark),
-        child: CupertinoPopupSurface(
-          child: Container(
-            height: 80,
-            width: 80,
-            alignment: Alignment.center,
-            child: const CupertinoActivityIndicator(radius: 20),
-          ),
-        ),
+  child: CupertinoTheme(
+    data: const CupertinoThemeData(brightness: Brightness.dark),
+    child: CupertinoPopupSurface(
+      child: Container(
+        height: 80,
+        width: 80,
+        alignment: Alignment.center,
+        child: const CupertinoActivityIndicator(radius: 20),
       ),
-    );
+    ),
+  ),
+);

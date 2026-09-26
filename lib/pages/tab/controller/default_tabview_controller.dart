@@ -300,7 +300,7 @@ class DefaultTabViewController extends TabViewController {
     );
   }
 
-  Widget buildLeadingSingle(BuildContext context) {
+  Widget buildLeadingSingle(BuildContext context, {bool compact = false}) {
     if (!enableSingle) {
       return const SizedBox.shrink();
     }
@@ -308,9 +308,13 @@ class DefaultTabViewController extends TabViewController {
     final tabFlag = singleTabFlag;
 
     return CupertinoButton(
+        padding: compact ? EdgeInsets.zero : null,
         child: Icon(
           tabPages.iconDatas[tabFlag],
           size: 20,
+          color: compact
+              ? CupertinoDynamicColor.resolve(CupertinoColors.label, context)
+              : null,
         ),
         onPressed: () {
           Get.toNamed(
@@ -320,15 +324,22 @@ class DefaultTabViewController extends TabViewController {
         });
   }
 
-  Widget buildLeadingCustomPopupMenu(BuildContext context) {
+  Widget buildLeadingCustomPopupMenu(BuildContext context,
+      {bool compact = false}) {
     return CupertinoTheme(
       data: ehTheme.themeData!,
       child: CustomPopupMenu(
         child: Container(
-          padding: const EdgeInsets.only(left: 14, bottom: 2),
-          child: const Icon(
+          alignment: compact ? Alignment.center : null,
+          padding: compact
+              ? EdgeInsets.zero
+              : const EdgeInsets.only(left: 14, bottom: 2),
+          child: Icon(
             CupertinoIcons.ellipsis_circle,
             size: 24,
+            color: compact
+                ? CupertinoDynamicColor.resolve(CupertinoColors.label, context)
+                : null,
           ),
         ),
         // arrowColor: _color,
@@ -356,18 +367,18 @@ class DefaultTabViewController extends TabViewController {
     );
   }
 
-  Widget? getLeading(BuildContext context) {
+  Widget? getLeading(BuildContext context, {bool compact = false}) {
     if (Navigator.of(context).canPop()) {
       return null;
     }
 
     return Obx(() {
       if (enablePopupMenu && (!Get.find<EhSettingService>().isSafeMode.value)) {
-        return buildLeadingCustomPopupMenu(context);
+        return buildLeadingCustomPopupMenu(context, compact: compact);
       }
 
       if (enableSingle) {
-        return buildLeadingSingle(context);
+        return buildLeadingSingle(context, compact: compact);
       }
       return const SizedBox.shrink();
     });

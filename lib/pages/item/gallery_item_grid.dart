@@ -28,7 +28,7 @@ final EhSettingService _ehSettingService = Get.find();
 
 class GalleryItemGrid extends StatelessWidget {
   const GalleryItemGrid({Key? key, this.tabTag, required this.galleryProvider})
-      : super(key: key);
+    : super(key: key);
 
   final dynamic tabTag;
   final GalleryProvider galleryProvider;
@@ -57,12 +57,9 @@ class GalleryItemGrid extends StatelessWidget {
                 ? null
                 : [
                     BoxShadow(
-                      color: CupertinoDynamicColor.resolve(
-                        CupertinoColors.systemGrey4,
-                        Get.context!,
-                      ),
-                      blurRadius: 6,
-                      offset: const Offset(0, 2),
+                      color: CupertinoColors.black.withValues(alpha: 0.04),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
                     ),
                   ],
           ),
@@ -132,24 +129,28 @@ class GalleryItemGrid extends StatelessWidget {
               /// 画廊信息等
               Expanded(
                 child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(children: [Expanded(child: _buildTitle())]),
-                      const SizedBox(height: 4),
-                      PostTime(
-                        postTime: galleryProviderController
-                                .galleryProvider.postTime ??
-                            '',
-                        expunged:
-                            galleryProviderController.galleryProvider.expunged,
+                  child:
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(children: [Expanded(child: _buildTitle())]),
+                          const SizedBox(height: 4),
+                          PostTime(
+                            postTime:
+                                galleryProviderController
+                                    .galleryProvider
+                                    .postTime ??
+                                '',
+                            expunged: galleryProviderController
+                                .galleryProvider
+                                .expunged,
+                          ),
+                        ],
+                      ).paddingSymmetric(
+                        horizontal: DesignTokens.spaceM,
+                        vertical: DesignTokens.spaceS,
                       ),
-                    ],
-                  ).paddingSymmetric(
-                    horizontal: DesignTokens.spaceS,
-                    vertical: DesignTokens.spaceXS,
-                  ),
                 ),
               ),
             ],
@@ -210,8 +211,11 @@ class GalleryItemGrid extends StatelessWidget {
             size: 14.0,
             rate: galleryProviderController.galleryProvider.ratingFallBack ?? 0,
             radiusRatio: 1.5,
-            colorLight: ThemeColors.colorRatingMap[
-                galleryProviderController.galleryProvider.colorRating?.trim() ??
+            colorLight:
+                ThemeColors.colorRatingMap[galleryProviderController
+                        .galleryProvider
+                        .colorRating
+                        ?.trim() ??
                     'ir'],
             colorDark: CupertinoDynamicColor.resolve(
               CupertinoColors.systemGrey3,
@@ -227,7 +231,8 @@ class GalleryItemGrid extends StatelessWidget {
     final text = Text(
       galleryProviderController.galleryProvider.filecount ?? '',
       style: const TextStyle(
-        fontSize: 12,
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
         color: Color.fromARGB(255, 240, 240, 240),
         height: 1.12,
         // fontStyle: FontStyle.italic,
@@ -266,7 +271,8 @@ class GalleryItemGrid extends StatelessWidget {
       textAlign: TextAlign.left, // 对齐方式
       overflow: TextOverflow.ellipsis, // 超出部分
       style: const TextStyle(
-        fontSize: 12,
+        fontSize: 13,
+        fontWeight: FontWeight.w600,
         // height: 1.3,
         // fontWeight: FontWeight.w500,
       ),
@@ -348,8 +354,8 @@ class _CoverImage extends StatelessWidget {
         child: imageBlureFittedBox.blurred(
           blur: 10,
           colorOpacity: ehTheme.isDarkMode ? 0.5 : 0.1,
-          blurColor:
-              CupertinoTheme.of(context).barBackgroundColor.withOpacity(1),
+          blurColor: CupertinoTheme.of(context).barBackgroundColor
+              .withOpacity(1),
         ),
       );
 

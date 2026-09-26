@@ -3,7 +3,7 @@ import 'package:cupertino_ui/cupertino_ui.dart';
 const double kNavBarBackButtonTapWidth = 50.0;
 const double kNavBarLargeTitleHeightExtension = 52.0;
 
-const double kTopTabbarHeight = kMinInteractiveDimensionCupertino;
+const double kTopTabbarHeight = 54;
 
 const double kHeaderMaxHeight =
     kMinInteractiveDimensionCupertino + kTopTabbarHeight - 2.0;

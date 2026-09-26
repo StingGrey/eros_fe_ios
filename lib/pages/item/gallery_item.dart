@@ -86,10 +86,9 @@ class GalleryItemWidget extends StatelessWidget {
                     color: CupertinoDynamicColor.resolve(
                       CupertinoColors.darkBackgroundGray,
                       Get.context!,
-                    ).withOpacity(0.11),
-                    blurRadius: 8,
-                    spreadRadius: 2,
-                    offset: const Offset(0.5, 4),
+                    ).withValues(alpha: 0.04),
+                    blurRadius: 12,
+                    offset: const Offset(0, 3),
                   ),
                 ],
           color: itemController.colorTap.value,
@@ -112,7 +111,7 @@ class GalleryItemWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(width: 6),
+              const SizedBox(width: 12),
               // 右侧信息
               Expanded(
                 child: Container(
@@ -128,8 +127,8 @@ class GalleryItemWidget extends StatelessWidget {
                         (galleryProvider.uploader?.isNotEmpty ?? false)
                             ? galleryProvider.uploader ?? ''
                             : (galleryProvider.favNote?.isNotEmpty ?? false)
-                                ? 'Note: ${galleryProvider.favNote ?? ''}'
-                                : '',
+                            ? 'Note: ${galleryProvider.favNote ?? ''}'
+                            : '',
                         style: const TextStyle(
                           fontSize: 12,
                           color: CupertinoColors.systemGrey,
@@ -405,7 +404,7 @@ class _Title extends StatelessWidget {
 
 class _Filecont extends StatelessWidget {
   const _Filecont({Key? key, this.translated, this.filecount})
-      : super(key: key);
+    : super(key: key);
   final String? translated;
   final String? filecount;
 
@@ -462,7 +461,7 @@ class _FavcatIcon extends StatelessWidget {
 
 class _Rating extends StatelessWidget {
   const _Rating({Key? key, this.ratingFallBack, this.rating, this.colorRating})
-      : super(key: key);
+    : super(key: key);
   final double? ratingFallBack;
   final double? rating;
   final String? colorRating;
@@ -530,7 +529,7 @@ class _Category extends StatelessWidget {
 
 class TagItem extends StatelessWidget {
   const TagItem({Key? key, this.text, this.color, this.backgroundColor})
-      : super(key: key);
+    : super(key: key);
 
   final String? text;
   final Color? color;
@@ -540,7 +539,8 @@ class TagItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: backgroundColor ??
+        color:
+            backgroundColor ??
             CupertinoDynamicColor.resolve(ThemeColors.tagBackground, context),
         borderRadius: BorderRadius.circular(4),
       ),
@@ -553,7 +553,8 @@ class TagItem extends StatelessWidget {
           height: 1,
           // fontWeight:
           //     backgrondColor == null ? FontWeight.w400 : FontWeight.w500,
-          color: color ??
+          color:
+              color ??
               CupertinoDynamicColor.resolve(ThemeColors.tagText, context),
         ),
         strutStyle: const StrutStyle(height: 1),

@@ -1,3 +1,4 @@
+import 'package:eros_fe/widget/glass/glass_container.dart';
 import 'package:eros_fe/const/design_tokens.dart';
 import 'package:collection/collection.dart';
 import 'package:eros_fe/common/controller/block_controller.dart';
@@ -230,24 +231,26 @@ class ReadButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => MouseRegionClick(
-        child: CupertinoButton.filled(
-          minSize: 24,
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
-          borderRadius: BorderRadius.circular(20),
-          // color: CupertinoColors.activeBlue,
-          onPressed: _pageState.enableRead
-              ? () => _toViewPage(
-                    _pageState.galleryProvider?.gid ?? '0',
-                    _pageState.lastIndex,
-                  )
-              : null,
-          child: Text(
-            (_pageState.lastIndex > 0)
-                ? '${L10n.of(context).read.toUpperCase()} ${_pageState.lastIndex + 1}'
-                : L10n.of(context).read.toUpperCase(),
-            style: const TextStyle(fontSize: 15, height: 1.2),
-          ),
+      () => SizedBox(
+        width: 120,
+        height: 44,
+        child: GlassContainer(
+          showLabels: true,
+          items: [
+            GlassItem(
+              id: 'read',
+              label: _pageState.lastIndex > 0
+                  ? '${L10n.of(context).read} ${_pageState.lastIndex + 1}'
+                  : L10n.of(context).read,
+              symbol: 'book',
+              prominent: true,
+              enabled: _pageState.enableRead,
+              onPressed: () => _toViewPage(
+                _pageState.galleryProvider?.gid ?? '0',
+                _pageState.lastIndex,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -301,7 +304,7 @@ class GalleryCategory extends StatelessWidget {
 
 class GalleryRating extends StatelessWidget {
   const GalleryRating({Key? key, this.rating, this.ratingFB, this.color})
-      : super(key: key);
+    : super(key: key);
 
   final double? rating;
   final double? ratingFB;
@@ -546,7 +549,7 @@ class TagGroupItem extends StatelessWidget {
                       ),
                       text: ehSettingService.isTagTranslate
                           ? EHConst.translateTagType[_tagType.trim()] ??
-                              _tagType
+                                _tagType
                           : _tagType,
                     )
                   : const SizedBox.shrink(),
@@ -594,7 +597,8 @@ class TagButton extends StatelessWidget {
       onLongPress: onLongPress,
       child: Container(
         decoration: BoxDecoration(
-          color: color ??
+          color:
+              color ??
               CupertinoDynamicColor.resolve(ThemeColors.tagBackground, context),
           borderRadius: BorderRadius.circular(8),
         ),
@@ -604,7 +608,8 @@ class TagButton extends StatelessWidget {
             Text(
               text,
               style: TextStyle(
-                color: textColor ??
+                color:
+                    textColor ??
                     CupertinoDynamicColor.resolve(ThemeColors.tagText, context),
                 fontSize: 13,
                 // fontWeight: textColor != null ? FontWeight.w600 : null,
@@ -647,7 +652,8 @@ class SearchHisTagButton extends StatelessWidget {
       child: Container(
         padding: padding ?? const EdgeInsets.fromLTRB(6, 3, 6, 4),
         decoration: BoxDecoration(
-          color: color ??
+          color:
+              color ??
               CupertinoDynamicColor.resolve(ThemeColors.tagBackground, context),
           borderRadius: BorderRadius.circular(8),
         ),
@@ -657,7 +663,8 @@ class SearchHisTagButton extends StatelessWidget {
               Text(
                 text,
                 style: TextStyle(
-                  color: textColor ??
+                  color:
+                      textColor ??
                       CupertinoDynamicColor.resolve(
                         ThemeColors.tagText,
                         context,
@@ -674,7 +681,8 @@ class SearchHisTagButton extends StatelessWidget {
                 Text(
                   desc!,
                   style: TextStyle(
-                    color: textColor ??
+                    color:
+                        textColor ??
                         CupertinoDynamicColor.resolve(
                           ThemeColors.tagText,
                           context,
@@ -750,7 +758,7 @@ class TextBtn extends StatelessWidget {
 // 导航栏封面小图
 class NavigationBarImage extends StatelessWidget {
   const NavigationBarImage({Key? key, this.imageUrl, this.scrollController})
-      : super(key: key);
+    : super(key: key);
 
   final String? imageUrl;
   final ScrollController? scrollController;

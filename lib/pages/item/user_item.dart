@@ -25,14 +25,18 @@ class _UserItem extends State<UserItem> {
   void initState() {
     super.initState();
     _color = CupertinoDynamicColor.resolve(
-        ehTheme.itemBackgroundColor!, Get.context!);
+      ehTheme.itemBackgroundColor!,
+      Get.context!,
+    );
     _pBackgroundColor = _color;
   }
 
   @override
   Widget build(BuildContext context) {
-    final Color color =
-        CupertinoDynamicColor.resolve(ehTheme.itemBackgroundColor!, context);
+    final Color color = CupertinoDynamicColor.resolve(
+      ehTheme.itemBackgroundColor!,
+      context,
+    );
     if (_pBackgroundColor?.value != color.value) {
       _color = color;
       _pBackgroundColor = color;
@@ -101,15 +105,20 @@ class _UserItem extends State<UserItem> {
 
     final Widget row = Container(
       color: _color,
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      child: Row(children: <Widget>[
-        _buildAvastat(),
-        // 头像右侧信息
-        Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: _buildText(),
-        )
-      ]),
+      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
+      child: Row(
+        children: <Widget>[
+          _buildAvastat(),
+          // 头像右侧信息
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: _buildText(),
+            ),
+          ),
+          const CupertinoListTileChevron(),
+        ],
+      ),
     );
 
     return GestureDetector(
@@ -131,7 +140,9 @@ class _UserItem extends State<UserItem> {
   void _updateNormalColor() {
     setState(() {
       _color = CupertinoDynamicColor.resolve(
-          ehTheme.itemBackgroundColor!, Get.context!);
+        ehTheme.itemBackgroundColor!,
+        Get.context!,
+      );
     });
   }
 
@@ -181,12 +192,13 @@ class UserWidget extends GetView<UserController> {
         return Text(
           _nickName ?? _userName ?? '',
           style: TextStyle(
-              fontSize: kNameTextSize,
-              fontWeight: FontWeight.normal,
-              color: CupertinoDynamicColor.resolve(
-                CupertinoColors.label,
-                Get.context!,
-              )),
+            fontSize: kNameTextSize,
+            fontWeight: FontWeight.normal,
+            color: CupertinoDynamicColor.resolve(
+              CupertinoColors.label,
+              Get.context!,
+            ),
+          ),
         ).paddingOnly(right: 6);
       } else {
         return const SizedBox();
@@ -206,10 +218,7 @@ class UserWidget extends GetView<UserController> {
       },
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          _buildText(),
-          _buildAvastat(),
-        ],
+        children: <Widget>[_buildText(), _buildAvastat()],
       ),
     );
   }

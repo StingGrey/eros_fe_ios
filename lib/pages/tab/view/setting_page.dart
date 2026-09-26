@@ -2,6 +2,7 @@ import 'package:eros_fe/common/service/ehsetting_service.dart';
 import 'package:eros_fe/index.dart';
 import 'package:eros_fe/pages/item/user_item.dart';
 import 'package:eros_fe/pages/tab/controller/setting_controller.dart';
+import 'package:eros_fe/pages/tab/view/setting_menu.dart';
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:get/get.dart';
 
@@ -11,45 +12,29 @@ class SettingTab extends GetView<SettingViewController> {
   @override
   Widget build(BuildContext context) {
     controller.initData(context);
-    final String _title = L10n.of(context).tab_setting;
-
     return CupertinoPageScaffold(
-      backgroundColor: CupertinoColors.systemGroupedBackground,
-      child: CustomScrollView(
-        key: const PageStorageKey<String>('setting_tab'),
-        physics: const AlwaysScrollableScrollPhysics(),
-        slivers: <Widget>[
-          CupertinoSliverNavigationBar(
-            heroTag: 'setting',
-            middle: FadeTransition(
-              opacity: controller.animation,
-              child: Text(
-                _title,
-              ),
-            ),
-            largeTitle: Row(
-              children: [
-                Text(
-                  _title,
+      backgroundColor: CupertinoDynamicColor.resolve(
+        CupertinoColors.systemGroupedBackground,
+        context,
+      ),
+      navigationBar: CupertinoNavigationBar(
+        transitionBetweenRoutes: false,
+        middle: Text(L10n.of(context).tab_setting),
+        border: null,
+      ),
+      child: SettingMenu(
+        account: Obx(
+          () => Get.find<EhSettingService>().isSafeMode.value
+              ? const SizedBox.shrink()
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: UserItem(),
                 ),
-                const Spacer(),
-                if (Get.find<EhSettingService>().isSafeMode.value)
-                  Container()
-                else
-                  UserWidget().paddingOnly(right: 20),
-              ],
-            ),
-          ),
-          SliverSafeArea(
-            top: false,
-            sliver: SliverCupertinoListSection.insetGrouped(
-              itemCount: controller.itemCount,
-              itemBuilder: (context, index) {
-                return controller.cupertinoListTileBuilder(index);
-              },
-            ),
-          ),
-        ],
+        ),
+        items: List.generate(
+          controller.itemCount,
+          controller.cupertinoListTileBuilder,
+        ),
       ),
     );
   }

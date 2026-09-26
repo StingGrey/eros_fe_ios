@@ -11,6 +11,7 @@ class GlassTabBar extends CupertinoTabBar {
     super.key,
     required super.items,
     required this.routes,
+    this.hidden = false,
     super.onTap,
     super.currentIndex,
     super.backgroundColor,
@@ -18,10 +19,11 @@ class GlassTabBar extends CupertinoTabBar {
     super.inactiveColor,
     super.iconSize,
     super.border,
-    super.height = 64,
+    super.height = 76,
   });
 
   final List<String> routes;
+  final bool hidden;
   static const symbols = {
     EHRoutes.gallery: 'square.stack',
     EHRoutes.favorite: 'heart',
@@ -35,30 +37,36 @@ class GlassTabBar extends CupertinoTabBar {
   bool opaque(BuildContext context) => false;
 
   @override
-  Widget build(BuildContext context) => Padding(
-    padding: EdgeInsets.fromLTRB(
-      DesignTokens.spaceS,
-      DesignTokens.spaceXS,
-      DesignTokens.spaceS,
-      MediaQuery.viewPaddingOf(context).bottom + DesignTokens.spaceXS,
-    ),
-    child: SizedBox(
-      height: height - DesignTokens.spaceS,
-      child: GlassContainer(
-        showLabels: true,
-        items: List.generate(
-          items.length,
-          (index) => GlassItem(
-            id: '$index',
-            label: items[index].label ?? '',
-            symbol: symbols[routes[index]] ?? 'square.stack',
-            selected: index == currentIndex,
-            onPressed: () => onTap?.call(index),
+  Widget build(BuildContext context) => hidden
+      ? const SizedBox.shrink()
+      : Padding(
+          padding: EdgeInsets.fromLTRB(
+            DesignTokens.spaceL,
+            DesignTokens.spaceXS,
+            DesignTokens.spaceL,
+            MediaQuery.viewPaddingOf(context).bottom > 0
+                ? MediaQuery.viewPaddingOf(context).bottom
+                : 12,
           ),
-        ),
-      ),
-    ),
-  );
+          child: SizedBox(
+            height: 60,
+            child: GlassContainer(
+              style: 'navigation',
+              radius: 30,
+              showLabels: true,
+              items: List.generate(
+                items.length,
+                (index) => GlassItem(
+                  id: '$index',
+                  label: items[index].label ?? '',
+                  symbol: symbols[routes[index]] ?? 'square.stack',
+                  selected: index == currentIndex,
+                  onPressed: () => onTap?.call(index),
+                ),
+              ),
+            ),
+          ),
+        );
 
   @override
   GlassTabBar copyWith({
@@ -75,6 +83,7 @@ class GlassTabBar extends CupertinoTabBar {
   }) => GlassTabBar(
     key: key ?? this.key,
     routes: routes,
+    hidden: hidden,
     items: items ?? this.items,
     backgroundColor: backgroundColor ?? this.backgroundColor,
     activeColor: activeColor ?? this.activeColor,

@@ -32,11 +32,19 @@ Application pages import material_ui/cupertino_ui. GetX 4.7.3 still uses framewo
 
 ## Phase B: native glass surfaces
 
-`NativeGlassPlugin` uses compile-time UIKit glass APIs with one platform view per toolbar group. UIKit buttons share a `UIGlassContainerEffect`; iOS 15.6–25 uses system material blur, and Reduce Transparency uses an opaque system surface. Library tabs, filter bars, gallery actions and reader controls use the shared tokens. List cards remain Flutter content.
+`NativeGlassPlugin` uses compile-time UIKit glass APIs with one platform view per toolbar group. Buttons share one `UIVisualEffectView` with `UIGlassEffect(.regular)` per group; iOS 15.6–25 uses system material blur, and Reduce Transparency uses an opaque system surface. Library tabs, filter bars, gallery actions and reader controls use the shared tokens. List cards remain Flutter content.
 
 All root/nested navigators install a glass observer. Non-opaque routes hide native views immediately and restore them only after their transition completes. SmartDialog loading overlays hold a separate, idempotent cover lease. Widget tests cover modal dismissal, overlapping covers, tab selection through CupertinoTabScaffold cloning, and the legacy GetX theme bridge.
 
 Phase B checks: Dart analyzer reported zero errors; all three widget tests passed; the unsigned device build passed (70.2 MB). Modal compositing and the pre-iOS-26 fallback still require runtime checks on a device. Google ML Kit dependencies currently exclude arm64 simulators, so simulator availability alone does not validate this app.
+
+### iPad UI corrections after simulator review
+
+The iPad uses a centered glass navigation bar at the bottom. Gallery browsing fills the available width until a detail is opened. Settings retains its two-column layout at widths of at least 680 points, including after returning from a detail. The left pane contains the account entry and all eight settings categories; the right pane defaults to E-H options. The account card and menu now share an ordinary scrollable column instead of nested custom sliver sections.
+
+Gallery covers use a 200-point maximum grid extent on wide layouts, and category selectors size to their labels. Removing deferred skeleton wrappers prevents cards from remaining blank after resizing. Toolbar buttons use centered content without the legacy navigation-bar padding. Reader controls use shared native glass groups; both sides of their positioned bars are constrained.
+
+The updated full app built and launched on the iPad Pro 13-inch iOS 27 simulator. Screenshots confirm the smaller gallery grid, bottom glass navigation and corrected history-button alignment. Four widget tests pass, covering account/menu visibility and taps, scrolling to the last settings row in a short window, modal coverage, tab selection and theme compatibility. Dart analysis reports zero errors; existing warnings remain. Automated simulator input was unavailable, so the new settings screen and reader still need interactive review. The simulator remains open for that review. The six ML Kit binaries used for the simulator build were restored and verified against their original SHA-256 hashes. This UI revision has not yet been packaged as a new device IPA.
 
 ## iOS 27 launch crash correction
 

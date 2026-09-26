@@ -16,6 +16,8 @@ class GlassItem {
     required this.onPressed,
     this.selected = false,
     this.enabled = true,
+    this.prominent = false,
+    this.onLongPress,
   });
   final String id;
   final String label;
@@ -23,12 +25,15 @@ class GlassItem {
   final VoidCallback onPressed;
   final bool selected;
   final bool enabled;
+  final bool prominent;
+  final VoidCallback? onLongPress;
   Map<String, Object> toMap() => {
     'id': id,
     'label': label,
     'symbol': symbol,
     'selected': selected,
     'enabled': enabled,
+    'prominent': prominent,
   };
 }
 
@@ -44,6 +49,8 @@ class GlassContainer extends StatefulWidget {
     this.dark,
     this.tint,
     this.showLabels = false,
+    this.style = 'toolbar',
+    this.vertical = false,
   });
   final List<GlassItem> items;
   final Widget? child;
@@ -52,6 +59,8 @@ class GlassContainer extends StatefulWidget {
   final bool? dark;
   final Color? tint;
   final bool showLabels;
+  final String style;
+  final bool vertical;
   @override
   State<GlassContainer> createState() => _GlassContainerState();
 }
@@ -66,6 +75,9 @@ class _GlassContainerState extends State<GlassContainer> {
         widget.dark ?? CupertinoTheme.brightnessOf(context) == Brightness.dark,
     'tint': widget.tint?.toARGB32(),
     'showLabels': widget.showLabels,
+    'style': widget.style,
+    'vertical': widget.vertical,
+    'accent': CupertinoTheme.of(context).primaryColor.toARGB32(),
     'items': widget.items.map((item) => item.toMap()).toList(),
   };
   void updateNative() {
@@ -111,7 +123,8 @@ class _GlassContainerState extends State<GlassContainer> {
         ),
         child:
             widget.child ??
-            Row(
+            Flex(
+              direction: widget.vertical ? Axis.vertical : Axis.horizontal,
               children: widget.items
                   .map(
                     (item) => Expanded(
@@ -143,10 +156,14 @@ class _GlassContainerState extends State<GlassContainer> {
           _channel?.setMethodCallHandler(null);
           _channel = MethodChannel('eros_fe/glass/$id');
           _channel!.setMethodCallHandler((call) async {
-            if (call.method == 'tap') {
+            if (call.method == 'tap' || call.method == 'longPress') {
               for (final item in widget.items) {
                 if (item.id == call.arguments && item.enabled) {
-                  item.onPressed();
+                  if (call.method == 'longPress') {
+                    item.onLongPress?.call();
+                  } else {
+                    item.onPressed();
+                  }
                   break;
                 }
               }
@@ -170,4 +187,52 @@ class _GlassContainerState extends State<GlassContainer> {
 extension GlassSurface on Widget {
   Widget glass({bool? dark, double radius = DesignTokens.radiusL}) =>
       GlassContainer(dark: dark, radius: radius, child: this);
+}
+
+/// Categories occupy their intrinsic width and scroll when space is tight.
+class GlassSegmentedBar extends StatelessWidget {
+  const GlassSegmentedBar({super.key, required this.items, this.action});
+  final List<GlassItem> items;
+  final GlassItem? action;
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (context, constraints) {
+      final width =
+          items.fold<double>(10, (total, item) {
+            final text = TextPainter(
+              text: TextSpan(
+                text: item.label,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              textDirection: Directionality.of(context),
+            )..layout();
+            final itemWidth = (text.width + 40).clamp(60.0, 320.0);
+            text.dispose();
+            return total + itemWidth;
+          }) +
+          (action == null ? 0 : 48);
+      return Align(
+        alignment: Alignment.centerLeft,
+        child: SizedBox(
+          width: width.clamp(0, constraints.maxWidth),
+          height: 44,
+          child: Row(
+            children: [
+              Expanded(
+                child: GlassContainer(style: 'segments', items: items),
+              ),
+              if (action != null) ...[
+                const SizedBox(width: 8),
+                SizedBox(width: 40, child: GlassContainer(items: [action!])),
+              ],
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
