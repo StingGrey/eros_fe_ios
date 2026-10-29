@@ -66,4 +66,39 @@ void main() {
     expect(find.text('Modal'), findsNothing);
     Get.reset();
   });
+
+  testWidgets('unstyled text follows the dark label color', (tester) async {
+    const theme = CupertinoThemeData(brightness: Brightness.dark);
+    await tester.pumpWidget(
+      GetCupertinoApp(
+        theme: legacyCupertinoTheme(theme),
+        localizationsDelegates: const [
+          GlobalCupertinoLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          old_l10n.GlobalCupertinoLocalizations.delegate,
+          old_l10n.GlobalMaterialLocalizations.delegate,
+          old_l10n.GlobalWidgetsLocalizations.delegate,
+        ],
+        builder: (context, child) => UiThemeBridge(theme: theme, child: child!),
+        home: Builder(
+          builder: (context) {
+            expect(
+              legacy.CupertinoTheme.of(context).textTheme.textStyle.color
+                  ?.toARGB32(),
+              CupertinoColors.label.darkColor.toARGB32(),
+            );
+            return const CupertinoPageScaffold(child: Text('Plain'));
+          },
+        ),
+      ),
+    );
+    final RichText text = tester.widget(
+      find.descendant(of: find.text('Plain'), matching: find.byType(RichText)),
+    );
+    expect(
+      text.text.style?.color?.toARGB32(),
+      CupertinoColors.label.darkColor.toARGB32(),
+    );
+    Get.reset();
+  });
 }
