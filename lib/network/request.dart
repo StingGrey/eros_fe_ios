@@ -409,9 +409,9 @@ Future<String> postArchiverRemoteDownload(
 ) async {
   DioHttpClient dioHttpClient = DioHttpClient(dioConfig: globalDioConfig);
 
-  final formData = FormData.fromMap({
+  final formData = {
     'hathdl_xres': resolution.trim(),
-  });
+  };
 
   DioHttpResponse httpResponse = await dioHttpClient.post(
     url,
@@ -432,10 +432,10 @@ Future<String> postArchiverLocalDownload(
   String? dltype,
   String? dlcheck,
 }) async {
-  final formData = FormData.fromMap({
+  final formData = {
     if (dltype != null) 'dltype': dltype.trim(),
     if (dlcheck != null) 'dlcheck': dlcheck.trim(),
-  });
+  };
   DioHttpClient dioHttpClient = DioHttpClient(dioConfig: globalDioConfig);
 
   DioHttpResponse httpResponse = await dioHttpClient.post(
@@ -603,14 +603,12 @@ Future<bool> actionMytags({
 }) async {
   const url = '/mytags';
 
-  final formData = FormData.fromMap(dataMap);
-
   DioHttpClient dioHttpClient = DioHttpClient(dioConfig: globalDioConfig);
 
   DioHttpResponse httpResponse = await dioHttpClient.post(
     url,
     queryParameters: queryParameters,
-    data: formData,
+    data: dataMap,
     httpTransformer: TagActionTransformer(),
     options: getCacheOptions(refresh: true)
       ..followRedirects = false
@@ -637,7 +635,7 @@ Future<EhSettings?> postEhProfile({
     if (profileSet != null) 'profile_set': profileSet.trim(),
   };
 
-  final formData = FormData.fromMap(paramMap ?? dataMap);
+  final formData = paramMap ?? dataMap;
   DioHttpClient dioHttpClient = DioHttpClient(dioConfig: globalDioConfig);
   const String url = '/uconfig.php';
 
@@ -809,13 +807,13 @@ Future<User?> userLogin(String username, String passwd) async {
 
   DioHttpClient dioHttpClient = DioHttpClient(dioConfig: globalDioConfig);
 
-  final FormData formData = FormData.fromMap({
+  final formData = {
     'UserName': username,
     'PassWord': passwd,
     'submit': 'Log me in',
     'temporary_https': 'off',
     'CookieDate': '365',
-  });
+  };
 
   DioHttpResponse httpResponse = await dioHttpClient.post(
     url,
@@ -870,10 +868,10 @@ Future<bool?> postComment({
   final String url = '/g/$gid/$token';
   DioHttpClient dioHttpClient = DioHttpClient(dioConfig: globalDioConfig);
 
-  final data = FormData.fromMap({
+  final data = {
     isEdit ? 'commenttext_edit' : 'commenttext_new': comment,
     if (isEdit && commentId != null) 'edit_comment': int.parse(commentId),
-  });
+  };
 
   DioHttpResponse httpResponse = await dioHttpClient.post(
     url,
@@ -913,11 +911,11 @@ Future<void> galleryAddFavorite(
     'act': 'addfav',
   };
 
-  final FormData formData = FormData.fromMap({
+  final formData = {
     'favcat': favcat,
     'update': '1',
     'favnote': favnote,
-  });
+  };
 
   DioHttpResponse httpResponse = await dioHttpClient.post(
     url,
@@ -925,6 +923,10 @@ Future<void> galleryAddFavorite(
     data: formData,
     options: getCacheOptions(refresh: true),
   );
+
+  if (!httpResponse.ok) {
+    throw httpResponse.error ?? HttpException('add favorite error');
+  }
 }
 
 Future<FavAdd> galleryGetFavorite(

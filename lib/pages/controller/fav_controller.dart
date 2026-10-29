@@ -296,8 +296,10 @@ class FavController extends GetxController {
     String oriFavcat = '',
     String oriFavnote = '',
   }) async {
-    final String _favTitle =
-        Global.profile.user.favcat?[int.parse(_lastFavcat)].favTitle ?? '...';
+    final String _favTitle = Global.profile.user.favcat
+            ?.firstWhereOrNull((e) => e.favId == _lastFavcat)
+            ?.favTitle ??
+        '...';
 
     try {
       await galleryAddFavorite(gid, token, favcat: _lastFavcat, favnote: '');

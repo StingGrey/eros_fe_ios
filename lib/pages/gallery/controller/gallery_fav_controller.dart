@@ -1,5 +1,4 @@
 import 'package:eros_fe/common/controller/cache_controller.dart';
-import 'package:eros_fe/common/global.dart';
 import 'package:eros_fe/common/service/controller_tag_service.dart';
 import 'package:eros_fe/common/service/ehsetting_service.dart';
 import 'package:eros_fe/extension.dart';
@@ -98,29 +97,19 @@ class GalleryFavController extends GetxController {
   Future<bool> _addToLastFavcat(String _lastFavcat) async {
     isLoading = true;
 
-    final String _favTitleFromProfile =
-        Global.profile.user.favcat![int.parse(_lastFavcat)].favTitle;
-
     try {
-      await favController.addToLastFavcat(
+      final result = await favController.addToLastFavcat(
         _pageState.galleryProvider?.gid ?? '0',
         _pageState.galleryProvider?.token ?? '',
         _lastFavcat,
       );
-      setFav(_lastFavcat, _favTitleFromProfile);
+      setFav(_lastFavcat, result.favTitle);
       _removeGalleryCache();
     } catch (e) {
+      showToast('$e');
       return false;
     } finally {
       isLoading = false;
-      _favTitle.value = _favTitleFromProfile;
-      _favcat.value = _lastFavcat;
-      _pageState.galleryProvider = _pageState.galleryProvider
-          ?.copyWith(favcat: favcat.oN, favTitle: _favTitleFromProfile.oN);
-      if (isRegItemController) {
-        _itemController.setFavTitleAndFavcat(
-            favTitle: favTitle, favcat: favcat);
-      }
     }
     return true;
   }
